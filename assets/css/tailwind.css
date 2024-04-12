@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-50
+}
+
+
+@layer components {
+  .btn {
+    @apply bg-[#317073] font-semibold tracking-wide text-gray-200 border-2 px-3 py-2 rounded-xl text-sm
+  }
+  .btn2 {
+    @apply bg-[#0b7696] font-semibold text-gray-200 px-3 py-2 rounded-xl text-sm 
+  }
+  .btn3 {
+    @apply bg-[#16b48a] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline
+  }
+}
+

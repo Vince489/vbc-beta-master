@@ -1,0 +1,55 @@
+<template>
+  <div class="pt-20 flex flex-col items-center justify-center h-screen">
+    <h1 class="text-3xl text-slate-200 font-bold mb-8">Dashboard</h1>
+    <!-- Use a conditional rendering to show loading text while userData is null -->
+    <template v-if="!userData">
+      <p class="text-2xl text-slate-200 font-semi-bold mb-8">Loading...</p>
+    </template>
+    <!-- Once userData is available, display user's information -->
+    <template v-else>
+      <p class="text-2xl text-slate-200 font-semi-bold mb-8">Welcome to the dashboard, {{ userData.userName }}!</p>
+      <p class="text-xl text-slate-200 font-semi-bold mb-8">Code Name: {{ userData.codeName }}</p>
+      <p class="text-xl text-slate-200 font-semi-bold mb-8">Account Balance: {{ userData.balance }}</p>
+    </template>
+  </div>
+</template>
+
+<script setup>
+definePageMeta({
+  title: 'Dashboard',
+  description: 'User dashboard page'
+});
+import {useAuthStore} from "~/stores/authStore.js";
+import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+
+definePageMeta({
+  middleware: 'auth',
+  title: 'Dashboard',
+  description: 'User dashboard page'
+});
+
+// Get the user's information from the store
+const authStore = useAuthStore()
+const userData = ref(null); // Use a ref to make it reactive
+
+// Get router instance
+const router = useRouter();
+
+const handleLogout = async () => {
+  try {
+    await authStore.logout();
+    router.push({ name: 'login' });
+  } catch (error) {
+    console.error('Error logging out:', error);
+  }
+};
+
+onMounted(() => {
+  userData.value = authStore.currentUser
+});
+</script>
+
+<style scoped>
+/* Add your scoped styles here */
+</style>
