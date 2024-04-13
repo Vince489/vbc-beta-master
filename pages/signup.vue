@@ -74,7 +74,7 @@ export default {
       // Perform signup logic if no errors
       if (!this.userNameError && !this.emailError && !this.passwordError) {
         try {
-          const response = await fetch('https://zplogin-production.up.railway.app/api/v1/user/register', {
+          const response = await fetch('https://zplogin-production.up.railway.app/api/v1/user/signup', {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
