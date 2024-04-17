@@ -10,19 +10,21 @@
             Email
           </label>
           <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" v-model="email">
+          <p class="text-red-500 text-xs italic">{{ emailError }}</p> <!-- Display email error -->
         </div>
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
             Password
           </label>
           <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" v-model="password">
-          <p class="hidden text-red-500 text-xs italic">Please choose a password.</p>
+          <p class="text-red-500 text-xs italic">{{ passwordError }}</p> <!-- Display password error -->
         </div>
         <div class="flex justify-center">
           <button class="btn" type="submit">
             Login
           </button>
         </div>
+        <p class="text-red-500 text-xs italic">{{ generalError }}</p> <!-- Display general error -->
       </form>
     </div>
   </div>
@@ -56,7 +58,13 @@ const handleLogin = async () => {
     }
   } catch (error) {
     // Handle login error
-    generalError.value = 'Error logging in: ' + error.message;
+    if (error.message === 'Invalid email') {
+      emailError.value = error.message;
+    } else if (error.message === 'Incorrect password') {
+      passwordError.value = error.message;
+    } else {
+      generalError.value = 'Error logging in: ' + error.message;
+    }
   }
 };
 </script>
