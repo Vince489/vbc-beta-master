@@ -31,22 +31,8 @@ export const useAuthStore = defineStore("authStore", () => {
           const data = await response.json();
           
           if (!response.ok) {
-            if (response.status === 401) {
-              // If the status is 401, it means either the email or password is incorrect
-              if (data.message === 'Invalid email') {
-                // If the error message indicates an invalid email, reject with a specific message
-                reject('Invalid email');
-              } else if (data.message === 'Incorrect password') {
-                // If the error message indicates an incorrect password, reject with a different message
-                reject('Incorrect password');
-              } else {
-                // For other error cases, reject with the received error message
-                reject(data.message);
-              }
-            } else {
-              // For other HTTP error statuses, reject with the received error message
-              reject(data.message);
-            }
+            // If response is not ok, reject with the received error message
+            reject(data.message || 'An error occurred while logging in.');
           } else {
             // Set user data and authentication status
             setAuthenticated(data.user, data.token, data.user.isAuthenticated);
@@ -54,11 +40,12 @@ export const useAuthStore = defineStore("authStore", () => {
             resolve(data);
           }
         } catch (error) {
-          console.error('Error logging in:', error);
-          reject(error);
+          // If an error occurred while fetching or parsing response, reject with a generic error message
+          reject('An error occurred while logging in.');
         }
       });
     }
+    
     
       
       
