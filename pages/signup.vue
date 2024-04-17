@@ -90,15 +90,19 @@ export default {
           const data = await response.json();
           console.log(data); // Log the response from the API
 
-          // Check if the response contains errors
-          if (data.errors && data.errors.length > 0) {
+        // Check if the response contains errors
+        if (data.errors && data.errors.length > 0) {
             // Extract the error message
             const errorMessage = data.errors[0].msg;
             this.apiError = errorMessage; // Set the API error message
-          } else {
+        } else if (data.message === 'User already exists') {
+            // Handle the case where the user already exists
+            this.apiError = 'User already exists. Please use a different email or username.';
+        } else {
             // Optionally, redirect to another page upon successful signup
             this.$router.push('/verify');
-          }
+        }
+
         } catch (error) {
           console.error('Error signing up:', error);
           this.apiError = 'An error occurred while signing up. Please try again later.'; // Set a generic error message
