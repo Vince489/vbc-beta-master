@@ -3,7 +3,7 @@
     <Navbar />
   </div>
 
-  <div class="bg-gray-700 text-gray-200">
+  <div class="bg-gray-800 text-gray-200">
     <slot />
 
     <Footer />
