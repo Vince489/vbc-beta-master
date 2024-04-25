@@ -1,8 +1,8 @@
 <template>
-  <div class="px-4 lg:px-6 max-w-screen-lg mx-auto">
+  <div class="px-2 lg:px-6 max-w-screen-lg mx-auto">
     <!-- navbar goes here -->
     <nav id="Navbar" class="pt-2 z-40 bg-gray-900 fixed inset-x-0">
-      <div class="px-6 pb-2 mx-auto">
+      <div class="px-4 pb-2 mx-auto">
         <div class="flex justify-between">
           <div class="flex space-x-4">
             <!-- logo -->
@@ -56,8 +56,8 @@
       </div>
 
       <!-- mobile menu-->
-      <div :class="{ 'transform translate-x-0': toggle_menu, 'transform translate-x-full': !toggle_menu }" id="mobile-menu" class="bg-gray-700 mobile-menu md:hidden transition-transform duration-500 fixed right-0 top-0 h-full w-64 overflow-y-auto">
-        <Sidebar />
+      <div :class="{ 'transform translate-x-0': toggle_menu, 'transform translate-x-full': !toggle_menu }" id="mobile-menu" class="bg-gray-700 mobile-menu md:hidden transition-transform duration-300 fixed right-0 top-0 h-full w-80 overflow-y-auto">
+        <!-- Sidebar content -->
       </div>
     </nav>
   </div>
