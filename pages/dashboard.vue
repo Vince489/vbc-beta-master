@@ -6,6 +6,9 @@
     </template>
     <!-- Once userData is available, display user's information -->
     <template v-else>
+      <div class="cursor-pointer hover:cursor-pointer">
+        <img class="rounded-lg" src="/assets/img/free.png" alt="free tokens">
+      </div>
       <div class="pt-10 flex user-info">
         <!-- User's image as a circular icon -->
         <div class=" user-avatar">
