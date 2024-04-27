@@ -65,7 +65,6 @@
       <!-- mobile menu-->
       <div :class="{ 'transform translate-x-0': toggle_menu, 'transform translate-x-full': !toggle_menu }" id="mobile-menu" class="bg-gray-700 mobile-menu md:hidden transition-transform duration-300 fixed right-0 top-0 h-full w-80 overflow-y-auto">
         <!-- Sidebar content -->
-        <Sidebar />
       </div>
     </nav>
   </div>
@@ -75,7 +74,6 @@
 import { useAuthStore } from "~/stores/authStore.js";
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import Sidebar from "~/pages/sidebar.vue";
 
 const authStore = useAuthStore()
 const isAuthenticated = computed(() => authStore.isAuthenticated);
