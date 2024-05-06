@@ -19,9 +19,9 @@
             <p class="text-gray-100 text-lg">
               Professional (NO HUD) Boxing.
             </p>
-            <button class="btn" @click="handleJoinNowClick">
+            <Button class="w-9/12 bg-slate-800 btn" @click="handleJoinNowClick">
               Join Now!
-            </button>
+            </Button>
           </div>
         </div>
       </div>
