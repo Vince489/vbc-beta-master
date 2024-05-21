@@ -20,7 +20,7 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 function closeSidebar() {
-  // Close the sidebar (toggleMenu function from Navbar.vue)
+  // Close the sidebar 
   router.push('/');
 }
 </script>

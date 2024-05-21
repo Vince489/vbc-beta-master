@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
-  ],
+    'nuxt-icon'
+  ], 
   app: {
     head: {
       title: 'VBC',
@@ -18,4 +19,3 @@ export default defineNuxtConfig({
     },
   },
 })
-
