@@ -23,7 +23,23 @@
           <div class="hidden md:flex items-center space-x-3">
             <template v-if="isAuthenticated">
               <button @click="logout" class="btn">Logout</button>
-              <AvatarComponent class="ml-3" />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div>
+                      <button @click="openDialog" class="rounded-lg">
+                        <Avatar class="h-16 w-16 flex-shrink-0">
+                          <AvatarImage src="/img/chieffa.png" alt="@radix-vue" />
+                          <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                      </button>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent class="text-gray-200 bg-slate-600">
+                    <p>Change profile photo</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </template>
             <template v-else>
               <nuxt-link to="/login" class="font-semibold py-1 px-3 text-gray-100">Login</nuxt-link>
@@ -31,34 +47,48 @@
             </template>
           </div>
 
-        <!-- mobile button -->
-        <div id="menu-btn" class="text-gray-100 md:hidden flex items-center space-x-2">
-          <template v-if="isAuthenticated">
-            <button @click="logout" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Logout</button>
-            <!-- AvatarComponent is removed from here -->
-          </template>
-          <template v-else>
-            <nuxt-link to="/login" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Sign in</nuxt-link>
-          </template>
-          <!-- Always display the hamburger icon -->
-          <button @click="toggleMenu" class="mobile-menu-button border border-gray-300 rounded-md p-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-          </button>
-        </div>
-
+          <!-- mobile button-->
+          <div id="menu-btn" class="text-gray-100 md:hidden flex items-center space-x-2">
+            <template v-if="isAuthenticated">
+              <button @click="logout" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Logout</button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div>
+                      <button @click="openDialog" class="rounded-lg">
+                        <Avatar class="h-16 w-16 flex-shrink-0">
+                          <AvatarImage src="/img/chieffa.png" alt="@radix-vue" />
+                          <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                      </button>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent class="text-gray-200 bg-slate-600">
+                    <p>Change profile photo</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </template>
+            <template v-else>
+              <nuxt-link to="/login" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Sign in</nuxt-link>
+              <button @click="toggleMenu" class="mobile-menu-button border border-gray-300 rounded-md p-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-6 h-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                  />
+                </svg>
+              </button>
+            </template>
+          </div>
         </div>
       </div>
 
@@ -162,6 +192,7 @@
 import { useAuthStore } from "~/stores/authStore.js";
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+// Import your tooltip components and Avatar component here if they are not globally registered
 
 const authStore = useAuthStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
@@ -184,5 +215,9 @@ function toggleMenu() {
 function logout() {
   authStore.$reset();
   router.push('/login');
+}
+
+function openDialog() {
+  // Logic for opening dialog
 }
 </script>
