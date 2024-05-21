@@ -1,12 +1,9 @@
 <template>
-  <div>
+  <div class="flex flex-col min-h-screen">
     <Navbar />
+    <div class="flex-grow pt-16 bg-gray-800 text-gray-200">
+      <slot />
+    </div>
+    <Footer />
   </div>
-
-  <div class="pt-16 bg-gray-800 text-gray-200 min-h-screen">
-    <slot />
-  </div>
-
-  <Footer />
 </template>
-
