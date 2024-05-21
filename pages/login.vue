@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center mt-32">
+  <div class="p-2 flex justify-center items-center mt-20">
     <div class="w-full max-w-sm">
       <div>
         <h1 class="pb-6 text-4xl">Login</h1>
@@ -26,6 +26,7 @@
         </div>
         <p class="text-red-500 text-xs italic">{{ generalError }}</p> <!-- Display general error -->
       </form>
+      <p class="text-center">Don't have an account? <nuxt-link to="/signup">Sign up</nuxt-link></p>
     </div>
   </div>
 </template>

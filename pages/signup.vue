@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center items-center mt-32">
+  <div class="p-2 flex justify-center items-center mt-20">
     <div class="w-full max-w-sm">
       <div>
         <h1 class="pb-6 text-4xl">Signup</h1>
