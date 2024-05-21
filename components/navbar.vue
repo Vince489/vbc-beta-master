@@ -30,32 +30,29 @@
             </template>
           </div>
 
-        <!-- mobile button -->
-        <div id="menu-btn" class="text-gray-100 md:hidden flex items-center space-x-2">
-          <template v-if="isAuthenticated">
-            <button @click="logout" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Logout</button>
-          </template>
-          <template v-else>
-            <nuxt-link to="/login" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Login</nuxt-link>
-          </template>
-          <!-- Always display the hamburger icon -->
-          <button @click="toggleMenu" class="mobile-menu-button border border-gray-300 rounded-md p-1">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-6 h-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-          </button>
-        </div>
+          <!-- mobile button -->
+          <div id="menu-btn" class="text-gray-100 md:hidden flex items-center space-x-2">
+            <template v-if="!isAuthenticated">
+              <nuxt-link to="/login" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Login</nuxt-link>
+            </template>
+            <!-- Always display the hamburger icon -->
+            <button @click="toggleMenu" class="mobile-menu-button border border-gray-300 rounded-md p-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            </button>
+          </div>
 
         </div>
       </div>
