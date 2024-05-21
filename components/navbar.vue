@@ -23,7 +23,6 @@
           <div class="hidden md:flex items-center space-x-3">
             <template v-if="isAuthenticated">
               <button @click="logout" class="btn">Logout</button>
-              <AvatarComponent class="ml-3" />
             </template>
             <template v-else>
               <nuxt-link to="/login" class="font-semibold py-1 px-3 text-gray-100">Login</nuxt-link>
@@ -35,10 +34,9 @@
         <div id="menu-btn" class="text-gray-100 md:hidden flex items-center space-x-2">
           <template v-if="isAuthenticated">
             <button @click="logout" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Logout</button>
-            <!-- AvatarComponent is removed from here -->
           </template>
           <template v-else>
-            <nuxt-link to="/login" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Sign in</nuxt-link>
+            <nuxt-link to="/login" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Login</nuxt-link>
           </template>
           <!-- Always display the hamburger icon -->
           <button @click="toggleMenu" class="mobile-menu-button border border-gray-300 rounded-md p-1">
@@ -142,11 +140,11 @@
 
           <!-- Add a separator line -->
           <div class="border-t border-gray-500 my-2"></div>
-          <!-- Sign-out link -->
+          <!-- Log-out link -->
           <div class="flex text-gray-300 items-center">
-            <nuxt-link to="/#sign-out" class="text-gray-300 flex-grow">
-              <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-2">
-                <span class="ml-2">Sign out</span>
+            <nuxt-link to="/login" class="text-gray-300 flex-grow">
+              <div @click="logout" class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-2">
+                <span class="ml-2">Logout</span>
               </div>
             </nuxt-link>
           </div>

@@ -19,7 +19,7 @@
             <p class="text-gray-100 text-lg">
               Professional (NO HUD) Boxing.
             </p>
-            <button class="w-9/12 bg-slate-800 btn rounded-md" @click="handleJoinNowClick">
+            <button class="w-9/12 bg-slate-800 py-2 rounded-xl" @click="handleJoinNowClick">
               Join Now!
             </button>
           </div>

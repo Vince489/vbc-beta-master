@@ -8,7 +8,7 @@
       <!-- Once userData is available, display user's information -->
       <template v-else>
         <div class="pt-4 cursor-pointer hover:cursor-pointer">
-
+          <p class="text-slate-300">hello</p>
         </div>
 
         <div>
@@ -29,7 +29,6 @@ definePageMeta({
 
 import { useAuthStore } from '~/stores/authStore.js';
 import { onMounted, ref } from 'vue';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 definePageMeta({
   middleware: 'auth',
