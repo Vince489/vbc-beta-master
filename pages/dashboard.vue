@@ -10,16 +10,14 @@
         <div class="flex upper-fold py-6">
           <div class="content-center">
             <Avatar class="w-20 h-20">
-              <AvatarImage src="img/lee-ko.png" alt="fight" />
+              <AvatarImage src="img/chieffa.png" alt="fight" />
               <AvatarFallback>CH</AvatarFallback>
             </Avatar>
-            <p class="text-sm text-blue-400">@OffgridVince</p>
+            <p class="pt-1 text-sm text-blue-400">@OffgridVince</p>
           </div>
           <div class="4-buttons flex flex-wrap justify-center items-center">
-            <button class="min-w-[5rem] max-w-[6rem] bg-blue-500 text-white px-4 py-1 rounded-md m-2">Wallet</button>
+            <button class="min-w-[5rem] bg-blue-500 text-white px-4 py-1 rounded-md m-2">Register Fighter</button>
             <button class="min-w-[5rem] max-w-[6rem] bg-green-500 text-white px-4 py-1 rounded-md m-2">Legacy</button>
-            <button class="min-w-[5rem] max-w-[6rem] bg-red-500 text-white px-4 py-1 rounded-md m-2">Boxers</button>
-            <button class="min-w-[5rem] max-w-[6rem] bg-yellow-500 text-white px-4 py-1 rounded-md m-2">Button</button>
           </div>
         </div>
 
@@ -49,11 +47,9 @@
                 <Icon class="text-gray-200" size="20" name="mdi:thumb-up" />
                 1.2K
               </button>
-
               <button @click="share(post.id)" class="text-white px-4 py-2 rounded-md">
                 <Icon class="text-gray-200" size="20" name="mdi:share-all" />
-              </button>
-              
+              </button>          
             </div>
 
           </div>
@@ -78,11 +74,11 @@ const newsFeed = ref([
     id: 1,
     user: {
       name: 'Jane Smith',
-      avatarUrl: 'img/chieffa.png',
+      avatarUrl: 'img/dd1.webp',
     },
     timestamp: '2 hours ago',
     content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    image: 'img/chieffa.png',
+    image: 'img/ko.png',
   },
   {
     id: 2,
