@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
+    "@vee-validate/zod": "^4.12.8",
     "@vueuse/core": "^10.9.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -19,12 +20,14 @@
     "lucide-vue-next": "^0.376.0",
     "nuxt": "^3.10.2",
     "pinia": "^2.1.7",
-    "radix-vue": "^1.7.2",
+    "radix-vue": "^1.8.1",
     "shadcn-nuxt": "^0.10.4",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "vee-validate": "^4.12.8",
     "vue": "^3.4.19",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0",

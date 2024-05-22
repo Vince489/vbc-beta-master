@@ -1,7 +1,7 @@
 <template>
   <div class="px-2 lg:px-6 max-w-screen-lg mx-auto">
     <!-- navbar goes here -->
-    <nav id="Navbar" class="pt-2 z-40 bg-gray-900 fixed inset-x-0">
+    <nav id="Navbar" class="pt-1 z-40 bg-gray-900 fixed inset-x-0">
       <div class="px-4 pb-2 mx-auto">
         <div class="flex justify-between">
           <div class="flex space-x-4">
@@ -22,7 +22,8 @@
           <!-- Second nav -->
           <div class="hidden md:flex items-center space-x-3">
             <template v-if="isAuthenticated">
-              <button @click="logout" class="btn">Logout</button>
+              <nuxt-link to="/dashboard" class="font-semibold py-1 px-3 text-gray-100">Dashboard</nuxt-link>
+              <button @click="logout" class="text-gray-100">Logout</button>
             </template>
             <template v-else>
               <nuxt-link to="/login" class="font-semibold py-1 px-3 text-gray-100">Login</nuxt-link>

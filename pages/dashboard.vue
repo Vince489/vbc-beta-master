@@ -1,67 +1,23 @@
 <template>
-  <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-2 flex justify-center">
-    <div>
-      <!-- Use a conditional rendering to show loading text while userData is null -->
-      <template v-if="!userData">
-        <p>Loading...</p>
-      </template>
-      <!-- Once userData is available, display user's information -->
-      <template v-else>
-        <div class="pt-4 cursor-pointer hover:cursor-pointer">
-          <p class="text-slate-300">hello</p>
-        </div>
-
-        <div>
-          <!-- Additional user information can be added here -->
-        </div>
-
-
-      </template>
+  <div class="pt-20 flex justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-md">
+      <nuxt-icon name="heroicon-s-user" class="h-12 w-12 text-blue-500 mx-auto" />
+      <h1 class="text-xl font-bold text-gray-800 text-center mt-4">Hello, {{ user.userName }}!</h1>
+      <div class="mt-4">
+        <p class="text-gray-600"><span class="font-bold">Email:</span> {{ user.email }}</p>
+        <p class="text-gray-600"><span class="font-bold">Code Name:</span> {{ user.codeName }}</p>
+        <p class="text-gray-600"><span class="font-bold">Roles:</span> {{ user.roles.join(', ') }}</p>
+        <p class="text-gray-600"><span class="font-bold">Verified:</span> {{ user.verified ? 'Yes' : 'No' }}</p>
+        <p class="text-gray-600"><span class="font-bold">Created At:</span> {{ new Date(user.createdAt).toLocaleString() }}</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-definePageMeta({
-  title: 'Dashboard',
-  description: 'User dashboard page'
-});
+import { useAuthStore } from '@/stores/authStore'; 
 
-import { useAuthStore } from '~/stores/authStore.js';
-import { onMounted, ref } from 'vue';
-
-definePageMeta({
-  middleware: 'auth',
-  title: 'Dashboard',
-  description: 'User dashboard page'
-});
-
-// Get the user's information from the store
+// Fetch user data from the auth store
 const authStore = useAuthStore();
-const userData = ref(null); // Use a ref to make it reactive
-
-// Fetch the user's data when the component is mounted
-onMounted(() => {
-  userData.value = authStore.currentUser;
-});
-
-// Sample projects data (replace with data from your database)
-const projects = ref([
-  { id: 1, name: 'Project 1', description: 'Description of Project 1' },
-  { id: 2, name: 'Project 2', description: 'Description of Project 2' },
-  // Add more project objects as needed
-]);
-
-// Function to handle cancel action
-const cancelProject = (projectId) => {
-  // Logic to cancel the project (e.g., remove from the database)
-};
-
-// Function to handle deploy action
-const deployProject = (projectId) => {
-  // Logic to deploy the project (e.g., trigger deployment process)
-};
+const user = authStore.currentUser;
 </script>
-
-<style scoped>
-</style>
