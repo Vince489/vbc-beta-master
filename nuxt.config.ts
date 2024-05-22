@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
-    'nuxt-icon'
+    'nuxt-icon',
+    "shadcn-nuxt"
   ], 
   app: {
     head: {

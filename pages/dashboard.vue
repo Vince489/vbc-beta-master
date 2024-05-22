@@ -3,65 +3,115 @@
     <div>
       <!-- Use a conditional rendering to show loading text while userData is null -->
       <template v-if="!userData">
-        <p>Loading...</p>
+        <p class="text-center">Loading...</p>
       </template>
       <!-- Once userData is available, display user's information -->
       <template v-else>
-        <div class="pt-4 cursor-pointer hover:cursor-pointer">
-          <p class="text-slate-300">hello</p>
+        <div class="flex upper-fold py-6">
+          <div class="content-center">
+            <Avatar class="w-20 h-20">
+              <AvatarImage src="img/lee-ko.png" alt="fight" />
+              <AvatarFallback>CH</AvatarFallback>
+            </Avatar>
+            <p class="text-sm text-blue-400">@OffgridVince</p>
+          </div>
+          <div class="4-buttons flex flex-wrap justify-center items-center">
+            <button class="min-w-[5rem] max-w-[6rem] bg-blue-500 text-white px-4 py-1 rounded-md m-2">Wallet</button>
+            <button class="min-w-[5rem] max-w-[6rem] bg-green-500 text-white px-4 py-1 rounded-md m-2">Legacy</button>
+            <button class="min-w-[5rem] max-w-[6rem] bg-red-500 text-white px-4 py-1 rounded-md m-2">Boxers</button>
+            <button class="min-w-[5rem] max-w-[6rem] bg-yellow-500 text-white px-4 py-1 rounded-md m-2">Button</button>
+          </div>
         </div>
 
+
+        <!-- Display the news feed -->
         <div>
-          <!-- Additional user information can be added here -->
+          <div class="bg-gray-500 shadow-md rounded-md p-4 mb-4" v-for="post in newsFeed" :key="post.id">
+            <div class="flex items-center">
+              <img :src="post.user.avatarUrl" alt="User Avatar" class="w-10 h-10 rounded-full mr-2" />
+              <div>
+                <h6>{{ post.user.name }}</h6>
+                <p>{{ post.timestamp }}</p>
+              </div>
+            </div>
+            <div class="mt-2">
+              <p>{{ post.content }}</p>
+              <img v-if="post.image" :src="post.image" alt="Post Image" class="w-full mt-2 rounded-md" />
+            </div>
+            <div class="mt-4 flex justify-center items-center">
+              <button @click="repost(post.id)" class="text-white px-4 py-2 rounded-md mr-2">
+                <Icon class="text-gray-200" size="20" name="mdi:repeat" />                
+              </button>
+              <button @click="like(post.id)" class="text-white px-4 py-2 rounded-md mr-2">
+                <Icon class="text-gray-200" size="20" name="mdi:comment-multiple" />                
+              </button>
+              <button @click="share(post.id)" class="text-white px-4 py-2 rounded-md">
+                <Icon class="text-gray-200" size="20" name="mdi:thumb-up" />
+                1.2K
+              </button>
+
+              <button @click="share(post.id)" class="text-white px-4 py-2 rounded-md">
+                <Icon class="text-gray-200" size="20" name="mdi:share-all" />
+              </button>
+              
+            </div>
+
+          </div>
         </div>
-
-
       </template>
     </div>
   </div>
 </template>
 
 <script setup>
-definePageMeta({
-  title: 'Dashboard',
-  description: 'User dashboard page'
-});
-
-import { useAuthStore } from '~/stores/authStore.js';
 import { onMounted, ref } from 'vue';
 
-definePageMeta({
-  middleware: 'auth',
-  title: 'Dashboard',
-  description: 'User dashboard page'
-});
+// Dummy user data
+const userData = {
+  name: 'John Doe',
+  // Add other user information as needed
+};
 
-// Get the user's information from the store
-const authStore = useAuthStore();
-const userData = ref(null); // Use a ref to make it reactive
-
-// Fetch the user's data when the component is mounted
-onMounted(() => {
-  userData.value = authStore.currentUser;
-});
-
-// Sample projects data (replace with data from your database)
-const projects = ref([
-  { id: 1, name: 'Project 1', description: 'Description of Project 1' },
-  { id: 2, name: 'Project 2', description: 'Description of Project 2' },
-  // Add more project objects as needed
+// Dummy news feed data
+const newsFeed = ref([
+  {
+    id: 1,
+    user: {
+      name: 'Jane Smith',
+      avatarUrl: 'img/chieffa.png',
+    },
+    timestamp: '2 hours ago',
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    image: 'img/chieffa.png',
+  },
+  {
+    id: 2,
+    user: {
+      name: 'Alice Johnson',
+      avatarUrl: 'img/chieffa.png',
+    },
+    timestamp: '1 day ago',
+    content: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+    image: null, // No image for this post
+  },
+  // Add more news posts as needed
 ]);
 
-// Function to handle cancel action
-const cancelProject = (projectId) => {
-  // Logic to cancel the project (e.g., remove from the database)
+// Dummy methods to handle actions (replace with actual logic)
+const repost = (postId) => {
+  console.log('Repost:', postId);
 };
 
-// Function to handle deploy action
-const deployProject = (projectId) => {
-  // Logic to deploy the project (e.g., trigger deployment process)
+const like = (postId) => {
+  console.log('Like:', postId);
 };
+
+const share = (postId) => {
+  console.log('Share:', postId);
+};
+
+// Fetch additional data or perform other actions when the component is mounted
+onMounted(() => {
+  // Dummy logic
+});
 </script>
-
-<style scoped>
-</style>
