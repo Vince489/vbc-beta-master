@@ -13,11 +13,12 @@
               <AvatarImage src="img/chieffa.png" alt="fight" />
               <AvatarFallback>CH</AvatarFallback>
             </Avatar>
-            <p class="pt-1 text-sm text-blue-400">@OffgridVince</p>
+            <p class="pt-1 text-sm text-cyan-500">@OffgridVince</p>
           </div>
-          <div class="4-buttons flex flex-wrap justify-center items-center">
-            <button class="min-w-[5rem] bg-blue-500 text-white px-4 py-1 rounded-md m-2">Register Fighter</button>
-            <button class="min-w-[5rem] max-w-[6rem] bg-green-500 text-white px-4 py-1 rounded-md m-2">Legacy</button>
+          <div class=" flex-grow p-4 flex justify-center items-center">
+            <Button class="bg-cyan-800 hover:bg-cyan-600 font-semibold py-3 px-3 text-lg text-gray-100">
+              <nuxt-link to="/register">Register Fighter</nuxt-link>
+            </Button>
           </div>
         </div>
 
