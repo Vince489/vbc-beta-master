@@ -1,64 +1,23 @@
 <template>
-  <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-2">
-    <!-- Loop over projects and render a card for each -->
-    <div v-for="project in projects" :key="project.id">
-      <Card class="w-[350px]">
-        <CardHeader>
-          <CardTitle>{{ project.name }}</CardTitle>
-          <CardDescription>{{ project.description }}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>Additional project details can go here...</p>
-        </CardContent>
-        <CardFooter class="flex justify-between px-6 pb-6">
-          <Button variant="outline" @click="cancelProject(project.id)">
-            Cancel
-          </Button>
-          <Button @click="deployProject(project.id)">Deploy</Button>
-        </CardFooter>
-      </Card>
+  <div class="pt-20 flex justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-md">
+      <nuxt-icon name="heroicon-s-user" class="h-12 w-12 text-blue-500 mx-auto" />
+      <h1 class="text-xl font-bold text-gray-800 text-center mt-4">Hello, {{ user.userName }}!</h1>
+      <div class="mt-4">
+        <p class="text-gray-600"><span class="font-bold">Email:</span> {{ user.email }}</p>
+        <p class="text-gray-600"><span class="font-bold">Code Name:</span> {{ user.codeName }}</p>
+        <p class="text-gray-600"><span class="font-bold">Roles:</span> {{ user.roles.join(', ') }}</p>
+        <p class="text-gray-600"><span class="font-bold">Verified:</span> {{ user.verified ? 'Yes' : 'No' }}</p>
+        <p class="text-gray-600"><span class="font-bold">Created At:</span> {{ new Date(user.createdAt).toLocaleString() }}</p>
+      </div>
     </div>
   </div>
 </template>
 
-
-
 <script setup>
-import { useAuthStore } from '~/stores/authStore.js';
-import { onMounted, ref } from 'vue';
+import { useAuthStore } from '@/stores/authStore'; 
 
-definePageMeta({
-  title: 'Dashboard',
-  description: 'User dashboard page',
-  middleware: 'auth'
-});
-
-// Get the user's information from the store
+// Fetch user data from the auth store
 const authStore = useAuthStore();
-const userData = ref(null); // Use a ref to make it reactive
-
-// Fetch the user's data when the component is mounted
-onMounted(() => {
-  userData.value = authStore.currentUser;
-});
-
-// Sample projects data (replace with data from your database)
-const projects = ref([
-  { id: 1, name: 'Project 1', description: 'Description of Project 1' },
-  { id: 2, name: 'Project 2', description: 'Description of Project 2' },
-  // Add more project objects as needed
-]);
-
-// Function to handle cancel action
-const cancelProject = (projectId) => {
-  // Logic to cancel the project (e.g., remove from the database)
-};
-
-// Function to handle deploy action
-const deployProject = (projectId) => {
-  // Logic to deploy the project (e.g., trigger deployment process)
-};
+const user = authStore.currentUser;
 </script>
-
-<style scoped>
-</style>

@@ -1,10 +1,17 @@
 <template>
-  <div class="flex justify-center items-center mt-32">
+  <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-2 flex justify-center">
     <div class="w-full max-w-sm ">
       <div>
-        <h1 class="pb-6 text-4xl">Verify Email</h1>
+        <p>
+          A One-Time Password (OTP) has been sent to your email address. Please check your email and enter the OTP below to complete your registration.
+
+Didn't receive the email? Check your spam/junk folder or resend the OTP.
+        </p>
       </div>
       <form @submit.prevent="handleSubmit" class="bg-gray-400 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div>
+          <h1 class="text-gray-700 text-3xl">Verify Email</h1>
+        </div>
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
             Email
