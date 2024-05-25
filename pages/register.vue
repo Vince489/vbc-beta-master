@@ -131,22 +131,56 @@
           </FormItem>
         </FormField>
       </div>
-      <!-- Reach Slider -->
+
+      <!-- Height Input -->
+      <!-- Height Input -->
       <div class="col-span-2">
-        <FormField v-slot="{ field }" name="height" class="mb-4">
-          <FormItem>
-            <FormLabel class="block text-gray-700 text-sm font-bold">Height</FormLabel>
-            <FormControl>
-              <input type="range" v-model="fighter.height" :max="maxHeight" min="50" class="w-full">
-              <div class="flex justify-between text-gray-700 text-sm font-bold mt-2">
-                <span>50</span>
-                <span>{{ maxHeight }}</span>
-              </div>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
+          <FormField v-slot="{ field }" name="height" class="mb-4">
+              <FormItem>
+                  <FormLabel class="block text-gray-700 text-sm font-bold">Height</FormLabel>
+                  <FormControl>
+                      <div class="flex">
+                          <!-- Feet Dropdown -->
+                          <Select v-model="fighter.height.feet" >
+                              <SelectTrigger>
+                                  <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                  <SelectItem value="5">5</SelectItem>
+                                  <SelectItem value="6">6</SelectItem>
+                                  <!-- Add more options as needed -->
+                              </SelectContent>
+                          </Select>
+                          <span class="text-gray-700 font-bold">ft</span>
+                          <!-- Inches Dropdown -->
+                          <Select v-model="fighter.height.inches" class="w-1/2 ml-2">
+                              <SelectTrigger>
+                                  <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                  <SelectItem value="0">0</SelectItem>
+                                  <SelectItem value="1">1</SelectItem>
+                                  <SelectItem value="2">2</SelectItem>
+                                  <SelectItem value="3">3</SelectItem>
+                                  <SelectItem value="4">4</SelectItem>
+                                  <SelectItem value="5">5</SelectItem>
+                                  <SelectItem value="6">6</SelectItem>
+                                  <SelectItem value="7">7</SelectItem>
+                                  <SelectItem value="8">8</SelectItem>
+                                  <SelectItem value="9">9</SelectItem>
+                                  <SelectItem value="10">10</SelectItem>
+                                  <SelectItem value="11">11</SelectItem>
+                                  <!-- Add more options as needed -->
+                              </SelectContent>
+                          </Select>
+                          <span class="text-gray-700 font-bold">in</span>
+                      </div>
+                  </FormControl>
+                  <FormMessage />
+              </FormItem>
+          </FormField>
       </div>
+
       <!-- Submit Button -->
       <div class="col-span-2 flex justify-center">
         <Button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
@@ -167,8 +201,12 @@ export default {
         singleInput: '',
         weightDivision: '',
         reach: 50, // initial reach value
+        height: {
+          feet: '', // default value for feet
+          inches: '' // default value for inches
+        }
       },
-      maxReach: 91 // default max reach
+      maxReach: 91 // default max reach value
     }
   },
   watch: {
