@@ -7,14 +7,14 @@
       </template>
       <!-- Once userData is available, display user's information -->
       <template v-else>
-      <div class="pb-3 upper-fold pt-6 grid grid-cols-2">
+      <div class="pb-8 upper-fold pt-6 grid grid-cols-2">
 
         <div class="">
           <Avatar class="w-20 h-20">
             <AvatarImage src="img/chieffa.png" alt="fight" />
             <AvatarFallback>CH</AvatarFallback>
           </Avatar>
-          <p class="pt-1 text-sm text-cyan-600 font-semibold font-mono tracking-wide">@{{ user.userName }}</p>
+          <p class="pt-1 text-sm text-cyan-600">@OffgridVince</p>
         </div>
 
         <div class="flex flex-col justify-end">
@@ -65,11 +65,6 @@
 </template>
 
 <script setup>
-import { useAuthStore } from '@/stores/authStore'; 
-
-// Fetch user data from the auth store
-const authStore = useAuthStore();
-const user = authStore.currentUser;
 import { onMounted, ref } from 'vue';
 
 // Dummy user data

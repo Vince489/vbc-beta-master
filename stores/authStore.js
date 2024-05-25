@@ -29,14 +29,12 @@ export const useAuthStore = defineStore("authStore", () => {
             }),
           });
           const data = await response.json();
-          console.log(data);
           if (!response.ok) {
             // If response is not ok, reject with the received error message
             reject(data.message || 'An error occurred while logging in.');
           } else {
             // Set user data and authentication status
             setAuthenticated(data.user, data.token, data.user.isAuthenticated);
-            console.log('isAuth', data.user.isAuthenticated);
             resolve(data);
           }
         } catch (error) {
