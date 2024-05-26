@@ -82,7 +82,7 @@
             <nuxt-link to="/dashboard" class="text-gray-300 flex-grow">
               <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
                 <Icon class="text-gray-400" size="20" name="iconamoon:profile-thin" />
-                <span class="ml-2">Profile</span>
+                <span class="ml-2">Dashboard</span>
               </div>
             </nuxt-link>
           </div>

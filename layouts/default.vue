@@ -5,5 +5,6 @@
       <slot />
     </div>
     <Footer />
+    <LowerNav /> <!-- Add the LowerNav component here -->
   </div>
 </template>

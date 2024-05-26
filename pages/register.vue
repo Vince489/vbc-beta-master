@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isAuthenticated" class="container mx-auto px-4 px-md-4 px-lg-5 mt-2">
+  <div v-if="isAuthenticated" class="container mx-auto py-6 px-4 px-md-4 px-lg-5 mt-2">
     <form @submit.prevent="onSubmit" class="bg-gray-400 shadow-md rounded px-4 pt-6 pb-8 mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
       <!-- First Name and Last Name side by side -->
       <div class="col-span-2 md:col-span-1 flex">
@@ -155,81 +155,79 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      fighter: {
-        firstName: '',
-        lastName: '',
-        singleInput: '',
-        weightDivision: '',
-        reach: 50, // initial reach value
-        heightValue: 64, // initial height value  
-    },
-    minHeight: 64,
-    maxHeight: 80,
+<script setup>
+import { ref, computed, watch, onMounted } from 'vue';
+import { useAuthStore } from "~/stores/authStore.js";
+import { useRouter } from 'vue-router';
+
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => authStore.isAuthenticated);
+const router = useRouter();
+
+
+const fighter = ref({
+  firstName: '',
+  lastName: '',
+  singleInput: '',
+  weightDivision: '',
+  reach: 50, // initial reach value
+  heightValue: 64, // initial height value  
+});
+const minHeight = ref(64);
+const maxHeight = ref(80);
+const maxReach = ref(86);
+
+watch(fighter.value, (newVal) => {
+  if (newVal.weightDivision === '100-112: Fly') {
+    maxReach.value = 64;
+    maxHeight.value = 66; // 5' 6"
+  } else if (newVal.weightDivision === '112-118: Bantam') {
+    maxReach.value = 66;
+    maxHeight.value = 67; // 5' 7"
+  } else if (newVal.weightDivision === '118-126: Feather') {
+    maxReach.value = 68;
+    maxHeight.value = 68; // 5' 8"
+  } else if (newVal.weightDivision === '126-135: Light') {
+    maxReach.value = 70;
+    maxHeight.value = 69; // 5' 9"
+  } else if (newVal.weightDivision === '135-147: Welter') {
+    maxReach.value = 72;
+    maxHeight.value = 71; // 5' 11"
+  } else if (newVal.weightDivision === '147-160: Middle') {
+    maxReach.value = 74;
+    maxHeight.value = 72; // 6' 0"
+  } else if (newVal.weightDivision === '160-175: Light Heavy') {
+    maxReach.value = 82;
+    maxHeight.value = 74; // 6' 2"
+  } else {
+    maxReach.value = 86; // Default max reach for other divisions
+    maxHeight.value = 80; // Default max height for other divisions
   }
-},
-watch: {
-    'fighter.weightDivision'(newVal) {
-      if (newVal === '100-112: Fly') {
-        this.maxReach = 64;
-        this.maxHeight = 66; // 5' 6"
-      } else if (newVal === '112-118: Bantam') {
-        this.maxReach = 66;
-        this.maxHeight = 67; // 5' 7"
-      } else if (newVal === '118-126: Feather') {
-        this.maxReach = 68;
-        this.maxHeight = 68; // 5' 8"
-      } else if (newVal === '126-135: Light') {
-        this.maxReach = 70;
-        this.maxHeight = 69; // 5' 9"
-      } else if (newVal === '135-147: Welter') {
-        this.maxReach = 72;
-        this.maxHeight = 71; // 5' 11"
-      } else if (newVal === '147-160: Middle') {
-        this.maxReach = 74;
-        this.maxHeight = 72; // 6' 0"
-      } else if (newVal === '160-175: Light Heavy') {
-        this.maxReach = 82;
-        this.maxHeight = 74; // 6' 2"
-      } else {
-        this.maxReach = 86; // Default max reach for other divisions
-        this.maxHeight = 80; // Default max height for other divisions
-      }
-      // Reset reach if it's beyond the new maxReach
-      if (this.fighter.reach > this.maxReach) {
-        this.fighter.reach = this.maxReach;
-      }
-      // Reset height if it's beyond the new maxHeight
-      if (this.fighter.heightValue > this.maxHeight) {
-        this.fighter.heightValue = this.maxHeight;
-      }
-    },
-    'fighter.heightValue'(newVal) {
-      // Ensure heightValue stays within the allowed range
-      if (newVal < this.minHeight) {
-        this.fighter.heightValue = this.minHeight;
-      } else if (newVal > this.maxHeight) {
-        this.fighter.heightValue = this.maxHeight;
-      }
-    }
-  },
-  methods: {
-    onSubmit() {
-      console.log('Form submitted with data:', this.fighter);
-    }
-  },
-    computed: {
-    feet() {
-      return Math.floor(this.fighter.heightValue / 12);
-    },
-    inches() {
-      return this.fighter.heightValue % 12;
-    }
+  // Reset reach if it's beyond the new maxReach
+  if (newVal.reach > maxReach.value) {
+    newVal.reach = maxReach.value;
   }
-}
+  // Reset height if it's beyond the new maxHeight
+  if (newVal.heightValue > maxHeight.value) {
+    newVal.heightValue = maxHeight.value;
+  }
+}, { deep: true });
+
+watch(() => fighter.value.heightValue, (newVal) => {
+  // Ensure heightValue stays within the allowed range
+  if (newVal < minHeight.value) {
+    fighter.value.heightValue = minHeight.value;
+  } else if (newVal > maxHeight.value) {
+    fighter.value.heightValue = maxHeight.value;
+  }
+});
+
+const feet = computed(() => Math.floor(fighter.value.heightValue / 12));
+const inches = computed(() => fighter.value.heightValue % 12);
+
+const onSubmit = () => {
+  console.log('Form submitted with data:', fighter.value);
+};
 </script>
 
 <style scoped>
