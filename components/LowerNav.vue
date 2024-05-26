@@ -3,13 +3,13 @@
     <nuxt-link to="/" class="text-white">
       <Icon name="mdi:home-outline" size="24px" />
     </nuxt-link>
-    <nuxt-link to="/search" class="text-white">
+    <nuxt-link to="/#search" class="text-white">
       <Icon name="mdi:magnify" size="24px" />
     </nuxt-link>
-    <nuxt-link to="/add" class="text-white">
+    <nuxt-link to="/#" class="text-white">
       <Icon name="mdi:plus-circle-outline" size="24px" />
     </nuxt-link>
-    <nuxt-link to="/profile" class="text-white">
+    <nuxt-link to="/dashboard" class="text-white">
       <Icon name="mdi:account" size="24px" />
     </nuxt-link>
   </div>
