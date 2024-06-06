@@ -2,7 +2,7 @@
   <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-2 flex justify-center">
     <div>
       <!-- Use a conditional rendering to show loading text while userData is null -->
-      <template v-if="!userData">
+      <template v-if="!gamer">
         <p class="text-center">Loading...</p>
       </template>
       <!-- Once userData is available, display user's information -->
@@ -14,7 +14,7 @@
             <AvatarImage src="img/chieffa.png" alt="fight" />
             <AvatarFallback>CH</AvatarFallback>
           </Avatar>
-          <p class="pt-1 text-sm text-cyan-600 font-semibold font-mono tracking-wide">@{{ user.userName }}</p>
+          <p class="pt-1 text-sm text-cyan-600 font-semibold font-mono tracking-wide">@{{ gamer.gamerTag }}</p>
         </div>
 
         <div class="flex flex-col justify-end">
@@ -69,11 +69,11 @@ import { useAuthStore } from '@/stores/authStore';
 
 // Fetch user data from the auth store
 const authStore = useAuthStore();
-const user = authStore.currentUser;
+const gamer = authStore.currentGamer;
 import { onMounted, ref } from 'vue';
 
 // Dummy user data
-const userData = {
+const gamerData = {
   name: 'John Doe',
   // Add other user information as needed
 };

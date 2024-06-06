@@ -6,11 +6,11 @@
       </div>
       <form @submit.prevent="handleSubmit" class="bg-gray-400  shadow-md rounded px-8 pt-6 pb-8 mb-4">
         <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="userName">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="gamerTag">
             Gamertag
           </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="userName" type="text" placeholder="Username" v-model="userName">
-          <p class="text-red-500 text-xs italic">{{ userNameError }}</p> <!-- Display username error -->
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="gamerTag" type="text" placeholder="gamerTag" v-model="gamerTag">
+          <p class="text-red-500 text-xs italic">{{ gamerTagError }}</p> <!-- Display gamerTag error -->
         </div>
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
@@ -41,10 +41,10 @@
 export default {
   data() {
     return {
-      userName: '',
+      gamerTag: '',
       email: '',
       password: '',
-      userNameError: '',
+      gamerTagError: '',
       emailError: '',
       passwordError: '',
       apiError: '', // Variable to store API error
@@ -53,14 +53,14 @@ export default {
   methods: {
     async handleSubmit() {
       // Reset errors
-      this.userNameError = '';
+      this.gamerTagError = '';
       this.emailError = '';
       this.passwordError = '';
       this.apiError = ''; // Reset API error
 
       // Validation logic (you can replace this with your own validation)
-      if (!this.userName) {
-        this.userNameError = 'Username is required.';
+      if (!this.gamerTag) {
+        this.gamerTagError = 'gamerTag is required.';
       }
 
       if (!this.email) {
@@ -72,9 +72,9 @@ export default {
       }
 
       // Perform signup logic if no errors
-      if (!this.userNameError && !this.emailError && !this.passwordError) {
+      if (!this.gamerTagError && !this.emailError && !this.passwordError) {
         try {
-          const response = await fetch('https://zplogin-production.up.railway.app/api/v1/user/signup', {
+          const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/signup', {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
@@ -82,7 +82,7 @@ export default {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              userName: this.userName,
+              gamerTag: this.gamerTag,
               email: this.email,
               password: this.password,
             }),
@@ -97,7 +97,7 @@ export default {
             this.apiError = errorMessage; // Set the API error message
         } else if (data.message === 'User already exists') {
             // Handle the case where the user already exists
-            this.apiError = 'User already exists. Please use a different email or username.';
+            this.apiError = 'User already exists. Please use a different email or gamerTag.';
         } else {
             // Optionally, redirect to another page upon successful signup
             this.$router.push('/verify');

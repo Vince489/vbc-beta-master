@@ -34,36 +34,35 @@
           <FormItem>
             <FormLabel class="block text-gray-700 text-sm font-bold">Nickname</FormLabel>
             <FormControl>
-              <input type="text" placeholder="Nickname" v-model="fighter.singleInput" class="bg-gray-200  shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+              <input type="text" placeholder="Nickname" v-model="fighter.singleInput" class="bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
             </FormControl>
             <FormMessage />
           </FormItem>
         </FormField>
       </div>
-      
-      <div>
-<form @submit.prevent="onSubmit">
-      <FormField v-slot="{ componentField }" name="stance">
-        <FormItem>
-          <FormLabel class="text-gray-700 block text-sm font-bold">Stance</FormLabel>
-          <div class="flex items-center space-x-4">
-            <!-- Southpaw Radio Button -->
-            <label class="inline-flex items-center text-gray-700">
-              <input type="radio" v-model="fighter.stance" value="southpaw" class="form-radio h-4 w-4 text-gray-700">
-              <span class="ml-2">Southpaw</span>
-            </label>
-            <!-- Orthodox Radio Button -->
-            <label class="inline-flex items-center text-gray-700">
-              <input type="radio" v-model="fighter.stance" value="orthodox" class="form-radio h-4 w-4 text-gray-700">
-              <span class="ml-2">Orthodox</span>
-            </label>
-          </div>
-          <FormMessage />
-        </FormItem>
-      </FormField>
-    </form>
-  </div>
-      
+      <!-- Stance Radio Group -->
+      <div class="col-span-2">
+        <FormField v-slot="{ field }" name="stance" class="mb-4">
+          <FormItem>
+            <FormLabel class="block text-gray-700 text-sm font-bold">Stance</FormLabel>
+            <FormControl>
+              <div class="flex items-center space-x-4">
+                <!-- Southpaw Radio Button -->
+                <label class="inline-flex items-center text-gray-700">
+                  <input type="radio" v-model="fighter.stance" value="southpaw" class="form-radio h-4 w-4 text-gray-700">
+                  <span class="ml-2">Southpaw</span>
+                </label>
+                <!-- Orthodox Radio Button -->
+                <label class="inline-flex items-center text-gray-700">
+                  <input type="radio" v-model="fighter.stance" value="orthodox" class="form-radio h-4 w-4 text-gray-700">
+                  <span class="ml-2">Orthodox</span>
+                </label>
+              </div>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+      </div>
       <!-- Weight Division Radio Group -->
       <div class="col-span-2">
         <FormField v-slot="{ field }" name="weightDivision" class="mb-4">
@@ -124,7 +123,7 @@
           </FormItem>
         </FormField>
       </div>
-
+      <!-- Height Slider -->
       <div class="col-span-2">
         <FormField v-slot="{ field }" name="height" class="mb-4">
           <FormItem>
@@ -139,7 +138,6 @@
           </FormItem>
         </FormField>
       </div>
-
       <!-- Submit Button -->
       <div class="col-span-2 flex justify-center">
         <Button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
@@ -155,66 +153,84 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed, watch, onMounted } from 'vue';
-import { useAuthStore } from "~/stores/authStore.js";
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue';
+import { useAuthStore } from '~/stores/authStore.js';
 import { useRouter } from 'vue-router';
+
+interface Fighter {
+  firstName: string;
+  lastName: string;
+  singleInput: string;
+  stance: string;
+  weightDivision: string;
+  reach: number;
+  heightValue: number;
+}
 
 const authStore = useAuthStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
 const router = useRouter();
 
-
-const fighter = ref({
+const fighter = ref<Fighter>({
   firstName: '',
   lastName: '',
   singleInput: '',
+  stance: '',
   weightDivision: '',
-  reach: 50, // initial reach value
-  heightValue: 64, // initial height value  
+  reach: 50,
+  heightValue: 64
 });
+
 const minHeight = ref(64);
 const maxHeight = ref(80);
 const maxReach = ref(86);
 
-watch(fighter.value, (newVal) => {
-  if (newVal.weightDivision === '100-112: Fly') {
-    maxReach.value = 67;
-    maxHeight.value = 65; // 5' 5"
-  } else if (newVal.weightDivision === '112-118: Bantam') {
-    maxReach.value = 67;
-    maxHeight.value = 67; // 5' 7"
-  } else if (newVal.weightDivision === '118-126: Feather') {
-    maxReach.value = 69;
-    maxHeight.value = 68; // 5' 8"
-  } else if (newVal.weightDivision === '126-135: Light') {
-    maxReach.value = 71;
-    maxHeight.value = 69; // 5' 9"
-  } else if (newVal.weightDivision === '135-147: Welter') {
-    maxReach.value = 73;
-    maxHeight.value = 71; // 5' 11"
-  } else if (newVal.weightDivision === '147-160: Middle') {
-    maxReach.value = 76;
-    maxHeight.value = 73; // 6' 1"
-  } else if (newVal.weightDivision === '160-175: Light Heavy') {
-    maxReach.value = 80;
-    maxHeight.value = 75; // 6' 3"
-  } else {
-    maxReach.value = 86; // Default max reach for other divisions
-    maxHeight.value = 80; // Default max height for other divisions
+watch(() => fighter.value.weightDivision, (newVal) => {
+  switch (newVal) {
+    case '100-112: Fly':
+      maxReach.value = 67;
+      maxHeight.value = 65;
+      break;
+    case '112-118: Bantam':
+      maxReach.value = 67;
+      maxHeight.value = 67;
+      break;
+    case '118-126: Feather':
+      maxReach.value = 69;
+      maxHeight.value = 68;
+      break;
+    case '126-135: Light':
+      maxReach.value = 71;
+      maxHeight.value = 69;
+      break;
+    case '135-147: Welter':
+      maxReach.value = 73;
+      maxHeight.value = 71;
+      break;
+    case '147-160: Middle':
+      maxReach.value = 76;
+      maxHeight.value = 73;
+      break;
+    case '160-175: Light Heavy':
+      maxReach.value = 80;
+      maxHeight.value = 75;
+      break;
+    default:
+      maxReach.value = 86;
+      maxHeight.value = 80;
   }
-  // Reset reach if it's beyond the new maxReach
-  if (newVal.reach > maxReach.value) {
-    newVal.reach = maxReach.value;
+
+  if (fighter.value.reach > maxReach.value) {
+    fighter.value.reach = maxReach.value;
   }
-  // Reset height if it's beyond the new maxHeight
-  if (newVal.heightValue > maxHeight.value) {
-    newVal.heightValue = maxHeight.value;
+
+  if (fighter.value.heightValue > maxHeight.value) {
+    fighter.value.heightValue = maxHeight.value;
   }
-}, { deep: true });
+});
 
 watch(() => fighter.value.heightValue, (newVal) => {
-  // Ensure heightValue stays within the allowed range
   if (newVal < minHeight.value) {
     fighter.value.heightValue = minHeight.value;
   } else if (newVal > maxHeight.value) {
