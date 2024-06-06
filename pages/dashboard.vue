@@ -72,12 +72,6 @@ const authStore = useAuthStore();
 const gamer = authStore.currentGamer;
 import { onMounted, ref } from 'vue';
 
-// Dummy user data
-const gamerData = {
-  name: 'John Doe',
-  // Add other user information as needed
-};
-
 // Dummy news feed data
 const newsFeed = ref([
   {
