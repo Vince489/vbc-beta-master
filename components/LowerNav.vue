@@ -12,6 +12,9 @@
     <nuxt-link to="/dashboard" class="text-white">
       <Icon name="mdi:account" size="24px" />
     </nuxt-link>
+    <nuxt-link to="/dashboard" class="text-white">
+      <Icon name="mdi:account" size="24px" />
+    </nuxt-link>
   </div>
 </template>
 

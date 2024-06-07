@@ -1,15 +1,18 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 export const useAuthStore = defineStore("authStore", () => {
     const isAuthenticated = ref(false);
     const accessToken = ref(null);
     const currentGamer = ref(null);
+    const router = useRouter();
 
     function setAuthenticated(gamerData, token) {
         isAuthenticated.value = true;
         currentGamer.value = gamerData;
         accessToken.value = token;
+        router.push('/dashboard');
     }
 
     async function $login(email, password) {
@@ -23,25 +26,29 @@ export const useAuthStore = defineStore("authStore", () => {
                     email: email,
                     password: password,
                 }),
+                credentials: 'include' // This includes cookies in the request
             });
-
+    
             const data = await response.json();
-            console.log(data);
+
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while logging in.');
             }
-
+    
             const token = data.jwt; // Adjust this to match your API response structure
-
+    
             // Set gamer data and authentication status
             setAuthenticated(data.gamer, token);
+            
+            // Redirect to dashboard
+            router.push('/dashboard');
 
             return true;
         } catch (error) {
             console.error('Login error:', error.message);
             return false;
         }
-    }
+    }    
 
     // reset current store
     function $reset() {
