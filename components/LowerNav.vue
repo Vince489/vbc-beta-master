@@ -10,7 +10,7 @@
       <Icon name="mdi:plus-circle-outline" size="24px" />
     </nuxt-link>
     <nuxt-link to="/dashboard" class="text-white">
-      <Icon name="mdi:account" size="24px" />
+      <Icon name="mdi:wallet-outline" size="24px" />
     </nuxt-link>
     <nuxt-link to="/dashboard" class="text-white">
       <Icon name="mdi:account" size="24px" />
