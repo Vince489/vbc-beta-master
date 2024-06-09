@@ -8,10 +8,9 @@ export const useAuthStore = defineStore("authStore", () => {
     const currentGamer = ref(null);
     const router = useRouter();
 
-    function setAuthenticated(gamerData, token) {
+    function setAuthenticated(gamerData) {
         isAuthenticated.value = true;
         currentGamer.value = gamerData;
-        accessToken.value = token;
         router.push('/dashboard');
     }
 
@@ -30,15 +29,13 @@ export const useAuthStore = defineStore("authStore", () => {
             });
     
             const data = await response.json();
-
+ 
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while logging in.');
             }
-    
-            const token = data.jwt; // Adjust this to match your API response structure
-    
+        
             // Set gamer data and authentication status
-            setAuthenticated(data.gamer, token);
+            setAuthenticated(data.gamer);
             
             // Redirect to dashboard
             router.push('/dashboard');
