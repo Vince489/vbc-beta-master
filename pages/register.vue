@@ -34,7 +34,7 @@
           <FormItem>
             <FormLabel class="block text-gray-700 text-sm font-bold">Nickname</FormLabel>
             <FormControl>
-              <input type="text" placeholder="Nickname" v-model="fighter.singleInput" class="bg-gray-200  shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+              <input type="text" placeholder="Nickname" v-model="fighter.nickname" class="bg-gray-200  shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -63,44 +63,59 @@
       </FormField>
     </form>
   </div>
-      
+      <!-- Overall LVL -->
+      <div class="col-span-2">
+        <FormField v-slot="{ field }" name="overallLvl" class="mb-4">
+          <FormItem>
+                  <FormLabel class="block text-gray-700 text-sm font-bold">Overall Level</FormLabel>
+                  <FormControl>
+                    <select v-model="fighter.ovr" class="rounded-sm p-1 bg-slate-500 w-1/4">
+                      <option v-for="level in Array.from({length: 91-78+1}, (_, i) => 78 + i)" :key="level" :value="level">
+                        {{ level }}
+                      </option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+        </FormField>
+      </div>
       <!-- Weight Division Radio Group -->
       <div class="col-span-2">
-        <FormField v-slot="{ field }" name="weightDivision" class="mb-4">
+        <FormField v-slot="{ field }" name="naturalWeightDivision" class="mb-4">
           <FormItem>
             <FormLabel class="block text-gray-700 text-sm font-bold">Natural Weight Division</FormLabel>
             <FormControl>
               <div class="grid grid-cols-2 gap-2">
                 <label class="flex items-center">
-                  <input type="radio" v-model="fighter.weightDivision" value="100-112: Fly" class="mr-2">
+                  <input type="radio" v-model="fighter.naturalWeightDivision" value="100-112: Fly" class="mr-2">
                   <span class="text-gray-600 font-bold text-sm mr-2">Fly</span> (100-112)
                 </label>
                 <label class="flex items-center">
-                  <input type="radio" v-model="fighter.weightDivision" value="112-118: Bantam" class="mr-2">
+                  <input type="radio" v-model="fighter.naturalWeightDivision" value="112-118: Bantam" class="mr-2">
                   <span class="text-gray-600 font-bold text-sm mr-2">Bantam</span> (112-118)
                 </label>
                 <label class="flex items-center">
-                  <input type="radio" v-model="fighter.weightDivision" value="118-126: Feather" class="mr-2">
+                  <input type="radio" v-model="fighter.naturalWeightDivision" value="118-126: Feather" class="mr-2">
                   <span class="text-gray-600 font-bold text-sm mr-2">Feather</span> (118-126)
                 </label>
                 <label class="flex items-center">
-                  <input type="radio" v-model="fighter.weightDivision" value="126-135: Light" class="mr-2">
+                  <input type="radio" v-model="fighter.naturalWeightDivision" value="126-135: Light" class="mr-2">
                   <span class="text-gray-600 font-bold text-sm mr-2">Light</span> (126-135)
                 </label>
                 <label class="flex items-center">
-                  <input type="radio" v-model="fighter.weightDivision" value="135-147: Welter" class="mr-2">
+                  <input type="radio" v-model="fighter.naturalWeightDivision" value="135-147: Welter" class="mr-2">
                   <span class="text-gray-600 font-bold text-sm mr-2">Welter</span> (135-147)
                 </label>
                 <label class="flex items-center">
-                  <input type="radio" v-model="fighter.weightDivision" value="147-160: Middle" class="mr-2">
+                  <input type="radio" v-model="fighter.naturalWeightDivision" value="147-160: Middle" class="mr-2">
                   <span class="text-gray-600 font-bold text-sm mr-2">Middle</span> (147-160)
                 </label>
                 <label class="flex items-center">
-                  <input type="radio" v-model="fighter.weightDivision" value="160-175: Light Heavy" class="mr-2">
+                  <input type="radio" v-model="fighter.naturalWeightDivision" value="160-175: Light Heavy" class="mr-2">
                   <span class="text-gray-600 font-bold text-sm mr-2">L Heavy</span> (160-175)
                 </label>
                 <label class="flex items-center">
-                  <input type="radio" v-model="fighter.weightDivision" value="200-260: Heavy" class="mr-2">
+                  <input type="radio" v-model="fighter.naturalWeightDivision" value="200-260: Heavy" class="mr-2">
                   <span class="text-gray-600 font-bold text-sm mr-2">Heavy</span> (200-260)
                 </label>
               </div>
@@ -156,20 +171,19 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useAuthStore } from "~/stores/authStore.js";
-import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
-const router = useRouter();
-
 
 const fighter = ref({
   firstName: '',
   lastName: '',
-  singleInput: '',
-  weightDivision: '',
+  nickname: '',
+  stance: '',
+  ovr: 78,
+  naturalWeightDivision: '',
   reach: 50, // initial reach value
   heightValue: 64, // initial height value  
 });
@@ -178,25 +192,25 @@ const maxHeight = ref(80);
 const maxReach = ref(86);
 
 watch(fighter.value, (newVal) => {
-  if (newVal.weightDivision === '100-112: Fly') {
+  if (newVal.naturalWeightDivision === '100-112: Fly') {
     maxReach.value = 67;
     maxHeight.value = 65; // 5' 5"
-  } else if (newVal.weightDivision === '112-118: Bantam') {
+  } else if (newVal.naturalWeightDivision === '112-118: Bantam') {
     maxReach.value = 67;
     maxHeight.value = 67; // 5' 7"
-  } else if (newVal.weightDivision === '118-126: Feather') {
+  } else if (newVal.naturalWeightDivision === '118-126: Feather') {
     maxReach.value = 69;
     maxHeight.value = 68; // 5' 8"
-  } else if (newVal.weightDivision === '126-135: Light') {
+  } else if (newVal.naturalWeightDivision === '126-135: Light') {
     maxReach.value = 71;
     maxHeight.value = 69; // 5' 9"
-  } else if (newVal.weightDivision === '135-147: Welter') {
+  } else if (newVal.naturalWeightDivision === '135-147: Welter') {
     maxReach.value = 73;
     maxHeight.value = 71; // 5' 11"
-  } else if (newVal.weightDivision === '147-160: Middle') {
+  } else if (newVal.naturalWeightDivision === '147-160: Middle') {
     maxReach.value = 76;
     maxHeight.value = 73; // 6' 1"
-  } else if (newVal.weightDivision === '160-175: Light Heavy') {
+  } else if (newVal.naturalWeightDivision === '160-175: Light Heavy') {
     maxReach.value = 80;
     maxHeight.value = 75; // 6' 3"
   } else {
@@ -226,7 +240,27 @@ const feet = computed(() => Math.floor(fighter.value.heightValue / 12));
 const inches = computed(() => fighter.value.heightValue % 12);
 
 const onSubmit = () => {
-  console.log('Form submitted with data:', fighter.value);
+  const data = {
+    ...fighter.value,
+    firstName: fighter.value.firstName,
+    lastName: fighter.value.lastName,
+    nickname: fighter.value.nickname || 'N/A', // default to 'N/A' if nickname is empty
+    stance: fighter.value.stance.charAt(0).toUpperCase() + fighter.value.stance.slice(1), // convert stance to title case
+    ovr: fighter.value.ovr || 0, // default to 0 if ovr is empty
+    heightFt: Math.floor(fighter.value.heightValue / 12),
+    heightIn: fighter.value.heightValue % 12,
+    reach: fighter.value.reach,
+    naturalWeightDivision: fighter.value.naturalWeightDivision.split(': ')[1] // split on ': ' and take the second part
+  };
+  console.log('data:', data);
+  fetch('https://vbc-login-production.up.railway.app/api/v1/fighter/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+    credentials: 'include' // This ensures that cookies are included in the request
+  });
 };
 </script>
 

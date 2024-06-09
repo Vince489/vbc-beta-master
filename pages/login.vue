@@ -55,7 +55,7 @@ const handleLogin = async () => {
     const response = await authStore.$login(email.value, password.value);
     // Check if the login attempt was successful
     if (response?.user?.isAuthenticated) {
-      return navigateTo("/dashboard")
+      return navigateTo("/overview")
     }
   } catch (error) {
     // Handle login error

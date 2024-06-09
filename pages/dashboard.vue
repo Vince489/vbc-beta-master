@@ -1,38 +1,20 @@
 <template>
-  <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-2 flex justify-center">
+  <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-12 flex justify-center">
     <div>
-      <!-- Use a conditional rendering to show loading text while userData is null -->
+      <!-- Use a conditional rendering to show loading text while gamerData is null -->
       <template v-if="!gamer">
         <p class="text-center">Loading...</p>
       </template>
-      <!-- Once userData is available, display user's information -->
+      <!-- Once gamerData is available, display gamer's information -->
       <template v-else>
-      <div class="pb-3 upper-fold pt-6 grid grid-cols-2">
-
-        <div class="">
-          <Avatar class="w-20 h-20">
-            <AvatarImage src="img/chieffa.png" alt="fight" />
-            <AvatarFallback>CH</AvatarFallback>
-          </Avatar>
-          <p class="pt-1 text-sm text-cyan-600 font-semibold font-mono tracking-wide">@{{ gamer.gamerTag }}</p>
-        </div>
-
-        <div class="flex flex-col justify-end">
-          <Button class="bg-cyan-800 hover:bg-cyan-600 font-semibold px-3 text-lg text-gray-100">
-            <nuxt-link to="/register">Register Fighter</nuxt-link>
-          </Button>
-        </div>
-
-      </div>
 
   <!-- Display the news feed -->
-            <!-- Display the news feed -->
-            <div>
+        <div>
           <div class="bg-gray-500 shadow-md rounded-md p-4 mb-4" v-for="post in newsFeed" :key="post.id">
             <div class="flex items-center">
-              <img :src="post.user.avatarUrl" alt="User Avatar" class="w-10 h-10 rounded-full mr-2" />
+              <img :src="post.gamer.avatarUrl" alt="gamer Avatar" class="w-10 h-10 rounded-full mr-2" />
               <div>
-                <h6>{{ post.user.name }}</h6>
+                <h6>{{ post.gamer.name }}</h6>
                 <p>{{ post.timestamp }}</p>
               </div>
             </div>
@@ -59,7 +41,7 @@
           </div>
         </div>
   <!-- ... rest of your code ... -->
-</template>
+      </template>
     </div>
   </div>
 </template>
@@ -67,7 +49,7 @@
 <script setup>
 import { useAuthStore } from '@/stores/authStore'; 
 
-// Fetch user data from the auth store
+// Fetch gamer data from the auth store
 const authStore = useAuthStore();
 const gamer = authStore.currentGamer;
 import { onMounted, ref } from 'vue';
@@ -76,7 +58,7 @@ import { onMounted, ref } from 'vue';
 const newsFeed = ref([
   {
     id: 1,
-    user: {
+    gamer: {
       name: 'Jane Smith',
       avatarUrl: 'img/dd1.webp',
     },
@@ -86,7 +68,7 @@ const newsFeed = ref([
   },
   {
     id: 2,
-    user: {
+    gamer: {
       name: 'Alice Johnson',
       avatarUrl: 'img/chieffa.png',
     },
