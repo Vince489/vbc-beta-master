@@ -249,7 +249,7 @@ const onSubmit = () => {
     ovr: fighter.value.ovr || 0, // default to 0 if ovr is empty
     heightFt: Math.floor(fighter.value.heightValue / 12),
     heightIn: fighter.value.heightValue % 12,
-    reach: fighter.value.reach,
+    reach: parseInt(fighter.value.reach),
     naturalWeightDivision: fighter.value.naturalWeightDivision.split(': ')[1] // split on ': ' and take the second part
   };
   console.log('data:', data);
