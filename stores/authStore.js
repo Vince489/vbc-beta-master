@@ -11,7 +11,7 @@ export const useAuthStore = defineStore("authStore", () => {
     function setAuthenticated(gamerData) {
         isAuthenticated.value = true;
         currentGamer.value = gamerData;
-        router.push('/dashboard');
+        router.push('/overview');
     }
 
     async function $login(email, password) {
@@ -38,7 +38,7 @@ export const useAuthStore = defineStore("authStore", () => {
             setAuthenticated(data.gamer);
             
             // Redirect to dashboard
-            router.push('/dashboard');
+            router.push('/overview');
 
             return true;
         } catch (error) {
