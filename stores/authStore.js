@@ -9,7 +9,6 @@ export const useAuthStore = defineStore("authStore", () => {
     const router = useRouter();
 
     function setAuthenticated(gamerData) {
-        isAuthenticated.value = true;
         currentGamer.value = gamerData;
         router.push('/overview');
     }
