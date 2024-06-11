@@ -3,8 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 
 export const useAuthStore = defineStore("authStore", () => {
-    const isAuthenticated = ref(false);
-    const accessToken = ref(null);
+    const token = ref(null);
     const currentGamer = ref(null);
     const router = useRouter();
 
@@ -15,7 +14,7 @@ export const useAuthStore = defineStore("authStore", () => {
 
     async function $login(email, password) {
         try {
-            const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/login', {
+            const response = await fetch('http://localhost:5550/api/v1/gamer/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,6 +27,7 @@ export const useAuthStore = defineStore("authStore", () => {
             });
     
             const data = await response.json();
+            console.log('data:', data);
  
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while logging in.');
@@ -35,6 +35,10 @@ export const useAuthStore = defineStore("authStore", () => {
         
             // Set gamer data and authentication status
             setAuthenticated(data.gamer);
+            
+            // Store the token in the store
+            token.value = data.token;
+            console.log('Token:', token.value)
             
             // Redirect to dashboard
             router.push('/overview');
@@ -48,15 +52,13 @@ export const useAuthStore = defineStore("authStore", () => {
 
     // reset current store
     function $reset() {
-        isAuthenticated.value = false;
         currentGamer.value = null;
-        accessToken.value = null;
+        token.value = null;
     }
 
     return {
-        isAuthenticated,
         currentGamer,
-        accessToken,
+        token,
         $reset,
         $login
     };
