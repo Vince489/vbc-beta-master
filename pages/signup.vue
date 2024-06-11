@@ -74,7 +74,7 @@ export default {
       // Perform signup logic if no errors
       if (!this.gamerTagError && !this.emailError && !this.passwordError) {
         try {
-          const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/signup', {
+          const response = await fetch('http://localhost:5550/api/v1/gamer/signup', {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
@@ -88,7 +88,7 @@ export default {
             }),
           });
           const data = await response.json();
-          console.log(data); // Log the response from the API
+          console.log('new gamer', data); // Log the response from the API
 
         // Check if the response contains errors
         if (data.errors && data.errors.length > 0) {
