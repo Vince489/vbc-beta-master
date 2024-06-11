@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isAuthenticated" class="container mx-auto py-6 px-4 px-md-4 px-lg-5 mt-2">
+  <div v-if="authStore.currentGamer" class="container mx-auto py-6 px-4 px-md-4 px-lg-5 mt-2">
     <form @submit.prevent="onSubmit" class="bg-gray-400 shadow-md rounded px-4 pt-6 pb-8 mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
       <!-- First Name and Last Name side by side -->
       <div class="col-span-2 md:col-span-1 flex">
@@ -175,7 +175,6 @@ import { ref, computed, watch } from 'vue';
 import { useAuthStore } from "~/stores/authStore.js";
 
 const authStore = useAuthStore();
-const isAuthenticated = computed(() => authStore.isAuthenticated);
 
 const fighter = ref({
   firstName: '',
@@ -244,24 +243,51 @@ const onSubmit = () => {
     ...fighter.value,
     firstName: fighter.value.firstName,
     lastName: fighter.value.lastName,
-    nickname: fighter.value.nickname || 'N/A', // default to 'N/A' if nickname is empty
-    stance: fighter.value.stance.charAt(0).toUpperCase() + fighter.value.stance.slice(1), // convert stance to title case
-    ovr: fighter.value.ovr || 0, // default to 0 if ovr is empty
+    nickname: fighter.value.nickname || 'N/A',
+    stance: fighter.value.stance.charAt(0).toUpperCase() + fighter.value.stance.slice(1),
+    ovr: fighter.value.ovr || 0,
     heightFt: Math.floor(fighter.value.heightValue / 12),
     heightIn: fighter.value.heightValue % 12,
     reach: parseInt(fighter.value.reach),
-    naturalWeightDivision: fighter.value.naturalWeightDivision.split(': ')[1] // split on ': ' and take the second part
+    naturalWeightDivision: fighter.value.naturalWeightDivision.split(': ')[1]
   };
-  console.log('data:', data);
+
+  // Log the request data to be sent
+  console.log('Request Data:', data);
+
+  // Log the request headers including the cookies
+  console.log('Request Headers:', {
+    'Content-Type': 'application/json',
+    // Include cookies in the request
+    'Cookie': document.cookie,
+  });
+
+  // Fetch request
   fetch('https://vbc-login-production.up.railway.app/api/v1/fighter/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      // No need to include 'Cookie' header here, as it's included above
     },
     body: JSON.stringify(data),
-    credentials: 'include' // This ensures that cookies are included in the request
+    credentials: 'include', // This ensures that cookies are included in the request
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Success:', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
   });
 };
+
+
+
 </script>
 
 <style scoped>

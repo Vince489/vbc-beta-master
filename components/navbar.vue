@@ -21,7 +21,7 @@
 
           <!-- Second nav -->
           <div class="hidden md:flex items-center space-x-3">
-            <template v-if="isAuthenticated">
+            <template v-if="authStore.currentGamer">
               <nuxt-link to="/dashboard" class="font-semibold py-1 px-3 text-gray-100">Dashboard</nuxt-link>
               <button @click="logout" class="text-gray-100">Logout</button>
             </template>
@@ -33,7 +33,7 @@
 
           <!-- mobile button -->
           <div id="menu-btn" class="text-gray-100 md:hidden flex items-center space-x-2">
-            <template v-if="!isAuthenticated">
+            <template v-if="!authStore.currentGamer">
               <nuxt-link to="/login" class="text-gray-100 font-semibold border border-gray-100 py-1 px-2 rounded-lg hover:bg-gray-100 hover:text-gray-900">Login</nuxt-link>
             </template>
             <!-- Always display the hamburger icon -->
@@ -160,7 +160,6 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
-const isAuthenticated = computed(() => authStore.isAuthenticated);
 const router = useRouter();
 
 let toggle_menu = ref(false);
