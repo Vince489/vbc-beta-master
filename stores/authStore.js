@@ -14,7 +14,7 @@ export const useAuthStore = defineStore("authStore", () => {
 
     async function $login(email, password) {
         try {
-            const response = await fetch('http://localhost:5550/api/v1/gamer/login', {
+            const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
