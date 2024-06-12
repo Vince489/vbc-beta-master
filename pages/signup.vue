@@ -74,7 +74,7 @@ export default {
       // Perform signup logic if no errors
       if (!this.gamerTagError && !this.emailError && !this.passwordError) {
         try {
-          const response = await fetch('http://localhost:5550/api/v1/gamer/signup', {
+          const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/signup', {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
