@@ -34,7 +34,7 @@ import { useRouter } from 'vue-router';
 import { useAuthStore } from "~/stores/authStore.js";
 
 const authStore = useAuthStore();
-const isAuthenticated = computed(() => authStore.isAuthenticated);
+const isAuthenticated = computed(() => authStore.currentGamer);
 
 
 const router = useRouter();
