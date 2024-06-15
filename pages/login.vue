@@ -43,7 +43,7 @@
           </div>
           <div class="flex justify-center mt-6">
             <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
-              <Icon name="ic:baseline-facebook" size="20px" class="mr-1 text-blue-400" />
+              <Icon name="ic:baseline-facebook" size="20px" class="mr-1 text-blue-500" />
               Facebook
             </button>
             <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
@@ -87,17 +87,32 @@ const handleLogin = async () => {
     // Perform login
     const response = await authStore.$login(email.value, password.value);
     // Check if the login attempt was successful
-    if (response?.user?.currentGamer) {
-      return navigateTo('/overview');
+    if (response && response.data) {
+      // Handle success, navigate to appropriate page
+      if (response.data.message === 'success') {  // Replace 'success' with actual success message
+        navigateTo('/overview');
+      } else {
+        // Handle other response messages if needed
+        generalError.value = 'Error: ' + response.data.message;
+      }
     }
   } catch (error) {
     // Handle login error
-    if (error.message === 'Invalid email') {
-      emailError.value = error.message;
-    } else if (error.message === 'Incorrect password') {
-      passwordError.value = error.message;
+    if (error.response) {
+      if (error.response.status === 400) {
+        // Bad Request - handle specific error messages from server
+        if (error.response.data.message === 'Invalid email entered') {
+          emailError.value = error.response.data.message;
+        } else if (error.response.data.message === 'Incorrect password') {
+          passwordError.value = error.response.data.message;
+        } else {
+          generalError.value = 'Error: ' + error.response.data.message;
+        }
+      } else {
+        generalError.value = 'Error: ' + error.message;
+      }
     } else {
-      generalError.value = 'Error logging in: ' + error.message;
+      generalError.value = 'Error: ' + error.message; 
     }
   }
 };
