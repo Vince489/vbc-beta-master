@@ -19,7 +19,7 @@
             <p class="text-gray-100 text-lg">
               Professional (NO HUD) Boxing.
             </p>
-            <button class="w-9/12 bg-slate-800 py-2 rounded-xl" @click="handleJoinNowClick" v-if="!isAuthenticated">
+            <button class="w-9/12 bg-[#0b7696] py-2 rounded-xl" @click="handleJoinNowClick" v-if="!isAuthenticated">
               Join Now!
             </button>
           </div>

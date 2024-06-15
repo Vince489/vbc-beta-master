@@ -8,7 +8,7 @@
             <!-- logo -->
             <div>
               <nuxt-link to="/" class="flex items-center py-3 px-3 text-gray-300">
-                <span class="text-3xl font-bold">VBC</span>
+                <img src="/img/logo21.png" alt="Logo" class="h-12"> <!-- Adjust class "h-12" as needed for logo size -->
               </nuxt-link>
             </div>
 
@@ -156,7 +156,7 @@
 
 <script setup>
 import { useAuthStore } from "~/stores/authStore.js";
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();

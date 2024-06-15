@@ -1,118 +1,171 @@
 <template>
-  <div class="p-2 flex justify-center items-center mt-20">
-    <div class="w-full max-w-sm">
-      <div>
-        <h1 class="pb-6 text-4xl">Signup</h1>
-      </div>
-      <form @submit.prevent="handleSubmit" class="bg-gray-400  shadow-md rounded px-8 pt-6 pb-8 mb-4">
+  <div class="flex justify-center items-center my-6 text-gray-200">
+    <div class="w-full max-w-md p-8 rounded">
+      <h1 class="text-4xl font-semi-bold text-center text-gray-200 mb-6">Sign Up</h1>
+      <form @submit.prevent="handleSignup">
         <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="gamerTag">
-            Gamertag
-          </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="gamerTag" type="text" placeholder="gamerTag" v-model="gamerTag">
-          <p class="text-red-500 text-xs italic">{{ gamerTagError }}</p> <!-- Display gamerTag error -->
+          <label for="gamerTag" class="block text-gray-300 text-sm font-bold mb-2">Gamer Tag</label>
+          <input
+            type="text"
+            id="gamerTag"
+            v-model="gamerTag"
+            placeholder="Enter your gamer tag"
+            class="bg-transparent shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          <p class="text-red-500 text-xs italic">{{ gamerTagError }}</p>
         </div>
         <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-            Email
-          </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" v-model="email">
-          <p class="text-red-500 text-xs italic">{{ emailError }}</p> <!-- Display email error -->
+          <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
+          <input
+            type="email"
+            id="email"
+            v-model="email"
+            placeholder="Enter your email"
+            class="bg-transparent shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          <p class="text-red-500 text-xs italic">{{ emailError }}</p>
         </div>
         <div class="mb-4">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-            Password
-          </label>
-          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" v-model="password">
-          <p class="text-red-500 text-xs italic">{{ passwordError }}</p> <!-- Display password error -->
+          <label for="password" class="block text-gray-300 text-sm font-bold mb-2">Password</label>
+          <input
+            type="password"
+            id="password"
+            v-model="password"
+            placeholder="Enter your password"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          <p class="text-red-500 text-xs italic">{{ passwordError }}</p>
         </div>
-        <div class="flex justify-center">
-          <button class="btn" type="submit">
+        <div class="mb-4">
+          <label for="verifyPassword" class="block text-gray-300 text-sm font-bold mb-2">Verify Password</label>
+          <input
+            type="password"
+            id="verifyPassword"
+            v-model="verifyPassword"
+            placeholder="Verify your password"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          <p class="pb-6 text-red-500 text-xs italic">{{ verifyPasswordError }}</p>
+        </div>
+        <div>
+          <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             Sign Up
           </button>
         </div>
-        <span v-if="apiError" class="text-red-500 text-xs italic">{{ apiError }}</span> <!-- Display API error -->
+        <p class="text-red-500 text-xs italic text-center mt-4">{{ generalError }}</p>
+
+        <div class="text-center mt-6">
+          <div class="flex items-center">
+            <div class="flex-grow border-t border-gray-300"></div>
+            <span class="px-3 text-gray-400 text-sm">Or Sign Up with</span>
+            <div class="flex-grow border-t border-gray-300"></div>
+          </div>
+          <div class="flex justify-center mt-6">
+            <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
+              <Icon name="ic:baseline-facebook" size="20px" class="mr-1 text-blue-500" />
+              Facebook
+            </button>
+            <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
+              <Icon name="mdi:google" size="20px" class="mr-1 text-blue-500" />
+              Google
+            </button>
+          </div>
+        </div>
+
+        <div class="text-center mt-6">
+          <p class="text-gray-400 text-sm">
+            Need a new One Time Pin?
+            <nuxt-link to="/#" class="text-blue-500 hover:underline">Request OTP</nuxt-link>
+          </p>
+        </div>
       </form>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      gamerTag: '',
-      email: '',
-      password: '',
-      gamerTagError: '',
-      emailError: '',
-      passwordError: '',
-      apiError: '', // Variable to store API error
-    };
-  },
-  methods: {
-    async handleSubmit() {
-      // Reset errors
-      this.gamerTagError = '';
-      this.emailError = '';
-      this.passwordError = '';
-      this.apiError = ''; // Reset API error
+<script setup>
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-      // Validation logic (you can replace this with your own validation)
-      if (!this.gamerTag) {
-        this.gamerTagError = 'gamerTag is required.';
-      }
+const router = useRouter();
 
-      if (!this.email) {
-        this.emailError = 'Email is required.';
-      }
+const email = ref('');
+const password = ref('');
+const verifyPassword = ref('');
+const gamerTag = ref('');
+const emailError = ref('');
+const passwordError = ref('');
+const verifyPasswordError = ref('');
+const gamerTagError = ref('');
+const generalError = ref('');
 
-      if (!this.password) {
-        this.passwordError = 'Password is required.';
-      }
+const handleSignup = async () => {
+  // Reset errors
+  emailError.value = '';
+  passwordError.value = '';
+  verifyPasswordError.value = '';
+  gamerTagError.value = '';
+  generalError.value = '';
 
-      // Perform signup logic if no errors
-      if (!this.gamerTagError && !this.emailError && !this.passwordError) {
-        try {
-          const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/signup', {
-            method: 'POST',
-            mode: 'cors',
-            credentials: 'include',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              gamerTag: this.gamerTag,
-              email: this.email,
-              password: this.password,
-            }),
-          });
-          const data = await response.json();
-          console.log('new gamer', data); // Log the response from the API
+  // Validation logic
+  if (!gamerTag.value) {
+    gamerTagError.value = 'Gamer tag is required.';
+  }
 
-        // Check if the response contains errors
-        if (data.errors && data.errors.length > 0) {
-            // Extract the error message
-            const errorMessage = data.errors[0].msg;
-            this.apiError = errorMessage; // Set the API error message
-        } else if (data.message === 'User already exists') {
-            // Handle the case where the user already exists
-            this.apiError = 'User already exists. Please use a different email or gamerTag.';
+  if (!email.value) {
+    emailError.value = 'Email is required.';
+  }
+
+  if (!password.value) {
+    passwordError.value = 'Password is required.';
+  }
+
+  if (password.value !== verifyPassword.value) {
+    verifyPasswordError.value = 'Passwords do not match.';
+  }
+
+  // Perform signup logic if no errors
+  if (!gamerTagError.value && !emailError.value && !passwordError.value && !verifyPasswordError.value) {
+    try {
+      const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/signup', {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          gamerTag: gamerTag.value,
+          email: email.value,
+          password: password.value,
+        }),
+      });
+
+      const data = await response.json();
+      console.log('new gamer', data); // Log the response from the API
+
+      if (response.ok) {
+        if (data.message === 'Gamer created successfully') {
+          // Redirect only if the signup was successful
+          router.push('/verify');
+        }
+      } else {
+        if (data.message === 'Gamer already exists') {
+          gamerTagError.value = 'User already exists. Please use a different gamer tag.';
+        } else if (data.errors && data.errors.length > 0) {
+          generalError.value = data.errors[0].msg; // Set the API error message
         } else {
-            // Optionally, redirect to another page upon successful signup
-            this.$router.push('/verify');
-        }
-
-        } catch (error) {
-          console.error('Error signing up:', error);
-          this.apiError = 'An error occurred while signing up. Please try again later.'; // Set a generic error message
+          generalError.value = 'An unexpected error occurred. Please try again later.';
         }
       }
-    },
-  },
+    } catch (error) {
+      console.error('Error signing up:', error);
+      generalError.value = 'An error occurred while signing up. Please try again later.'; // Set a generic error message
+    }
+  }
 };
 </script>
 
-<style scoped>
-/* Add your scoped styles here */
-</style>
+
+
+
