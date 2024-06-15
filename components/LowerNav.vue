@@ -6,8 +6,8 @@
     <nuxt-link to="/#search" class="text-white">
       <Icon name="mdi:magnify" size="24px" />
     </nuxt-link>
-    <nuxt-link to="/fight#" class="text-white">
-      <Icon name="mdi:plus-circle-outline" size="24px" />
+    <nuxt-link to="/#fight" class="text-white">
+      <Icon name="mdi:plus-circle-outline" size="30px" />
     </nuxt-link>
     <nuxt-link to="/#wallet" class="text-white">
       <Icon name="mdi:wallet-outline" size="24px" />
@@ -20,12 +20,8 @@
 
 <script setup>
 import { useAuthStore } from "~/stores/authStore.js";
-import { ref } from 'vue';
 
 const authStore = useAuthStore();
-
-
-
 </script>
 
 
