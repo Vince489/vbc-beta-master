@@ -1,97 +1,110 @@
+<template>
+  <div class="flex justify-center items-center my-6 text-gray-200">
+    <div class="w-full max-w-md p-8 rounded">
+      <h1 class="text-4xl font-semi-bold text-center text-gray-200 mb-6">Login</h1>
+      <form @submit.prevent="handleLogin">
+        <div class="mb-4">
+          <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email</label>
+          <input
+            type="email"
+            id="email"
+            v-model="email"
+            placeholder="Enter your email"
+            class="bg-transparent shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          <p class="text-red-500 text-xs italic">{{ emailError }}</p>
+        </div>
+        <div class="mb-4 relative">
+          <label for="password" class="block text-gray-300 text-sm font-bold mb-2">Password</label>
+          <input
+            :type="showPassword ? 'text' : 'password'"
+            id="password"
+            v-model="password"
+            placeholder="Enter your password"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          <span @click="togglePasswordVisibility" class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+            <Icon :name="showPassword ? 'material-symbols:visibility-off-outline' : 'material-symbols:visibility-outline'"  size="20px" class="text-gray-500" />
+          </span>
+          <p class="text-red-500 text-xs italic">{{ passwordError }}</p>
+          <div>
+            <nuxt-link to="#" class="py-2 block text-right align-baseline font-semi-bold text-sm text-blue-500 hover:text-blue-800">Forgot password?</nuxt-link>
+          </div>
+        </div>
+        <div>
+          <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Log In
+          </button>
+        </div>
+        <p class="text-red-500 text-xs italic text-center mt-4">{{ generalError }}</p>
+        <div class="text-center mt-6">
+          <div class="flex items-center">
+            <div class="flex-grow border-t border-gray-300"></div>
+            <span class="px-3 text-gray-400 text-sm">Or Log In with</span>
+            <div class="flex-grow border-t border-gray-300"></div>
+          </div>
+          <div class="flex justify-center mt-6">
+            <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
+              <Icon name="ic:baseline-facebook" size="20px" class="mr-1 text-blue-400" />
+              Facebook
+            </button>
+            <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
+              <Icon name="mdi:google" size="20px" class="mr-1 text-blue-500" />
+              Google
+            </button>
+          </div>
+        </div>
+        <div class="text-center mt-6">
+          <p class="text-gray-400 text-sm">
+            Don't have an account?
+            <nuxt-link to="/signup" class="text-blue-500 hover:underline">Sign up</nuxt-link>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
 <script setup>
-import { ref, computed } from 'vue'
-import { useAuthStore } from '~/stores/authStore'
+import { useAuthStore } from '~/stores/authStore.js';
+import { ref } from 'vue';
+import { navigateTo } from '#app';
 
 const authStore = useAuthStore();
 
-const fighter = ref({
-  firstName: '',
-  lastName: '',
-  nickname: '',
-  stance: '',
-  ovr: 78,
-  naturalWeightDivision: '',
-  reach: 50, // initial reach value
-  heightValue: 64, // initial height value  
-});
+const email = ref('');
+const password = ref('');
+const emailError = ref('');
+const passwordError = ref('');
+const generalError = ref('');
+const showPassword = ref(false);
 
-const minHeight = ref(64);
-const maxHeight = ref(80);
-const maxReach = ref(86);
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
+};
 
-// Weight division options
-const weightDivisions = [
-  { value: '100-112: Fly', label: 'Fly', range: '100-112' },
-  { value: '112-118: Bantam', label: 'Bantam', range: '112-118' },
-  { value: '118-126: Feather', label: 'Feather', range: '118-126' },
-  { value: '126-135: Light', label: 'Light', range: '126-135' },
-  { value: '135-147: Welter', label: 'Welter', range: '135-147' },
-  { value: '147-160: Middle', label: 'Middle', range: '147-160' },
-  { value: '160-175: Light Heavy', label: 'L Heavy', range: '160-175' },
-  { value: '200-260: Heavy', label: 'Heavy', range: '200-260' }
-];
+const handleLogin = async () => {
+  // Reset errors
+  emailError.value = '';
+  passwordError.value = '';
+  generalError.value = '';
 
-watch(fighter, (newVal) => {
-  // Update max reach and max height based on selected weight division
-  const division = weightDivisions.find(div => div.value === newVal.naturalWeightDivision);
-  if (division) {
-    const [minRange, maxRange] = division.range.split('-');
-    maxReach.value = Math.min(86, Number(maxRange) + 5);
-    maxHeight.value = Math.min(80, Number(maxRange) + 3); // Assuming average increase in height
-  }
-
-  // Reset reach if it exceeds the new maxReach
-  if (newVal.reach > maxReach.value) {
-    newVal.reach = maxReach.value;
-  }
-  // Reset height if it exceeds the new maxHeight
-  if (newVal.heightValue > maxHeight.value) {
-    newVal.heightValue = maxHeight.value;
-  }
-}, { deep: true });
-
-watch(() => fighter.value.heightValue, (newVal) => {
-  // Ensure heightValue stays within the allowed range
-  if (newVal < minHeight.value) {
-    fighter.value.heightValue = minHeight.value;
-  } else if (newVal > maxHeight.value) {
-    fighter.value.heightValue = maxHeight.value;
-  }
-});
-
-const feet = computed(() => Math.floor(fighter.value.heightValue / 12))
-const inches = computed(() => fighter.value.heightValue % 12)
-
-const registerFighter = async () => {
   try {
-    const response = await fetch('http://localhost:5550/api/v1/fighter/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authStore.token}`
-      },
-      body: JSON.stringify({
-        firstName: fighter.value.firstName,
-        lastName: fighter.value.lastName,
-        nickname: fighter.value.nickname,
-        stance: fighter.value.stance,
-        ovr: fighter.value.ovr,
-        heightFt: fighter.value.heightFt,
-        heightIn: fighter.value.heightIn,
-        reach: fighter.value.reach,
-        naturalWeightDivision: fighter.value.naturalWeightDivision
-      })
-    })
-
-    const data = await response.json()
-    
-    if (!response.ok) {
-      throw new Error(data.message || 'An error occurred while registering the fighter.')
+    // Perform login
+    const response = await authStore.$login(email.value, password.value);
+    // Check if the login attempt was successful
+    if (response?.user?.currentGamer) {
+      return navigateTo('/overview');
     }
-
-    console.log('Fighter registered successfully!')
   } catch (error) {
-    console.error('An error occurred:', error.message)
+    // Handle login error
+    if (error.message === 'Invalid email') {
+      emailError.value = error.message;
+    } else if (error.message === 'Incorrect password') {
+      passwordError.value = error.message;
+    } else {
+      generalError.value = 'Error logging in: ' + error.message;
+    }
   }
-}
+};
 </script>
