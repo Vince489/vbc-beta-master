@@ -71,13 +71,6 @@
             </button>
           </div>
         </div>
-
-        <div class="text-center mt-6">
-          <p class="text-gray-400 text-sm">
-            Need a new One Time Pin?
-            <nuxt-link to="/#" class="text-blue-500 hover:underline">Request OTP</nuxt-link>
-          </p>
-        </div>
       </form>
     </div>
   </div>

@@ -72,7 +72,7 @@ const handlePasswordReset = async () => {
   try {
     if (!showOTP.value) {
       // Send OTP
-      const response = await fetch('http://localhost:5550/api/v1/forgot_password', {
+      const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/forgot_password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const handlePasswordReset = async () => {
       }
     } else {
       // Reset Password
-      const response = await fetch('http://localhost:5550/api/v1/forgot_password/reset', {
+      const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/forgot_password/reset', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
