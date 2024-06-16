@@ -25,7 +25,7 @@
           />
           <p class="text-red-500 text-xs italic">{{ passwordError }}</p>
           <div>
-            <nuxt-link to="#" class="py-2 block text-right align-baseline font-semi-bold text-sm text-blue-500 hover:text-blue-800">Forgot password?</nuxt-link>
+            <nuxt-link to="/forgotPassword" class="py-2 block text-right align-baseline font-semi-bold text-sm text-blue-500 hover:text-blue-800">Forgot password?</nuxt-link>
           </div>
         </div>
         <div>
