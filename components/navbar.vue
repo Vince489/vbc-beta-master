@@ -86,12 +86,12 @@
               </div>
             </nuxt-link>
           </div>
-          <!-- Account link -->
+          <!-- About link -->
           <div class="flex text-gray-300 items-center">
-            <nuxt-link to="/#wallet" class="text-gray-300 flex-grow">
+            <nuxt-link to="/about" class="text-gray-300 flex-grow">
               <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
                 <Icon class="text-gray-400" size="20" name="uit:wallet" />
-                <span class="ml-2">Wallet</span>
+                <span class="ml-2">About</span>
               </div>
             </nuxt-link>
           </div>
