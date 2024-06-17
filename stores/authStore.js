@@ -27,7 +27,6 @@ export const useAuthStore = defineStore("authStore", () => {
             });
     
             const data = await response.json();
-            console.log('data:', data);
  
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while logging in.');
@@ -38,7 +37,6 @@ export const useAuthStore = defineStore("authStore", () => {
             
             // Store the token in the store
             token.value = data.token;
-            console.log('Token:', token.value)
             
             // Redirect to dashboard
             router.push('/overview');

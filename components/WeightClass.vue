@@ -9,7 +9,7 @@
         <select v-model="selectedWeightClass"
           class="border border-gray-300 rounded-md py-2 px-4 appearance-none w-full md:w-auto">
           <!-- Options -->
-          <option value="">Weight Class</option>
+          <option value="">Weight Classes</option>
           <option value="Super Featherweight">Super Featherweight (126-130 lbs)</option>
           <option value="Lightweight">Lightweight (130–135 lbs)</option>
           <option value="Super Lightweight">Super Lightweight (135–140 lbs)</option>
