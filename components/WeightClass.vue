@@ -77,7 +77,7 @@ export default {
   methods: {
     async fetchFighters() {
       try {
-        const response = await fetch('https://virtron-production.up.railway.app/fighters')
+        const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/fighter')
         const data = await response.json()
         this.fighters = data
       } catch (error) {
