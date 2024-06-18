@@ -10,8 +10,7 @@
         <div class="pb-3 upper-fold pt-4 grid grid-cols-2">
           <div class="">
             <Avatar class="w-20 h-20">
-              <AvatarImage src="img/chieffa.png" alt="fight" />
-              <AvatarFallback>CH</AvatarFallback>
+              <AvatarImage :src="gamer.image" alt="fight" />       <AvatarFallback class="text-4xl">{{ firstLetterOfGamerTag }}</AvatarFallback>
             </Avatar>
             <p class="pt-1 text-sm text-cyan-600 font-semibold font-mono tracking-wide">@{{ gamer.gamerTag }}</p>
           </div>
@@ -34,7 +33,9 @@ import { useAuthStore } from '@/stores/authStore';
 // Fetch user data from the auth store
 const authStore = useAuthStore();
 const gamer = authStore.currentGamer;
-import { onMounted, ref } from 'vue';
 
+//  Get the first letter of the gamerTag
+const firstLetterOfGamerTag = gamer && gamer.gamerTag ? gamer.gamerTag.charAt(0).toUpperCase() : '';
 
+const firstThreeLettersOfGamerTag = gamer && gamer.gamerTag ? gamer.gamerTag.substring(0, 3).toUpperCase() : '';
 </script>

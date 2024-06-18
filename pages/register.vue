@@ -38,6 +38,7 @@
             </FormField>
           </div>
         </div>
+
         <!-- Stance Radio Button Group -->
         <div class="col-span-2 mb-4">
           <FormField v-slot="{ field }" name="stance" class="mb-4">
@@ -76,7 +77,6 @@
               </FormItem>
             </FormField>
           </div>
-
         
         <!-- Natural Weight division -->
         <div class="mb-4">
@@ -124,22 +124,40 @@
           </FormField>
         </div>
 
-          <!-- Reach Slider -->
-          <div class="col-span-2 mb-4">
-            <FormField v-slot="{ field }" name="reach" class="mb-4">
-              <FormItem>
-                <FormLabel class="block text-white text-sm font-bold">Reach</FormLabel>
-                <FormControl>
-                  <input type="range" v-model="reach" :max="maxReach" min="61" class="semibold w-full">
-                  <div class="font-semibold text-white text-sm mt-2">
-                    <span>Reach value: {{ reach }}</span>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-          </div>      
-        
+        <!-- Current Weight Class -->
+        <div class="col-span-2 mb-4">
+          <FormField v-slot="{ field }" name="currentWeightClass" class="mb-4">
+            <FormItem>
+              <FormLabel class="block text-white text-sm font-bold">Current Weight Class</FormLabel>
+              <FormControl>
+                <select v-model="selectedWeightClass" class="rounded-sm p-1 bg-slate-500 w- max-w-md">
+                  <option v-for="weightClass in weightClasses" :key="weightClass.value" :value="weightClass.value">
+                    {{ weightClass.label }}
+                  </option>
+                </select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+        </div>   
+
+        <!-- Reach Slider -->
+        <div class="col-span-2 mb-4">
+          <FormField v-slot="{ field }" name="reach" class="mb-4">
+            <FormItem>
+              <FormLabel class="block text-white text-sm font-bold">Reach</FormLabel>
+              <FormControl>
+                <input type="range" v-model="reach" :max="maxReach" min="61" class="semibold w-full">
+                <div class="font-semibold text-white text-sm mt-2">
+                  <span>Reach value: {{ reach }}</span>
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+        </div>
+
+                 
           <!-- Height Slider -->
           <div class="col-span-2 mb-4">
             <FormField v-slot="{ field }" name="height" class="mb-4">
@@ -165,21 +183,21 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { useAuthStore } from '~/stores/authStore'
+import { ref, computed, watch } from 'vue';
+import { useAuthStore } from '~/stores/authStore';
 
-const firstName = ref('')
-const lastName = ref('')
-const nickname = ref('')
-const stance = ref('')
-const ovr = ref(78)
-const height = ref(64)
-const reach = ref(61)
-const naturalWeightDivision = ref('')
-const errorMessage = ref('')
-const successMessage = ref('')
+const firstName = ref('');
+const lastName = ref('');
+const nickname = ref('');
+const stance = ref('');
+const ovr = ref(78);
+const height = ref(64);
+const reach = ref(61);
+const naturalWeightDivision = ref('');
+const errorMessage = ref('');
+const successMessage = ref('');
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
 const minHeight = ref(64);
 const maxHeight = ref(80);
@@ -197,27 +215,43 @@ const weightDivisions = [
   { value: '200-260: Heavy', label: 'Heavy', range: '200-260' }
 ];
 
+const selectedWeightClass = ref('Flyweight');
+const weightClasses = [
+  { value: 'Flyweight', label: 'Flyweight (108-112 lbs)' },
+  { value: 'Super Flyweight', label: 'Super Flyweight (112-115 lbs)' },
+  { value: 'Bantamweight', label: 'Bantamweight (115-118 lbs)' },
+  { value: 'Super Bantamweight', label: 'Super Bantamweight (118-122 lbs)' },
+  { value: 'Featherweight', label: 'Featherweight (122-126 lbs)' },
+  { value: 'Super Featherweight', label: 'Super Featherweight (126-130 lbs)' },
+  { value: 'Lightweight', label: 'Lightweight (130–135 lbs)' },
+  { value: 'Super Lightweight', label: 'Super Lightweight (135–140 lbs)' },
+  { value: 'Welterweight', label: 'Welterweight (140–147 lbs)' },
+  { value: 'Super Welterweight', label: 'Super Welterweight (147–154 lbs)' },
+  { value: 'Middleweight', label: 'Middleweight (154–160 lbs)' },
+  { value: 'Super Middleweight', label: 'Super Middleweight (160–168 lbs)' },
+  { value: 'Light Heavyweight', label: 'Light Heavyweight (168–175 lbs)' },
+  { value: 'Cruiserweight', label: 'Cruiserweight (175–200 lbs)' },
+  { value: 'Heavyweight', label: 'Heavyweight (200+ lbs)' }
+];
+
 // Overall Levels
 const overallLevels = computed(() => Array.from({ length: 91 - 78 + 1 }, (_, i) => 78 + i));
 
 watch(naturalWeightDivision, (newVal) => {
-  // Update max reach and max height based on selected weight division
-  const division = weightDivisions.find(div => div.value === newVal);
+  // Update max reach based on selected weight division
+  const division = weightClasses.find(div => div.value === newVal);
   if (division) {
-    const [minRange, maxRange] = division.range.split('-').map(Number);
-    maxReach.value = Math.min(86, maxRange + 5);
-    maxHeight.value = Math.min(80, maxRange + 3); // Assuming average increase in height
+    const [minWeight, maxWeight] = division.label.match(/\d+/g).map(Number);
+    // Calculate suggested max reach based on human anatomy
+    maxReach.value = Math.min(86, maxWeight + 3); // Adjusted based on human anatomy
   }
 
   // Reset reach if it exceeds the new maxReach
   if (reach.value > maxReach.value) {
     reach.value = maxReach.value;
   }
-  // Reset height if it exceeds the new maxHeight
-  if (height.value > maxHeight.value) {
-    height.value = maxHeight.value;
-  }
 }, { deep: true });
+
 
 const feet = computed(() => Math.floor(height.value / 12));
 const inches = computed(() => height.value % 12);
@@ -241,19 +275,19 @@ const registerFighter = async () => {
         reach: reach.value,
         naturalWeightDivision: naturalWeightDivision.value
       })
-    })
+    });
 
-    const data = await response.json()
-    
+    const data = await response.json();
+
     if (!response.ok) {
-      throw new Error(data.message || 'An error occurred while registering the fighter.')
+      throw new Error(data.message || 'An error occurred while registering the fighter.');
     }
 
-    successMessage.value = 'Fighter registered successfully!'
-    errorMessage.value = ''
+    successMessage.value = 'Fighter registered successfully!';
+    errorMessage.value = '';
   } catch (error) {
-    errorMessage.value = error.message
-    successMessage.value = ''
+    errorMessage.value = error.message;
+    successMessage.value = '';
   }
-}
+};
 </script>
