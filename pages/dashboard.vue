@@ -7,7 +7,7 @@
       </template>
       <!-- Once gamerData is available, display gamer's information -->
       <template v-else>
-
+ 
   <!-- Display the news feed -->
         <div>
           <div class="bg-gray-500 shadow-md rounded-md p-4 mb-4" v-for="post in newsFeed" :key="post.id">

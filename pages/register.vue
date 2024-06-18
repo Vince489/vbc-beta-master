@@ -273,7 +273,8 @@ const registerFighter = async () => {
         heightFt: feet.value,
         heightIn: inches.value,
         reach: reach.value,
-        naturalWeightDivision: naturalWeightDivision.value
+        naturalWeightDivision: naturalWeightDivision.value,
+        weightClass: selectedWeightClass.value
       })
     });
 
