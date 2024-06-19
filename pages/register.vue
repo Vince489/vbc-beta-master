@@ -211,8 +211,8 @@ const weightDivisions = [
   { value: '126-135: Light', label: 'Light', range: '126-135', maxReach: 72 },
   { value: '135-147: Welter', label: 'Welter', range: '135-147', maxReach: 74 },
   { value: '147-160: Middle', label: 'Middle', range: '147-160', maxReach: 76 },
-  { value: '160-175: Light Heavy', label: 'L Heavy', range: '160-175', maxReach: 82 },
-  { value: '200-260: Heavy', label: 'Heavy', range: '200-260', maxReach: 86 }
+  { value: '160-175: L Heavy', label: 'L Heavy', range: '160-175', maxReach: 82 },
+  { value: '200-260: Heavy', label: 'Heavy', range: '200-260', maxReach: 86}
 ];
 
 const selectedWeightClass = ref('Flyweight');
