@@ -10,6 +10,10 @@
           class="border border-gray-300 rounded-md py-2 px-4 appearance-none w-full md:w-auto">
           <!-- Options -->
           <option value="">Weight Classes</option>
+          <option value="Flyweight">Flyweight (100-112 lbs)</option>
+          <option value="bantamweight">Bantamweight (112-118 lbs)</option>
+          <option value="Super Bantamweight">Super Bantamweight (118-122 lbs)</option>
+          <option value="Featherweight">Featherweight (122-126 lbs)</option>
           <option value="Super Featherweight">Super Featherweight (126-130 lbs)</option>
           <option value="Lightweight">Lightweight (130–135 lbs)</option>
           <option value="Super Lightweight">Super Lightweight (135–140 lbs)</option>
