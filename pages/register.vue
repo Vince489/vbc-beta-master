@@ -205,14 +205,14 @@ const maxReach = ref(86);
 
 // Weight division options
 const weightDivisions = [
-  { value: '100-112: Fly', label: 'Fly', range: '100-112' },
-  { value: '112-118: Bantam', label: 'Bantam', range: '112-118' },
-  { value: '118-126: Feather', label: 'Feather', range: '118-126' },
-  { value: '126-135: Light', label: 'Light', range: '126-135' },
-  { value: '135-147: Welter', label: 'Welter', range: '135-147' },
-  { value: '147-160: Middle', label: 'Middle', range: '147-160' },
-  { value: '160-175: Light Heavy', label: 'L Heavy', range: '160-175' },
-  { value: '200-260: Heavy', label: 'Heavy', range: '200-260' }
+  { value: '100-112: Fly', label: 'Fly', range: '100-112', maxReach: 66 },
+  { value: '112-118: Bantam', label: 'Bantam', range: '112-118', maxReach: 68 },
+  { value: '118-126: Feather', label: 'Feather', range: '118-126', maxReach: 70 },
+  { value: '126-135: Light', label: 'Light', range: '126-135', maxReach: 72 },
+  { value: '135-147: Welter', label: 'Welter', range: '135-147', maxReach: 74 },
+  { value: '147-160: Middle', label: 'Middle', range: '147-160', maxReach: 76 },
+  { value: '160-175: L Heavy', label: 'L Heavy', range: '160-175', maxReach: 82 },
+  { value: '200-260: Heavy', label: 'Heavy', range: '200-260', maxReach: 86}
 ];
 
 const selectedWeightClass = ref('Flyweight');
@@ -239,11 +239,9 @@ const overallLevels = computed(() => Array.from({ length: 91 - 78 + 1 }, (_, i) 
 
 watch(naturalWeightDivision, (newVal) => {
   // Update max reach based on selected weight division
-  const division = weightClasses.find(div => div.value === newVal);
+  const division = weightDivisions.find(div => div.value.split(': ')[1] === newVal);
   if (division) {
-    const [minWeight, maxWeight] = division.label.match(/\d+/g).map(Number);
-    // Calculate suggested max reach based on human anatomy
-    maxReach.value = Math.min(86, maxWeight + 3); // Adjusted based on human anatomy
+    maxReach.value = division.maxReach;
   }
 
   // Reset reach if it exceeds the new maxReach
@@ -251,7 +249,6 @@ watch(naturalWeightDivision, (newVal) => {
     reach.value = maxReach.value;
   }
 }, { deep: true });
-
 
 const feet = computed(() => Math.floor(height.value / 12));
 const inches = computed(() => height.value % 12);
@@ -273,7 +270,8 @@ const registerFighter = async () => {
         heightFt: feet.value,
         heightIn: inches.value,
         reach: reach.value,
-        naturalWeightDivision: naturalWeightDivision.value
+        naturalWeightDivision: naturalWeightDivision.value,
+        weightClass: selectedWeightClass.value
       })
     });
 
@@ -291,3 +289,5 @@ const registerFighter = async () => {
   }
 };
 </script>
+
+

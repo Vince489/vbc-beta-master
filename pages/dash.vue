@@ -23,13 +23,13 @@
 
         </div>
       </template>
+      {{ gamer }}
     </div>
   </div>
 </template>
 
 <script setup>
 import { useAuthStore } from '@/stores/authStore'; 
-import Fighters from '@/components/Fighters.vue'
 
 // Fetch user data from the auth store
 const authStore = useAuthStore();
@@ -38,5 +38,4 @@ const gamer = authStore.currentGamer;
 //  Get the first letter of the gamerTag
 const firstLetterOfGamerTag = gamer && gamer.gamerTag ? gamer.gamerTag.charAt(0).toUpperCase() : '';
 
-const firstThreeLettersOfGamerTag = gamer && gamer.gamerTag ? gamer.gamerTag.substring(0, 3).toUpperCase() : '';
 </script>

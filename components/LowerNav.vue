@@ -3,7 +3,7 @@
     <nuxt-link to="/" class="text-white">
       <Icon name="mdi:home-outline" size="24px" />
     </nuxt-link>
-    <nuxt-link to="/#search" class="text-white">
+    <nuxt-link to="/fighters" class="text-white">
       <Icon name="mdi:magnify" size="24px" />
     </nuxt-link>
     <nuxt-link to="/#fight" class="text-white">
