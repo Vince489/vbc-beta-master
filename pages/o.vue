@@ -10,7 +10,7 @@
         <div class="pb-3 upper-fold pt-4 grid grid-cols-2">
           <div>
             <Avatar class="w-20 h-20">
-              <AvatarImage :src="gamer.image" alt="fight" />
+              <AvatarImage :src="gamer.image" alt="fight" />       
               <AvatarFallback class="text-4xl">{{ firstLetterOfGamerTag }}</AvatarFallback>
             </Avatar>
             <p class="pt-1 text-sm text-cyan-600 font-semibold font-mono tracking-wide">@{{ gamer.gamerTag }}</p>
@@ -23,19 +23,20 @@
           </div>
         </div>
 
-        <!-- Fighter Cards Section -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        <!-- Display fighter cards -->
+        <div class="grid grid-cols-1 gap-4 mt-4">
           <template v-for="fighter in gamer.fighters" :key="fighter._id">
-            <div class="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer" @click="goToFighterPage(fighter._id)">
-              <div class="relative">
-                <img :src="fighter.image" alt="Fighter Image" class="w-full h-32 object-cover">
-              </div>
-              <div class="p-4">
-                <h3 class="text-lg font-semibold text-gray-800">{{ fighter.firstName }} {{ fighter.lastName }}</h3>
-                <p class="text-gray-600">Nickname: {{ fighter.nickname }}</p>
-                <p class="text-gray-600">Wins: {{ fighter.wins }}</p>
-                <p class="text-gray-600">Losses: {{ fighter.losses }}</p>
-              </div>
+            <div class="border p-4 rounded shadow hover:bg-gray-100">
+              <nuxt-link :to="`/fighters/${fighter._id}`" class="flex items-center space-x-4">
+                <div class="flex-shrink-0">
+                  <img :src="fighter.image || defaultFighterImage" alt="fighter" class="w-12 h-12 rounded-full" />
+                </div>
+                <div>
+                  <p class="text-lg font-semibold">{{ fighter.gamerTag }}</p>
+                  <p class="text-sm text-gray-400">{{ fighter.weightClass }}</p>
+                  <p class="text-sm text-gray-400">({{ fighter.wins }}-{{ fighter.losses }}-{{ fighter.draws }})</p>
+                </div>
+              </nuxt-link>
             </div>
           </template>
         </div>
@@ -45,28 +46,19 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/authStore';
-
+import { useAuthStore } from '@/stores/authStore'; 
+import { ref } from 'vue';
 
 // Fetch user data from the auth store
 const authStore = useAuthStore();
 const gamer = authStore.currentGamer;
 
-// Get the first letter of the gamerTag
-const firstLetterOfGamerTag = computed(() => {
-  return gamer && gamer.gamerTag ? gamer.gamerTag.charAt(0).toUpperCase() : '';
-});
+//  Get the first letter of the gamerTag
+const firstLetterOfGamerTag = gamer && gamer.gamerTag ? gamer.gamerTag.charAt(0).toUpperCase() : '';
 
-const router = useRouter();
-const goToFighterPage = (fighterId) => {
-  router.push({ path: `/fighter/${fighterId}` });
-};
+// Default fighter image
+const defaultFighterImage = '/path/to/default-fighter-image.jpg'; // Replace with your default image path
+
 </script>
 
-<style scoped>
-.upper-fold {
-  border-bottom: 1px solid #e5e7eb;
-}
-</style>
+
