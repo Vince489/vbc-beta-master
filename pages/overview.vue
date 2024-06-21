@@ -32,7 +32,7 @@
                   <img :src="fighter.image || defaultFighterImage" alt="fighter" class="w-12 h-12 rounded-full" />
                 </div>
                 <div>
-                  <p class="text-lg font-semibold">{{ fighter.gamerTag }}</p>
+                  <p class="text-lg font-semibold">{{ fighter.firstName }} {{ fighter.lastName }}</p>
                   <p class="text-sm text-gray-400">{{ fighter.weightClass }}</p>
                   <p class="text-sm text-gray-400">({{ fighter.wins }}-{{ fighter.losses }}-{{ fighter.draws }})</p>
                 </div>
