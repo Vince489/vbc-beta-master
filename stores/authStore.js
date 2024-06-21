@@ -27,6 +27,7 @@ export const useAuthStore = defineStore("authStore", () => {
             });
     
             const data = await response.json();
+            console.log('Gamer:', data);
  
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while logging in.');
@@ -62,6 +63,12 @@ export const useAuthStore = defineStore("authStore", () => {
     };
 }, {
     persist: {
-        // Persist state configuration
-    }
-});
+        enabled: process.client, // enable persistence only on the client side
+        strategies: [
+          {
+            key: 'authStore',
+            storage: process.client ? localStorage : null, // use localStorage only on the client side
+          },
+        ],
+      },
+    });
