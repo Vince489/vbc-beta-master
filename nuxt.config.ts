@@ -7,7 +7,13 @@ export default defineNuxtConfig({
     '@pinia-plugin-persistedstate/nuxt',
     'nuxt-icon',
     "shadcn-nuxt"
-  ], 
+  ],
+  piniaPersistedstate: {
+    cookieOptions: {
+      sameSite: 'strict',
+    },
+    storage: 'localStorage'
+  },
   app: {
     head: {
       title: 'VBC',
