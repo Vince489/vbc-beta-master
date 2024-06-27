@@ -20,12 +20,12 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'VBC',
+      title: 'Virtron Boxing Club',
       meta: [
         { charset: 'utf-8' },
         { name: 'theme-color', content: '#374151' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
-        { name: 'description', content: 'Main hub of the VBC platform.' },
+        { name: 'description', content: 'Main hub of the VBC gaming platform.' },
       ],
     },
   },
