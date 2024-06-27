@@ -43,13 +43,14 @@
           </div>
           <div class="flex justify-center mt-6">
             <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
-              <Icon name="ic:baseline-facebook" size="20px" class="mr-1 text-blue-500" />
+              <Icon name="ic:baseline-facebook" size="22px" class="mr-1 text-blue-500" />
               Facebook
             </button>
             <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
-              <Icon name="mdi:google" size="20px" class="mr-1 text-blue-500" />
+              <img src="./../public/img/google.png" alt="Google" class="mr-1 h-4 w-4" />
               Google
             </button>
+
           </div>
         </div>
 

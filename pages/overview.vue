@@ -44,7 +44,7 @@
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem @click="editFighter(fighter._id)">Edit Fighter</DropdownMenuItem>
-                    <DropdownMenuItem @click="deleteFighter(fighter._id)">Delete Fighter</DropdownMenuItem>
+                    <DropdownMenuItem @click="retireFighter(fighter._id)">Retire Fighter</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
@@ -73,8 +73,8 @@ function editFighter(fighterId) {
   // Logic for editing the fighter
 }
 
-function deleteFighter(fighterId) {
-  // Logic for deleting the fighter
+function retireFighter(fighterId) {
+  // Logic for retiring the fighter
 }
 </script>
 
