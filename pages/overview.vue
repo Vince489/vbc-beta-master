@@ -26,7 +26,7 @@
         <!-- Display fighter cards -->
         <div class="grid grid-cols-1 gap-4 mt-4">
           <template v-for="fighter in gamer.fighters" :key="fighter._id">
-            <div class="border p-4 rounded shadow hover:bg-gray-100">
+            <Card class="border p-4 rounded shadow hover:bg-gray-600 relative">
               <nuxt-link :to="`/fighters/${fighter._id}`" class="flex items-center space-x-4">
                 <div class="flex-shrink-0">
                   <img :src="fighter.image || defaultFighterImage" alt="fighter" class="w-12 h-12 rounded-full" />
@@ -37,7 +37,18 @@
                   <p class="text-sm text-gray-400">({{ fighter.wins }}-{{ fighter.losses }}-{{ fighter.draws }})</p>
                 </div>
               </nuxt-link>
-            </div>
+              <div class="absolute top-0 right-0">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button class="dots-button">•••</Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem @click="editFighter(fighter._id)">Edit Fighter</DropdownMenuItem>
+                    <DropdownMenuItem @click="deleteFighter(fighter._id)">Delete Fighter</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </Card>
           </template>
         </div>
       </template>
@@ -58,6 +69,22 @@ const firstLetterOfGamerTag = gamer && gamer.gamerTag ? gamer.gamerTag.charAt(0)
 // Default fighter image
 const defaultFighterImage = '/path/to/default-fighter-image.jpg'; // Replace with your default image path
 
+function editFighter(fighterId) {
+  // Logic for editing the fighter
+}
+
+function deleteFighter(fighterId) {
+  // Logic for deleting the fighter
+}
 </script>
 
-
+<style scoped>
+.dots-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0.25rem;
+}
+</style>
