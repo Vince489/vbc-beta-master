@@ -47,7 +47,6 @@
 
 <script setup>
 import { useAuthStore } from '@/stores/authStore'; 
-import { ref } from 'vue';
 
 // Fetch user data from the auth store
 const authStore = useAuthStore();
