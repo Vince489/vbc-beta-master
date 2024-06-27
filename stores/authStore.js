@@ -76,6 +76,30 @@ export const useAuthStore = defineStore('authStore', () => {
         }
     }
 
+    async function deleteFighter(fighterId) {
+        try {
+          const response = await fetch(`https://vbc-login-production.up.railway.app/api/v1/fighters/delete${fighterId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              // Assuming you have a function or a way to get your auth token
+              'Authorization': `Bearer ${token.value}`
+            }
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to delete the fighter');
+          }
+      
+          // Handle successful deletion
+          console.log('Fighter deleted successfully');
+          // Optionally, refresh the list of fighters or navigate away
+        } catch (error) {
+          console.error('Error deleting fighter:', error);
+          // Handle error (e.g., show an error message to the user)
+        }
+      }    
+
     async function registerFighter(newFighterData) {
         try {
             const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/fighter/register', {
