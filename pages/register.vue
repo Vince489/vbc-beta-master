@@ -237,6 +237,7 @@ const weightClasses = [
 // Overall Levels
 const overallLevels = computed(() => Array.from({ length: 91 - 78 + 1 }, (_, i) => 78 + i));
 
+// Watcher for natural weight division
 watch(naturalWeightDivision, (newVal) => {
   // Update max reach based on selected weight division
   const division = weightDivisions.find(div => div.value.split(': ')[1] === newVal);
@@ -250,44 +251,41 @@ watch(naturalWeightDivision, (newVal) => {
   }
 }, { deep: true });
 
+// Computed properties for feet and inches
 const feet = computed(() => Math.floor(height.value / 12));
 const inches = computed(() => height.value % 12);
 
+// Function to register a fighter
 const registerFighter = async () => {
+  const newFighterData = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    nickname: nickname.value,
+    stance: stance.value,
+    ovr: ovr.value,
+    heightFt: feet.value,
+    heightIn: inches.value,
+    reach: reach.value,
+    naturalWeightDivision: naturalWeightDivision.value,
+    weightClass: selectedWeightClass.value
+  };
+
   try {
-    const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/fighter/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authStore.token}`
-      },
-      body: JSON.stringify({
-        firstName: firstName.value,
-        lastName: lastName.value,
-        nickname: nickname.value,
-        stance: stance.value,
-        ovr: ovr.value,
-        heightFt: feet.value,
-        heightIn: inches.value,
-        reach: reach.value,
-        naturalWeightDivision: naturalWeightDivision.value,
-        weightClass: selectedWeightClass.value
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'An error occurred while registering the fighter.');
+    const success = await authStore.registerFighter(newFighterData);
+    if (success) {
+      successMessage.value = 'Fighter registered successfully!';
+      errorMessage.value = '';
+    } else {
+      errorMessage.value = 'An error occurred while registering the fighter.';
+      successMessage.value = '';
     }
-
-    successMessage.value = 'Fighter registered successfully!';
-    errorMessage.value = '';
   } catch (error) {
     errorMessage.value = error.message;
     successMessage.value = '';
   }
 };
+
 </script>
+
 
 

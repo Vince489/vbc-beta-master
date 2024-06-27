@@ -11,7 +11,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
     function setAuthenticated(gamerData) {
         currentGamer.value = gamerData;
-        router.push('/overview');
+        fighters.value = gamerData.fighters || [];
     }
 
     async function $login(email, password) {
@@ -27,20 +27,20 @@ export const useAuthStore = defineStore('authStore', () => {
                 }),
                 credentials: 'include' // This includes cookies in the request
             });
-    
+
             const data = await response.json();
- 
+
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while logging in.');
             }
-        
+
             // Set gamer data and authentication status
             setAuthenticated(data.gamer);
-            
+
             // Store the token in the store
             token.value = data.token;
-            
-            // Redirect to dashboard
+
+            // Redirect to overview
             router.push('/overview');
 
             return true;
@@ -48,7 +48,33 @@ export const useAuthStore = defineStore('authStore', () => {
             console.error('Login error:', error.message);
             return false;
         }
-    }    
+    }
+
+    async function fetchGamerData() {
+        try {
+            const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/me', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token.value}`,
+                },
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'An error occurred while fetching gamer data.');
+            }
+
+            // Set gamer data and update fighters
+            setAuthenticated(data.gamer);
+
+            return true;
+        } catch (error) {
+            console.error('Fetch gamer data error:', error.message);
+            return false;
+        }
+    }
 
     async function registerFighter(newFighterData) {
         try {
@@ -60,22 +86,26 @@ export const useAuthStore = defineStore('authStore', () => {
                 },
                 body: JSON.stringify(newFighterData),
             });
-    
+
             const data = await response.json();
- 
+
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while registering the fighter.');
             }
-        
+
             // Update local store with the new fighter
             fighters.value.push(data.fighter);
+            currentGamer.value.fighters = fighters.value;
+
+            // Redirect to overview
+            router.push('/overview');
 
             return true;
         } catch (error) {
             console.error('Registration error:', error.message);
             return false;
         }
-    }    
+    }
 
     // reset current store
     function $reset() {
@@ -84,13 +114,22 @@ export const useAuthStore = defineStore('authStore', () => {
         fighters.value = []; // Clear fighters array on reset
     }
 
+    // Fetch gamer data when the store is initialized
+    async function initializeStore() {
+        if (token.value) {
+            await fetchGamerData();
+        }
+    }
+
     return {
         currentGamer,
         token,
         fighters,
         $reset,
         $login,
+        fetchGamerData,
         registerFighter,
+        initializeStore,
     };
 }, {
     persist: {
