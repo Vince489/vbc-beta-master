@@ -15,6 +15,11 @@
             <!-- primary nav-->
             <div class="hidden md:flex items-center space-x-3">
               <nuxt-link to="/fighters" class="font-semibold py-3 px-3 text-lg text-gray-100">FytRec</nuxt-link>
+              <nuxt-link to="#" class="font-semibold py-3 px-3 text-lg text-gray-100">Promoters</nuxt-link>
+              <nuxt-link to="/eac" class="font-semibold py-3 px-3 text-lg text-gray-100">EAC</nuxt-link>
+              <nuxt-link to="#" class="font-semibold py-3 px-3 text-lg text-gray-100">Events</nuxt-link>
+              <nuxt-link to="#" class="font-semibold py-3 px-3 text-lg text-gray-100">Leaderboard</nuxt-link>
+              <nuxt-link to="#" class="font-semibold py-3 px-3 text-lg text-gray-100">Fight Hype</nuxt-link>
               <nuxt-link to="/about" class="font-semibold py-3 px-3 text-lg text-gray-100">About</nuxt-link>
             </div>
           </div>

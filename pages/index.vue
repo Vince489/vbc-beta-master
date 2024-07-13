@@ -47,7 +47,7 @@
   <section>
 
     <div class="flex justify-center pt-10 pb-10">
-      <h1 class="text-4xl font-semibold">RANKINGS</h1>
+      <h1 class="text-4xl font-semibold">Top 10</h1>
     </div>
 
     <div>
