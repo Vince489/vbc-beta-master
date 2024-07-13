@@ -144,7 +144,7 @@ const handleSignup = async () => {
         }
       } else {
         if (data.message === 'Gamer already exists') {
-          gamerTagError.value = 'User already exists. Please use a different gamer tag.';
+          gamerTagError.value = 'Gamer already exists. Please use a different gamer tag.';
         } else if (data.errors && data.errors.length > 0) {
           generalError.value = data.errors[0].msg; // Set the API error message
         } else {

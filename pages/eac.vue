@@ -1,7 +1,7 @@
 <template>
   <div class="py-16">
-    <div class="container mx-auto px-4 max-w-5xl">
-      <h1 class="text-4xl font-bold mb-8 text-center">EAC</h1>
+    <div class="container mx-auto px-10 max-w-5xl">
+      <h1 class="text-4xl font-bold mb-8 text-center">Esports Athletic Commission</h1>
 
       <div class="mb-12">
         <h2 class="text-3xl font-bold mb-6">Overview</h2>
@@ -11,7 +11,21 @@
       </div>
 
       <div class="mb-12">
-        <h2 class="text-3xl font-bold mb-6">Purpose</h2>
+        <h2 class="text-2xl font-bold mb-6">Our Vision</h2>
+        <p class="mb-8">
+          To be the leading regulatory authority in esports combat sports, fostering a safe, fair, and inclusive environment where athletes can achieve their full potential and fans can enjoy the highest quality of competition.
+        </p>
+      </div>
+
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6">Our Mission</h2>
+        <p>
+          To uphold the integrity of combat esports by enforcing fair competition, protecting participant welfare, promoting ethical conduct, and enhancing the overall experience for athletes and fans alike.
+        </p>
+      </div>      
+
+      <div class="mb-12">
+        <h2 class="text-2xl font-bold mb-6">Purpose</h2>
         <ul class="list-disc list-inside mb-8">
           <li class="mb-4"><strong>Ensure Fair Competition:</strong> The EAC is committed to maintaining a level playing field for all participants by enforcing strict regulations and standards. This includes monitoring gameplay to prevent cheating, managing fair matchmaking, and ensuring that all competitions are conducted with integrity.</li>
           <li class="mb-4"><strong>Protect Participant Welfare:</strong> The EAC prioritizes the health and safety of all esports athletes. This involves establishing and enforcing safety protocols, providing guidelines for fair play, and ensuring that all participants are treated with respect and fairness.</li>
@@ -25,7 +39,7 @@
       </div>
 
       <div class="mb-12">
-        <h2 class="text-3xl font-bold mb-6">Key Activities</h2>
+        <h2 class="text-2xl font-bold mb-6">Key Activities</h2>
         <ul class="list-disc list-inside mb-8">
           <li class="mb-4"><strong>Licensing:</strong> Issuing licenses to athletes, coaches, judges, and other stakeholders, ensuring they meet the necessary qualifications and adhere to the EAC's standards.</li>
           <li class="mb-4"><strong>Monitoring and Enforcement:</strong> Continuously monitoring competitions to enforce rules, address violations, and ensure fair play.</li>
@@ -35,20 +49,6 @@
           <li class="mb-4"><strong>Education and Training:</strong> Offering educational resources and training programs to help participants improve their skills and understand the EAC’s regulations.</li>
           <li class="mb-4"><strong>Community Engagement:</strong> Engaging with the esports community through forums, social media, and other platforms to promote transparency and gather feedback.</li>
         </ul>
-      </div>
-
-      <div class="mb-12">
-        <h2 class="text-3xl font-bold mb-6">Our Vision</h2>
-        <p class="mb-8">
-          To be the leading regulatory authority in esports combat sports, fostering a safe, fair, and inclusive environment where athletes can achieve their full potential and fans can enjoy the highest quality of competition.
-        </p>
-      </div>
-
-      <div class="mb-12">
-        <h2 class="text-3xl font-bold mb-6">Our Mission</h2>
-        <p>
-          To uphold the integrity of combat esports by enforcing fair competition, protecting participant welfare, promoting ethical conduct, and enhancing the overall experience for athletes and fans alike.
-        </p>
       </div>
     </div>
   </div>
