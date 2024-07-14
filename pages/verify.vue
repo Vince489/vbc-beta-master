@@ -54,19 +54,24 @@ import { navigateTo } from '#app';
 const email = ref('');
 const otp = ref('');
 const emailError = ref('');
-const generalError = ref('');
 const otpError = ref('');
+const generalError = ref('');
 
 const handleSubmit = async () => {
   // Reset errors
   emailError.value = '';
-  generalError.value = '';
   otpError.value = '';
+  generalError.value = '';
 
-  // Validate OTP field
+  // Validate email and OTP fields
+  if (!email.value) {
+    emailError.value = 'Please enter your email.';
+    return; // Prevent form submission
+  }
+
   if (!otp.value) {
     otpError.value = 'Please enter the OTP.';
-    return;
+    return; // Prevent form submission
   }
 
   try {
@@ -84,10 +89,20 @@ const handleSubmit = async () => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to submit form');
+      // Handle non-JSON error response
+      const errorText = await response.text();
+      throw new Error(`Server returned ${response.status}: ${errorText}`);
     }
 
-    console.log('Form submitted successfully');
+    const responseData = await response.json();
+    console.log('Response data:', responseData);
+
+    // Check if OTP verification was successful
+    if (!responseData.success) {
+      throw new Error(responseData.message || 'Failed to verify OTP');
+    }
+
+    console.log('OTP verified successfully');
 
     // Clear the inputs
     email.value = '';
@@ -95,8 +110,8 @@ const handleSubmit = async () => {
 
     navigateTo('/login');
   } catch (error) {
-    console.log(error.message);
-    generalError.value = 'Failed to verify email. Please try again.';
+    console.error('Form submission error:', error.message);
+    generalError.value = 'Unexpected error: ' + (error.message || 'Please try again later.');
   }
 };
 
@@ -105,6 +120,8 @@ const resendOTP = () => {
   navigateTo('/requestOTP');
 };
 </script>
+
+
 
 <style scoped>
   /* Add scoped styles as needed */

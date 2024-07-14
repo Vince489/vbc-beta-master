@@ -41,16 +41,26 @@
             <span class="px-3 text-gray-400 text-sm">Or Log In with</span>
             <div class="flex-grow border-t border-gray-300"></div>
           </div>
-
-        </div>
-
-        <div class="text-center mt-6">
-          <p class="text-gray-400 text-sm">
-            Don't have an account?
-            <nuxt-link to="/signup" class="text-blue-500 hover:underline">Sign up</nuxt-link>
-          </p>
         </div>
       </form>
+
+      <div class="flex justify-center mt-6">
+        <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
+          <Icon name="ic:baseline-facebook" size="20px" class="mr-1 text-blue-500" />
+          Facebook
+        </button>
+        <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
+          <img src="/img/google.png" alt="Google" class="mr-1 h-4 w-4" />
+          Google
+        </button>
+      </div>      
+
+      <div class="text-center mt-6">
+        <p class="text-gray-400 text-sm">
+          Don't have an account?
+          <nuxt-link to="/signup" class="text-blue-500 hover:underline">Sign up</nuxt-link>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -68,43 +78,45 @@ const emailError = ref('');
 const passwordError = ref('');
 const generalError = ref('');
 
-const handleLogin = async () => {
-  // Reset errors
+const validateFields = () => {
   emailError.value = '';
   passwordError.value = '';
   generalError.value = ''; 
 
+  let isValid = true;
+
+  if (!email.value) {
+    emailError.value = 'Email is required';
+    isValid = false;
+  }
+  
+  if (!password.value) {
+    passwordError.value = 'Password is required';
+    isValid = false;
+  }
+
+  return isValid;
+};
+
+const handleLogin = async () => {
+  if (!validateFields()) {
+    return; // Stop execution if validation fails
+  }
+
   try {
-    // Perform login
     const response = await authStore.$login(email.value, password.value);
-    // Check if the login attempt was successful
-    if (response && response.data) {
-      // Handle success, navigate to appropriate page
-      if (response.data.message === 'success') {  // Replace 'success' with actual success message
-        navigateTo('/overview');
-      } else {
-        // Handle other response messages if needed
-        generalError.value = 'Error: ' + response.data.message;
-      }
+    // Assuming response directly contains success and message
+    if (!response.success) {
+      // Handle login failure using the message from the response
+      generalError.value = 'Error: ' + response.message;
+    } else {
+      // Navigate to overview on successful login
+      navigateTo('/overview');
     }
   } catch (error) {
-    // Handle login error
-    if (error.response) {
-      if (error.response.status === 400) {
-        // Bad Request - handle specific error messages from server
-        if (error.response.data.message === 'Invalid email entered') {
-          emailError.value = error.response.data.message;
-        } else if (error.response.data.message === 'Incorrect password') {
-          passwordError.value = error.response.data.message;
-        } else {
-          generalError.value = 'Error: ' + error.response.data.message;
-        }
-      } else {
-        generalError.value = 'Error: ' + error.message;
-      }
-    } else {
-      generalError.value = 'Error: ' + error.message; 
-    }
+    // Handle unexpected errors
+    generalError.value = 'Unexpected error: ' + (error.message || 'Please try again later.');
   }
 };
+
 </script>

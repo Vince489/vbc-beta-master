@@ -60,18 +60,18 @@
             <span class="px-3 text-gray-400 text-sm">Or Sign Up with</span>
             <div class="flex-grow border-t border-gray-300"></div>
           </div>
-          <div class="flex justify-center mt-6">
+        </div>
+      </form>
+      <div class="flex justify-center mt-6">
             <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
               <Icon name="ic:baseline-facebook" size="20px" class="mr-1 text-blue-500" />
               Facebook
             </button>
             <button class="w-full bg-gray-700 text-gray-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mx-1 flex items-center justify-center">
-              <img src="./../public/img/google.png" alt="Google" class="mr-1 h-4 w-4" />
+              <img src="/img/google.png" alt="Google" class="mr-1 h-4 w-4" />
               Google
             </button>
           </div>
-        </div>
-      </form>
     </div>
   </div>
 </template>
