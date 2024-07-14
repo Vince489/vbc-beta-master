@@ -60,18 +60,30 @@ const handleResend = async () => {
       })
     });
 
+    // Check if the response is OK
     if (!response.ok) {
-      throw new Error('Failed to resend OTP');
+      // Attempt to parse the response as JSON
+      const errorText = await response.text();
+      try {
+        const errorData = JSON.parse(errorText);
+        // Throw error with server-provided message
+        throw new Error(errorData.message || 'Failed to resend OTP');
+      } catch (jsonError) {
+        // Use plain text if JSON parsing fails
+        throw new Error(errorText || 'Failed to resend OTP');
+      }
     }
 
+    // If response is OK, navigate to the verification page
     console.log('Resend OTP successful');
-    navigateTo('/verify'); // Redirect to login page after successful resend
+    navigateTo('/verify'); // Redirect to verification page after successful resend
   } catch (error) {
     console.log(error.message);
-    generalError.value = 'Failed to resend OTP. Please try again.';
+    generalError.value = error.message || 'Failed to resend OTP. Please try again.';
   }
 };
 </script>
+
 
 <style scoped>
   /* Add scoped styles as needed */

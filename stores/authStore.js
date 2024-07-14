@@ -16,39 +16,39 @@ export const useAuthStore = defineStore('authStore', () => {
 
     async function $login(email, password) {
         try {
-            const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                }),
-                credentials: 'include' // This includes cookies in the request
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'An error occurred while logging in.');
-            }
-
-            // Set gamer data and authentication status
-            setAuthenticated(data.gamer);
-
-            // Store the token in the store
-            token.value = data.token;
-
-            // Redirect to overview
-            router.push('/overview');
-
-            return true;
+          const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+            credentials: 'include', // This includes cookies in the request
+          });
+      
+          const data = await response.json();
+      
+          if (!response.ok) {
+            // Throw error with detailed message
+            throw new Error(data.message || 'An error occurred while logging in.');
+          }
+      
+          // Set gamer data and authentication status
+          setAuthenticated(data.gamer);
+      
+          // Store the token in the store
+          token.value = data.token;
+      
+          // Redirect to overview
+          router.push('/overview');
+      
+          return data; // Return the response data
         } catch (error) {
-            console.error('Login error:', error.message);
-            return false;
+          // Re-throw the error so it can be caught in the Vue component
+          throw error;
         }
-    }
+      }
+      
+      
 
     async function fetchGamerData() {
         try {
