@@ -131,7 +131,8 @@
               <FormLabel class="block text-white text-sm font-bold">Current Weight Class</FormLabel>
               <FormControl>
                 <select v-model="selectedWeightClass" class="rounded-sm p-1 bg-slate-500 w- max-w-md">
-                  <option v-for="weightClass in weightClasses" :key="weightClass.value" :value="weightClass.value">
+                  <option disabled value="">Please select a weight class</option>
+                  <option v-for="weightClass in filteredWeightClasses" :key="weightClass.value" :value="weightClass.value">
                     {{ weightClass.label }}
                   </option>
                 </select>
@@ -139,7 +140,7 @@
               <FormMessage />
             </FormItem>
           </FormField>
-        </div>   
+        </div>
 
         <!-- Reach Slider -->
         <div class="col-span-2 mb-4">
@@ -186,6 +187,7 @@
 import { ref, computed, watch } from 'vue';
 import { useAuthStore } from '~/stores/authStore';
 
+// Form fields
 const firstName = ref('');
 const lastName = ref('');
 const nickname = ref('');
@@ -194,29 +196,33 @@ const ovr = ref(78);
 const height = ref(64);
 const reach = ref(61);
 const naturalWeightDivision = ref('');
+const selectedWeightClass = ref(''); // Initialize selectedWeightClass
 const errorMessage = ref('');
 const successMessage = ref('');
 
+// Auth store
 const authStore = useAuthStore();
 
+// Height and reach limits
 const minHeight = ref(64);
 const maxHeight = ref(80);
 const maxReach = ref(86);
 
 // Weight division options
 const weightDivisions = [
-  { value: '100-112: Fly', label: 'Fly', range: '100-112', maxReach: 66 },
-  { value: '112-118: Bantam', label: 'Bantam', range: '112-118', maxReach: 68 },
-  { value: '118-126: Feather', label: 'Feather', range: '118-126', maxReach: 70 },
-  { value: '126-135: Light', label: 'Light', range: '126-135', maxReach: 72 },
-  { value: '135-147: Welter', label: 'Welter', range: '135-147', maxReach: 74 },
-  { value: '147-160: Middle', label: 'Middle', range: '147-160', maxReach: 76 },
-  { value: '160-175: L Heavy', label: 'L Heavy', range: '160-175', maxReach: 82 },
-  { value: '200-260: Heavy', label: 'Heavy', range: '200-260', maxReach: 86}
+  { value: 'Fly', label: 'Fly', range: '100-112', maxReach: 66, maxHeight: 65, minWC: 'Minimum', maxWC: 'Super Flyweight' },
+  { value: 'Bantam', label: 'Bantam', range: '112-118', maxReach: 68, maxHeight: 67, minWC: 'Flyweight', maxWC: 'Super Bantamweight' },
+  { value: 'Feather', label: 'Feather', range: '118-126', maxReach: 72, maxHeight: 69, minWC: 'Bantamweight', maxWC: 'Super Featherweight' },
+  { value: 'Light', label: 'Light', range: '126-135', maxReach: 72, maxHeight: 69, minWC: 'Featherweight', maxWC: 'Super Lightweight' },
+  { value: 'Welter', label: 'Welter', range: '135-147', maxReach: 74, maxHeight: 71, minWC: 'Lightweight', maxWC: 'Super Welterweight' },
+  { value: 'Middle', label: 'Middle', range: '147-160', maxReach: 76, maxHeight: 73, minWC: 'Welterweight', maxWC: 'Super Middleweight' },
+  { value: 'L Heavy', label: 'L Heavy', range: '160-175', maxReach: 80, maxHeight: 75, minWC: 'Middleweight', maxWC: 'Cruiserweight' },
+  { value: 'Heavy', label: 'Heavy', range: '200-260', maxReach: 86, maxHeight: 77, minWC: 'Cruiserweight', maxWC: 'Heavyweight' }
 ];
 
-const selectedWeightClass = ref('Flyweight');
 const weightClasses = [
+  { value: 'Minimum', label: 'Minimum (102-105 lbs)' },
+  { value: 'Light Flyweight', label: 'Light Flyweight (105-108 lbs)' },
   { value: 'Flyweight', label: 'Flyweight (108-112 lbs)' },
   { value: 'Super Flyweight', label: 'Super Flyweight (112-115 lbs)' },
   { value: 'Bantamweight', label: 'Bantamweight (115-118 lbs)' },
@@ -237,17 +243,34 @@ const weightClasses = [
 // Overall Levels
 const overallLevels = computed(() => Array.from({ length: 91 - 78 + 1 }, (_, i) => 78 + i));
 
+// Filtered weight classes based on selected natural weight division
+const filteredWeightClasses = computed(() => {
+  const division = weightDivisions.find(div => div.value === naturalWeightDivision.value);
+  if (division) {
+    const minIndex = weightClasses.findIndex(wc => wc.value === division.minWC);
+    const maxIndex = weightClasses.findIndex(wc => wc.value === division.maxWC);
+    return weightClasses.slice(minIndex, maxIndex + 1);
+  }
+  return [];
+});
+
 // Watcher for natural weight division
 watch(naturalWeightDivision, (newVal) => {
-  // Update max reach based on selected weight division
-  const division = weightDivisions.find(div => div.value.split(': ')[1] === newVal);
+  const division = weightDivisions.find(div => div.value === newVal);
   if (division) {
     maxReach.value = division.maxReach;
+    maxHeight.value = division.maxHeight;
+    minHeight.value = 64;  // Adjust as needed
   }
 
   // Reset reach if it exceeds the new maxReach
   if (reach.value > maxReach.value) {
     reach.value = maxReach.value;
+  }
+
+  // Reset height if it exceeds the new maxHeight
+  if (height.value > maxHeight.value) {
+    height.value = maxHeight.value;
   }
 }, { deep: true });
 
@@ -267,7 +290,7 @@ const registerFighter = async () => {
     heightIn: inches.value,
     reach: reach.value,
     naturalWeightDivision: naturalWeightDivision.value,
-    weightClass: selectedWeightClass.value
+    weightClass: selectedWeightClass.value // Ensure selectedWeightClass is properly defined
   };
 
   try {
@@ -284,7 +307,6 @@ const registerFighter = async () => {
     successMessage.value = '';
   }
 };
-
 </script>
 
 
