@@ -157,7 +157,6 @@
             </FormItem>
           </FormField>
         </div>
-
                  
           <!-- Height Slider -->
           <div class="col-span-2 mb-4">
