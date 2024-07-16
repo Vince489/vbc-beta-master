@@ -20,6 +20,9 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'en',
+      },
       title: 'Virtron Boxing Club',
       meta: [
         { charset: 'utf-8' },

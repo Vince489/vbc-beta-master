@@ -78,7 +78,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
     async function deleteFighter(fighterId) {
         try {
-          const response = await fetch(`https://vbc-login-production.up.railway.app/api/v1/fighters/delete${fighterId}`, {
+          const response = await fetch(`https://vbc-login-production.up.railway.app/api/v1/fighters/delete/${fighterId}`, {
             method: 'DELETE',
             headers: {
               'Content-Type': 'application/json',
@@ -112,6 +112,7 @@ export const useAuthStore = defineStore('authStore', () => {
             });
 
             const data = await response.json();
+            console.log("Data:", data);
 
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while registering the fighter.');
