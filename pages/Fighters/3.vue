@@ -41,7 +41,7 @@
           <table class="w-full text-left">
             <thead>
               <tr class="bg-gray-800">
-                <th class="px-4 py-2">Stats</th>
+                <th class="px-4 py-2">Stat</th>
                 <th class="px-4 py-2">Value</th>
               </tr>
             </thead>
@@ -59,44 +59,44 @@
       <p>Loading...</p>
     </div>
 
-        <!-- Bouts Display -->
-        <div class="bouts mt-8">
-      <h2 class="text-2xl font-semibold text-white mb-4">(Sample Bouts)</h2>
-      <div v-for="bout in bouts" :key="bout.id" class="bg-gray-900 p-4 mb-4 rounded-lg shadow-md">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-gray-400">{{ formatDate(bout.date) }}</span>
-          <span :class="resultClass(bout.result)" class="px-2 py-1 rounded-full">{{ bout.result }}</span>
-        </div>
-        <div class="flex justify-between items-center">
-          <span class="text-lg font-semibold">{{ bout.opponent }}</span>
-          <span class="text-gray-400">{{ bout.method }} ({{ bout.round }}/12)</span>
-        </div>
-        <button @click="toggleDetails(bout.id)" class="text-blue-500 mt-2">Toggle Details</button>
-        <div v-if="showDetails === bout.id" class="mt-4 bg-gray-700 p-4 rounded-lg">
-          <p><strong>Knockdowns:</strong> {{ bout.knockdowns }}</p>
-          <p><strong>Opponent OVR:</strong> {{ bout.opponentOVR }}</p>
-          <p><strong>Fighter OVR:</strong> {{ bout.fighterOVR }}</p>
-          <p><strong>Opponent Weight:</strong> {{ bout.oppWgt }} lbs</p>
-          <p><strong>Fighter Weight:</strong> {{ bout.fighterWgt }} lbs</p>
-          <p><strong>Venue:</strong> {{ bout.venue }}</p>
-          <p><strong>Purse:</strong> ${{ bout.purse }}</p>
-          <p><strong>Score Cards:</strong> {{ bout.scoreCards }}</p>
-          <p><strong>Punch Stats:</strong> {{ bout.punchStats }}</p>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 
-const route = useRoute();
-const id = route.params.id;
-const uri = 'https://vbc-login-production.up.railway.app/api/v1/fighter/' + id;
+const fighter = ref({
+  firstName: 'John',
+  lastName: 'Doe',
+  gamerTag: 'JohnD123',
+  nickname: 'The Destroyer',
+  heightFt: 6,
+  heightIn: 2,
+  reach: 74,
+  stance: 'Orthodox',
+  ovr: 85,
+  weightClass: 'Middleweight',
+  image: 'https://via.placeholder.com/150',
+  earnings: 50000,
+  wins: 20,
+  losses: 2,
+  draws: 1,
+  knockouts: 15,
+  lossesByKnockout: 1,
+  fights: 23,
+  rounds: 120,
+});
 
-const fighter = ref(null);
+const fighterStats = ref({
+  Earnings: `$${fighter.value.earnings}`,
+  Wins: fighter.value.wins,
+  Losses: fighter.value.losses,
+  Draws: fighter.value.draws,
+  Knockouts: fighter.value.knockouts,
+  'Losses by KO': fighter.value.lossesByKnockout,
+  Fights: fighter.value.fights,
+  Rounds: fighter.value.rounds
+});
 
 const bouts = ref([
   {
@@ -150,38 +150,20 @@ const resultClass = (result) => {
   return result === 'Win' ? 'bg-green-500' : result === 'Loss' ? 'bg-red-500' : 'bg-yellow-500';
 };
 
-const fighterStats = ref({});
-
-const fetchFighter = async () => {
-  try {
-    const response = await fetch(uri);
-    if (!response.ok) {
-      throw new Error('Failed to fetch fighter data');
-    }
-    const data = await response.json();
-    fighter.value = data.fighter;
-    fighterStats.value = {
-      Earnings: `$${fighter.value.earnings}`,
-      Wins: fighter.value.wins,
-      Losses: fighter.value.losses,
-      Draws: fighter.value.draws,
-      KOs: fighter.value.knockouts,
-      'Losses by KO': fighter.value.lossesByKnockout,
-      Fights: fighter.value.fights,
-      Rounds: fighter.value.rounds
-    };
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 onMounted(() => {
-  fetchFighter();
+  // The fighter and bouts data is already set as dummy data.
 });
 </script>
 
 <style scoped>
 .container {
   max-width: 800px;
+}
+.bouts h2 {
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+button {
+  cursor: pointer;
 }
 </style>
