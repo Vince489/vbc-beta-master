@@ -174,7 +174,9 @@
             </FormField>
           </div>
 
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Register Fighter</button>
+          <div class="flex justify-center">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Register Fighter</button>
+          </div>
       </form>
       <p v-if="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</p>
       <p v-if="successMessage" class="text-green-500 mt-4">{{ successMessage }}</p>

@@ -26,14 +26,14 @@
         <!-- Display fighter cards -->
         <div class="grid grid-cols-1 gap-4 mt-4">
           <template v-for="fighter in gamer.fighters" :key="fighter._id">
-            <Card class="border p-4 rounded shadow hover:bg-gray-600 relative">
+            <Card class="border p-4 rounded shadow bg-gray-700 hover:bg-gray-500 relative">
               <nuxt-link :to="`/fighters/${fighter._id}`" class="flex items-center space-x-4">
                 <div class="flex-shrink-0">
                   <img :src="fighter.image || defaultFighterImage" alt="fighter" class="w-12 h-12 rounded-full" />
                 </div>
                 <div>
-                  <p class="text-lg font-semibold">{{ fighter.firstName }} {{ fighter.lastName }}</p>
-                  <p class="text-sm text-gray-400">{{ fighter.weightClass }}</p>
+                  <p class="text-lg text-gray-300 font-bold">{{ fighter.firstName }} {{ fighter.lastName }}</p>
+                  <p class="text-sm text-gray-400 font-semibold">{{ fighter.weightClass }}</p>
                   <p class="text-sm text-gray-400">({{ fighter.wins }}-{{ fighter.losses }}-{{ fighter.draws }})</p>
                 </div>
               </nuxt-link>
