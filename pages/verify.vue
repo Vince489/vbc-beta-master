@@ -58,24 +58,21 @@ const otpError = ref('');
 const generalError = ref('');
 
 const handleSubmit = async () => {
-  // Reset errors
   emailError.value = '';
   otpError.value = '';
   generalError.value = '';
 
-  // Validate email and OTP fields
   if (!email.value) {
     emailError.value = 'Please enter your email.';
-    return; // Prevent form submission
+    return;
   }
 
   if (!otp.value) {
     otpError.value = 'Please enter the OTP.';
-    return; // Prevent form submission
+    return;
   }
 
   try {
-    // Perform OTP verification
     const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/email_verification/verify', {
       method: 'POST',
       mode: 'cors',
@@ -91,29 +88,26 @@ const handleSubmit = async () => {
     if (!response.ok) {
       // Handle non-JSON error response
       const errorText = await response.text();
-      throw new Error(`Server returned ${response.status}: ${errorText}`);
+      throw new Error(errorText || `Server returned ${response.status}`);
     }
 
     const responseData = await response.json();
     console.log('Response data:', responseData);
 
-    // Check if OTP verification was successful
-    if (!responseData.success) {
-      throw new Error(responseData.message || 'Failed to verify OTP');
+    if (!responseData.verified) {
+      throw new Error('Failed to verify OTP');
     }
 
     console.log('OTP verified successfully');
-
-    // Clear the inputs
     email.value = '';
     otp.value = '';
-
     navigateTo('/login');
   } catch (error) {
     console.error('Form submission error:', error.message);
     generalError.value = 'Unexpected error: ' + (error.message || 'Please try again later.');
   }
 };
+
 
 // Handle redirection to /requestOTP
 const resendOTP = () => {
