@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto p-4">
     <div v-if="fighter" class="max-w-lg mx-auto bg-gray-900 text-white shadow-md rounded-lg overflow-hidden">
-      <div class="bg-cover bg-center h-56 p-4" :style="{ backgroundImage: `url(${fighter.image})` }">
+      <div class="bg-cover bg-center h-56 p-4" :style="{ backgroundImage: `url(/img/w-o.png)` }">
         <div class="flex justify-end">
           <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
             {{ fighter.weightClass }}
@@ -10,7 +10,7 @@
       </div>
       <div class="p-4">
         <div class="flex items-center">
-          <img :src="fighter.image" alt="Fighter Image" class="w-24 h-24 rounded-full border-4 border-gray-900 -mt-12" />
+          <img :src="fighter.image" alt="Avatar" class="w-24 h-24 rounded-full border-4 border-gray-900 -mt-12" />
           <div class="ml-4">
             <h1 class="text-2xl font-semibold">{{ fighter.firstName }} {{ fighter.lastName }} </h1>
             <p class="text-blue-200">@{{ fighter.gamerTag }}</p>
@@ -59,10 +59,10 @@
       <p>Loading...</p>
     </div>
 
-        <!-- Bouts Display -->
-        <div class="bouts mt-8">
-      <h2 class="text-2xl font-semibold text-white mb-4">(Sample Bouts)</h2>
-      <div v-for="bout in bouts" :key="bout.id" class="bg-gray-900 p-4 mb-4 rounded-lg shadow-md">
+    <!-- Bouts Display -->
+    <div class="bouts mt-8">
+      <h2 class="text-2xl font-semibold text-white mb-4">Bouts</h2>
+      <div v-for="bout in bouts" :key="bout._id" class="bg-gray-900 p-4 mb-4 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-2">
           <span class="text-gray-400">{{ formatDate(bout.date) }}</span>
           <span :class="resultClass(bout.result)" class="px-2 py-1 rounded-full">{{ bout.result }}</span>
@@ -71,8 +71,8 @@
           <span class="text-lg font-semibold">{{ bout.opponent }}</span>
           <span class="text-gray-400">{{ bout.method }} ({{ bout.round }}/12)</span>
         </div>
-        <button @click="toggleDetails(bout.id)" class="text-blue-500 mt-2">Toggle Details</button>
-        <div v-if="showDetails === bout.id" class="mt-4 bg-gray-700 p-4 rounded-lg">
+        <button @click="toggleDetails(bout._id)" class="text-blue-500 mt-2">Toggle Details</button>
+        <div v-if="showDetails === bout._id" class="mt-4 bg-gray-700 p-4 rounded-lg">
           <p><strong>Knockdowns:</strong> {{ bout.knockdowns }}</p>
           <p><strong>Opponent OVR:</strong> {{ bout.opponentOVR }}</p>
           <p><strong>Fighter OVR:</strong> {{ bout.fighterOVR }}</p>
@@ -88,53 +88,17 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const id = route.params.id;
-const uri = 'https://vbc-login-production.up.railway.app/api/v1/fighter/' + id;
+const uri = `https://vbc-login-production.up.railway.app/api/v1/fighter/${id}`;
 
 const fighter = ref(null);
-
-const bouts = ref([
-  {
-    id: 1,
-    opponent: 'Jake Paul',
-    result: 'Win',
-    method: 'KO',
-    round: 3,
-    knockdowns: 2,
-    opponentOVR: 80,
-    fighterOVR: 85,
-    oppWgt: 160,
-    fighterWgt: 158,
-    date: '2023-06-12',
-    venue: 'Madison Square Garden',
-    purse: 20000,
-    scoreCards: '29-28, 30-27, 29-28',
-    punchStats: '100/200'
-  },
-  {
-    id: 2,
-    opponent: 'Mike Tyson',
-    result: 'Loss',
-    method: 'TKO',
-    round: 5,
-    knockdowns: 3,
-    opponentOVR: 90,
-    fighterOVR: 85,
-    oppWgt: 165,
-    fighterWgt: 158,
-    date: '2023-01-20',
-    venue: 'Staples Center',
-    purse: 30000,
-    scoreCards: '48-47, 48-47, 48-47',
-    punchStats: '150/300'
-  }
-]);
-
+const bouts = ref([]);
 const showDetails = ref(null);
 
 const formatDate = (date) => {
@@ -170,6 +134,7 @@ const fetchFighter = async () => {
       Fights: fighter.value.fights,
       Rounds: fighter.value.rounds
     };
+    bouts.value = fighter.value.bouts; // Update bouts with the fetched data
   } catch (error) {
     console.error(error);
   }
@@ -179,6 +144,7 @@ onMounted(() => {
   fetchFighter();
 });
 </script>
+
 
 <style scoped>
 .container {
