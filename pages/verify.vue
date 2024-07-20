@@ -96,7 +96,6 @@ const handleSubmit = async () => {
     }
 
     const responseData = await response.json();
-    console.log('Response data:', responseData);
 
     // Check if OTP verification was successful
     // Modify this check based on the actual response structure
