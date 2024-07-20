@@ -31,7 +31,7 @@
           <p v-if="otpError" class="text-red-500 text-xs italic">{{ otpError }}</p>
         </div>
         <div class="flex justify-center">
-          <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" :disabled="isLoading">
             Submit
           </button>
         </div>
@@ -40,7 +40,7 @@
       <div class="text-center mt-6">
         <p class="text-gray-400 text-sm">
           Didn't receive the email? Check your spam/junk folder or
-          <button class="text-blue-500 hover:underline" @click="resendOTP">Resend OTP</button>.
+          <button class="text-blue-500 hover:underline" @click="resendOTP" :disabled="isLoading">Resend OTP</button>.
         </p>
       </div>
     </div>
@@ -56,23 +56,27 @@ const otp = ref('');
 const emailError = ref('');
 const otpError = ref('');
 const generalError = ref('');
+const isLoading = ref(false);
 
 const handleSubmit = async () => {
+  // Reset errors
   emailError.value = '';
   otpError.value = '';
   generalError.value = '';
 
+  // Validate email and OTP fields
   if (!email.value) {
     emailError.value = 'Please enter your email.';
-    return;
+    return; // Prevent form submission
   }
 
   if (!otp.value) {
     otpError.value = 'Please enter the OTP.';
-    return;
+    return; // Prevent form submission
   }
 
   try {
+    // Perform OTP verification
     const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/email_verification/verify', {
       method: 'POST',
       mode: 'cors',
@@ -88,19 +92,23 @@ const handleSubmit = async () => {
     if (!response.ok) {
       // Handle non-JSON error response
       const errorText = await response.text();
-      throw new Error(errorText || `Server returned ${response.status}`);
+      throw new Error(`Server returned ${response.status}: ${errorText}`);
     }
 
     const responseData = await response.json();
-    console.log('Response data:', responseData);
 
-    if (!responseData.verified) {
-      throw new Error('Failed to verify OTP');
+    // Check if OTP verification was successful
+    // Modify this check based on the actual response structure
+    if (responseData.verified !== true) {
+      throw new Error(responseData.message || 'Failed to verify OTP');
     }
 
     console.log('OTP verified successfully');
+
+    // Clear the inputs
     email.value = '';
     otp.value = '';
+
     navigateTo('/login');
   } catch (error) {
     console.error('Form submission error:', error.message);
@@ -114,8 +122,6 @@ const resendOTP = () => {
   navigateTo('/requestOTP');
 };
 </script>
-
-
 
 <style scoped>
   /* Add scoped styles as needed */
