@@ -112,7 +112,6 @@ export const useAuthStore = defineStore('authStore', () => {
             });
 
             const data = await response.json();
-            console.log("Data:", data);
 
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while registering the fighter.');
