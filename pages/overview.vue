@@ -70,25 +70,31 @@ const firstLetterOfGamerTag = gamer && gamer.gamerTag ? gamer.gamerTag.charAt(0)
 const defaultFighterImage = '/path/to/default-fighter-image.jpg'; // Replace with your default image path
 
 function deleteFighter(fighterId) {
-  // Logic for deleting the fighter
-  fetch(`/api/fighters/delete/${fighterId}`, {
+  // Assuming the token is stored in authStore.token
+  const token = authStore.token;
+
+  fetch(`https://vbc-login-production.up.railway.app/api/v1/fighter/delete/${fighterId}`, {
     method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+      'Content-Type': 'application/json'
+    },
   })
-    .then(response => response.json())
-    .then(data => {
-      if (data.message) {
-        // Handle successful deletion
-        console.log(data.message);
-        // Remove the fighter from the local state or refetch data
-        authStore.currentGamer.fighters = authStore.currentGamer.fighters.filter(fighter => fighter._id !== fighterId);
-      } else {
-        // Handle error
-        console.error(data.error);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      // Handle successful deletion
+      console.log(data.message);
+      // Remove the fighter from the local state or refetch data
+      authStore.currentGamer.fighters = authStore.currentGamer.fighters.filter(fighter => fighter._id !== fighterId);
+    } else {
+      // Handle error
+      console.error(data.error);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
 
 function retireFighter(fighterId) {
