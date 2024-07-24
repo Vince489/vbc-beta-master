@@ -28,12 +28,12 @@
               <p class="font-semibold">{{ fighter.reach }} in</p>
             </div>
             <div class="bg-gray-800 p-2 rounded">
-              <p class="text-gray-400">Stance</p>
-              <p class="font-semibold">{{ fighter.stance }}</p>
+              <p class="text-gray-400">Rank#</p>
+              <p class="font-semibold">{{ fighter.rank }}</p>
             </div>
             <div class="bg-gray-800 p-2 rounded">
-              <p class="text-gray-400">Overall</p>
-              <p class="font-semibold">{{ fighter.ovr }}</p>
+              <p class="text-gray-400">Legacy</p>
+              <p class="font-semibold">{{ fighter.legacy.status }}</p>
             </div>
           </div>
         </div>
