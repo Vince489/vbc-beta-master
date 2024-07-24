@@ -12,7 +12,7 @@
         <div class="flex items-center">
           <img :src="fighter.image" alt="Avatar" class="w-24 h-24 rounded-full border-4 border-gray-900 -mt-12" />
           <div class="ml-4">
-            <h1 class="text-2xl font-semibold">{{ fighter.firstName }} {{ fighter.lastName }} </h1>
+            <h1 class="text-2xl font-semibold">{{ fighter.firstName }} {{ fighter.lastName }}</h1>
             <p class="text-blue-200">@{{ fighter.gamerTag }}</p>
             <p class="text-gray-400 italic">{{ fighter.nickname }}</p>
           </div>
@@ -33,7 +33,7 @@
             </div>
             <div class="bg-gray-800 p-2 rounded">
               <p class="text-gray-400">Legacy</p>
-              <p class="font-semibold">{{ fighter.legacy.status }}</p>
+              <p class="font-semibold">{{ fighter.legacy?.status || 'N/A' }}</p> <!-- Use optional chaining -->
             </div>
           </div>
         </div>
@@ -88,7 +88,6 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
@@ -123,6 +122,7 @@ const fetchFighter = async () => {
       throw new Error('Failed to fetch fighter data');
     }
     const data = await response.json();
+    console.log('Fetched fighter data:', data);
     fighter.value = data.fighter;
     fighterStats.value = {
       Earnings: `$${fighter.value.earnings}`,
@@ -144,7 +144,6 @@ onMounted(() => {
   fetchFighter();
 });
 </script>
-
 
 <style scoped>
 .container {
