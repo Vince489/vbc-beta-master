@@ -43,7 +43,7 @@
                     <Button class="dots-button">•••</Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem @click="editFighter(fighter._id)">Edit Fighter</DropdownMenuItem>
+                    <DropdownMenuItem @click="deleteFighter(fighter._id)">Delete Fighter</DropdownMenuItem>
                     <DropdownMenuItem @click="retireFighter(fighter._id)">Retire Fighter</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -69,8 +69,32 @@ const firstLetterOfGamerTag = gamer && gamer.gamerTag ? gamer.gamerTag.charAt(0)
 // Default fighter image
 const defaultFighterImage = '/path/to/default-fighter-image.jpg'; // Replace with your default image path
 
-function editFighter(fighterId) {
-  // Logic for editing the fighter
+function deleteFighter(fighterId) {
+  // Assuming the token is stored in authStore.token
+  const token = authStore.token;
+
+  fetch(`https://vbc-login-production.up.railway.app/api/v1/fighter/delete/${fighterId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+      'Content-Type': 'application/json'
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.message) {
+      // Handle successful deletion
+      console.log(data.message);
+      // Remove the fighter from the local state or refetch data
+      authStore.currentGamer.fighters = authStore.currentGamer.fighters.filter(fighter => fighter._id !== fighterId);
+    } else {
+      // Handle error
+      console.error(data.error);
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 }
 
 function retireFighter(fighterId) {
