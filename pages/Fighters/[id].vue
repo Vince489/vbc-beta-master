@@ -33,7 +33,7 @@
             </div>
             <div class="bg-gray-800 p-2 rounded">
               <p class="text-gray-400">Legacy</p>
-              <p class="font-semibold">{{ fighter.legacy?.status || 'N/A' }}</p> <!-- Use optional chaining -->
+              <p class="font-semibold">{{ fighter.legacy?.status || 'N/A' }}</p>
             </div>
           </div>
         </div>
@@ -122,7 +122,6 @@ const fetchFighter = async () => {
       throw new Error('Failed to fetch fighter data');
     }
     const data = await response.json();
-    console.log('Fetched fighter data:', data);
     fighter.value = data.fighter;
     fighterStats.value = {
       Earnings: `$${fighter.value.earnings}`,

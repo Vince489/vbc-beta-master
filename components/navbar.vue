@@ -62,6 +62,109 @@
 
         </div>
       </div>
+
+      <!-- Container for the sidebar and header -->
+      <div :class="{ 'transform translate-x-0': toggle_menu, 'transform translate-x-full': !toggle_menu }" id="mobile-menu" class="bg-gray-700 mobile-menu md:hidden transition-transform duration-300 fixed right-0 top-0 h-full w-80 overflow-y-auto rounded-tl-xl rounded-bl-xl border-l border-gray-500">
+
+      <div class="flex justify-between items-center px-4 py-6 pb-8">
+        <div class="text-gray-400">Logo</div>
+
+        <button @click="toggle_menu = !toggle_menu" class="hover:bg-gray-600 hover:rounded p-2 text-gray-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Sidebar for logged-in gamers -->
+      <template v-if="authStore.currentGamer">
+
+        <div class="border-t border-gray-500 my-2"></div>
+          <div class="flex text-gray-300 items-center pb-1">
+            <nuxt-link to="/dashboard" class="text-gray-300 flex-grow">
+              <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
+                <Icon class="text-gray-400" size="20" name="iconamoon:profile-thin" />
+                <span class="ml-2">Dashboard</span>
+              </div>
+            </nuxt-link>
+          </div>
+          <!-- About link -->
+          <div class="flex text-gray-300 items-center">
+            <nuxt-link to="/fighters" class="text-gray-300 flex-grow">
+              <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
+                <Icon class="text-gray-400" size="20" name="uit:wallet" />
+                <span class="ml-2">FytRec</span>
+              </div>
+            </nuxt-link>
+          </div>
+          <!-- Add a separator line -->
+          <div class="border-t border-gray-500 my-2"></div>
+          <!-- Messages link -->
+          <div class="flex text-gray-300 items-center">
+            <nuxt-link to="/#messages" class="text-gray-300 flex-grow">
+              <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
+                <Icon class="text-gray-400" size="20" name="circum:mail" />
+                <span class="ml-2">Messages</span>
+              </div>
+            </nuxt-link>
+          </div>
+
+          <!-- Legacy link -->
+          <div class="flex text-gray-300 items-center">
+            <nuxt-link to="/#legacy" class="text-gray-300 flex-grow">
+              <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
+                <Icon class="text-gray-400" size="20" name="ph:align-center-horizontal-light" />
+                <span class="ml-2">Legacy Goals</span>
+              </div>
+            </nuxt-link>
+          </div>
+
+          <div class="flex text-gray-300 items-center">
+            <nuxt-link to="/#settings" class="text-gray-300 flex-grow">
+              <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
+                <Icon class="text-gray-400" size="20" name="clarity:bell-outline-badged" />
+                <span class="ml-2">Bell</span>
+              </div>
+            </nuxt-link>
+          </div>
+          
+          <!-- Settings link -->
+          <div class="flex text-gray-300 items-center">
+            <nuxt-link to="/#settings" class="text-gray-300 flex-grow">
+              <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
+                <Icon class="text-gray-400" size="20" name="la:cog" />
+                <span class="ml-2">Settings</span>
+              </div>
+            </nuxt-link>
+          </div>
+
+          <!-- Add a separator line -->
+          <div class="border-t border-gray-500 my-2"></div>
+          <!-- Log-out link -->
+          <div class="flex text-gray-300 items-center">
+            <nuxt-link to="/login" class="text-gray-300 flex-grow">
+              <div @click="logout" class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-2">
+                <span class="ml-2">Logout</span>
+              </div>
+            </nuxt-link>
+          </div>
+      </template>
+
+      <!-- Sidebar for non-authenticated users -->
+      <template v-else>
+        <div class="px-4 py-4 flex flex-col justify-start items-stretch">
+          <!-- Default links for non-authenticated users -->
+          <div class="flex text-gray-300 items-center">
+            <nuxt-link to="/login" class="text-gray-300 flex-grow">
+              <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
+                <span class="ml-2">Login</span>
+              </div>
+            </nuxt-link>
+          </div>
+          <!-- More default links -->
+        </div>
+      </template>
+    </div>
     </nav>
   </div>
 </template>
@@ -74,7 +177,7 @@ import { useRouter } from 'vue-router';
 const authStore = useAuthStore();
 const router = useRouter();
 
-const toggle_menu = ref(false);
+let toggle_menu = ref(false);
 
 onMounted(() => {
   window.addEventListener("click", function (e) {
