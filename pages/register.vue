@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container mx-auto py-6 px-4 mt-2">
-      <h1 class="text-2xl font-bold mb-4">Register New Fighter</h1>
+      <h1 class="text-2xl font-bold mt-2 mb-10 text-center">Register New Fighter</h1>
       <form @submit.prevent="registerFighter">
         <div class="grid grid-cols-2 gap-4">
           <div class="col-span-1">

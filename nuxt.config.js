@@ -14,7 +14,8 @@ export default defineNuxtConfig({
   ],
   piniaPersistedstate: {
     cookieOptions: {
-      sameSite: 'strict',
+      sameSite: 'none', // Allow cross-site cookies
+      secure: true, // Ensure cookies are only sent over HTTPS
     },
     storage: 'localStorage'
   },
