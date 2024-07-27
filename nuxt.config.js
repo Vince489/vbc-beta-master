@@ -12,13 +12,6 @@ export default defineNuxtConfig({
   plugins: [
     '~/plugins/socketio.js',
   ],
-  piniaPersistedstate: {
-    cookieOptions: {
-      sameSite: 'none', // Allow cross-site cookies
-      secure: true, // Ensure cookies are only sent over HTTPS
-    },
-    storage: 'localStorage'
-  },
   app: {
     head: {
       htmlAttrs: {
