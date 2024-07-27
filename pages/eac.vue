@@ -23,7 +23,7 @@
               <TableHead class="w-[100px] text-gray-400">
                 Position
               </TableHead>
-              <TableHead class="text-gray-400">Fee</TableHead>
+              <TableHead class="text-gray-400">VRT</TableHead>
               <TableHead class="text-gray-400">Application</TableHead>
             </TableRow>
           </TableHeader>

@@ -44,7 +44,7 @@
                       <Button class="dots-button">•••</Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <!-- <DropdownMenuItem @click="deleteFighter(fighter._id)">Delete Fighter</DropdownMenuItem> -->
+                      <DropdownMenuItem @click="deleteFighter(fighter._id)">Delete Fighter</DropdownMenuItem>
                       <DropdownMenuItem @click="retireFighter(fighter._id)">Retire Fighter</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
