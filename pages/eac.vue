@@ -34,7 +34,7 @@
               </TableCell>
               <TableCell>100</TableCell>
               <TableCell>
-                <button class="bg-blue-500 hover:bg-blue-600 px-4 py-1.5 rounded-md" @click="register('FIGHTER')">Register</button>
+                <button class="px-4 py-1.5 rounded-md bg-[#0b7696] text-gray-300" @click="register('FIGHTER')">Register</button>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -43,7 +43,7 @@
               </TableCell>
               <TableCell>25</TableCell>
               <TableCell>
-                <button class="bg-blue-500 hover:bg-blue-600 px-4 py-1.5 rounded-md">Register</button>
+                <button class="px-4 py-1.5 rounded-md bg-[#0b7696] text-gray-300">Register</button>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -52,7 +52,7 @@
               </TableCell>
               <TableCell>500</TableCell>
               <TableCell>
-                <button class="bg-blue-500 hover:bg-blue-600 px-4 py-1.5 rounded-md">Register</button>
+                <button class="px-4 py-1.5 rounded-md bg-[#0b7696] text-gray-300">Register</button>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -61,7 +61,7 @@
               </TableCell>
               <TableCell>1000</TableCell>
               <TableCell>
-                <button class="bg-blue-500 hover:bg-blue-600 px-4 py-1.5 rounded-md">Register</button>
+                <button class="px-4 py-1.5 rounded-md bg-[#0b7696] text-gray-300">Register</button>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -70,7 +70,7 @@
               </TableCell>
               <TableCell>1500</TableCell>
               <TableCell>
-                <button class="bg-blue-500 hover:bg-blue-600 px-4 py-1.5 rounded-md">Register</button>
+                <button class="px-4 py-1.5 rounded-md bg-[#0b7696] text-gray-300">Register</button>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -79,7 +79,7 @@
               </TableCell>
               <TableCell>2500</TableCell>
               <TableCell>
-                <button class="bg-blue-500 hover:bg-blue-600 px-4 py-1.5 rounded-md">Register</button>
+                <button class="px-4 py-1.5 rounded-md bg-[#0b7696] text-gray-300">Register</button>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -88,7 +88,7 @@
               </TableCell>
               <TableCell>500</TableCell>
               <TableCell>
-                <button class="bg-blue-500 hover:bg-blue-600 px-4 py-1.5 rounded-md">Register</button>
+                <button class="px-4 py-1.5 rounded-md bg-[#0b7696] text-gray-300">Register</button>
               </TableCell>
             </TableRow>
           </TableBody>

@@ -7,18 +7,22 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     'nuxt-icon',
-    'shadcn-nuxt'
+    'shadcn-nuxt',
+    '@nuxt/image',
   ],
+  image: {
+    // Optional configuration options
+    screens: {
+      sm: 320,
+      md: 640,
+      lg: 1024,
+      xl: 1280
+    },
+    domains: ['https://virtronboxing.club'] // Add any external domains you use for images
+  },
   plugins: [
     '~/plugins/socketio.js',
   ],
-  piniaPersistedstate: {
-    cookieOptions: {
-      sameSite: 'none', // Allow cross-site cookies
-      secure: true, // Ensure cookies are only sent over HTTPS
-    },
-    storage: 'localStorage'
-  },
   app: {
     head: {
       htmlAttrs: {

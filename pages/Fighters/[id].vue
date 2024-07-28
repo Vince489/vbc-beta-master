@@ -124,7 +124,7 @@ const fetchFighter = async () => {
     const data = await response.json();
     fighter.value = data.fighter;
     fighterStats.value = {
-      Earnings: `$${fighter.value.earnings}`,
+      Earnings: `$ ${fighter.value.earnings}`,
       Wins: fighter.value.wins,
       Losses: fighter.value.losses,
       Draws: fighter.value.draws,

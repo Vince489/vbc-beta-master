@@ -12,7 +12,7 @@
         <div>
           <div class="bg-gray-500 shadow-md rounded-md p-4 mb-4" v-for="post in newsFeed" :key="post.id">
             <div class="flex items-center">
-              <img :src="post.gamer.avatarUrl" alt="gamer Avatar" class="w-10 h-10 rounded-full mr-2" />
+              <NuxtImg :src="post.gamer.avatarUrl" alt="gamer Avatar" class="w-10 h-10 rounded-full mr-2" />
               <div>
                 <h6>{{ post.gamer.name }}</h6>
                 <p>{{ post.timestamp }}</p>

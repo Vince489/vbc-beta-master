@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/image": "^1.7.0",
     "@pinia/nuxt": "^0.5.1",
     "@vee-validate/zod": "^4.12.8",
     "@vueuse/core": "^10.9.0",
