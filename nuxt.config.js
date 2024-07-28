@@ -18,7 +18,7 @@ export default defineNuxtConfig({
       lg: 1024,
       xl: 1280
     },
-    domains: ['https://virtronboxing.club'] // Add any external domains you use for images
+    domains: ['https://vince489.github.io'] // Add the GitHub Pages domain here
   },
   plugins: [
     '~/plugins/socketio.js',
