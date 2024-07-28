@@ -7,7 +7,7 @@
 
     <!-- If fighter has a belt, display in the top right corner -->
     <div v-if="fighter.belt" class="absolute top-0.5 mt-3 right-0.5 mr-3">
-      <NuxtImg :src="fighter.belt" class="belt-image" />
+      <img :src="fighter.belt" class="belt-image" />
     </div>
     
     <div class="absolute top-0.5 mt-3 left-0.5 ml-3 bg-[#0b7696] font-semibold text-gray-200 px-3 py-2 rounded-full text-sm">{{ fighter.ovr }}</div>
@@ -15,7 +15,7 @@
     <div class="w-54 h-60 content-center overflow-hidden">
       <div class="w-48 h-54 m-auto">
         <nuxt-link :to="`/fighters/${fighter._id}`">
-          <NuxtImg :src="`${fighter.image}`" class="fighter-image" />
+          <img :src="`${fighter.image}`" class="fighter-image" />
         </nuxt-link>
       </div>
     </div>

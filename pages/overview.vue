@@ -30,7 +30,7 @@
               <Card class="border p-4 rounded shadow bg-gray-700 hover:bg-gray-500 relative w-[90%] max-w-[400px]">
                 <nuxt-link :to="`/fighters/${fighter._id}`" class="flex items-center space-x-4">
                   <div class="flex-shrink-0">
-                    <NuxtImg :src="fighter.image || defaultFighterImage" alt="fighter" class="w-12 h-12 rounded-full" />
+                    <img :src="fighter.image || defaultFighterImage" alt="fighter" class="w-12 h-12 rounded-full" />
                   </div>
                   <div>
                     <p class="text-lg text-gray-300 font-bold">{{ fighter.firstName }} {{ fighter.lastName }}</p>
