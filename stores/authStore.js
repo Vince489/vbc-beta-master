@@ -48,8 +48,6 @@ export const useAuthStore = defineStore('authStore', () => {
         }
       }
       
-      
-
     async function fetchGamerData() {
         try {
             const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/me', {
