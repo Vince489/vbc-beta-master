@@ -4,8 +4,7 @@
 
     <!-- Display a list of fighters -->
     <div v-for="fighter in fighters" :key="fighter._id" class="border p-4 mb-4 rounded shadow">
-      <NuxtImg :src="fighter.image" alt="Fighter Image" class="w-20 h-20 rounded-full mx-auto mb-2" />
-      <h2 class="text-lg font-semibold text-center">{{ fighter.nickname }}</h2>
+img      <h2 class="text-lg font-semibold text-center">{{ fighter.nickname }}</h2>
       <p class="text-gray-500 text-center">{{ fighter.firstName }} {{ fighter.lastName }}</p>
 
       <!-- Edit fighter's records and bouts -->

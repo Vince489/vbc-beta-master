@@ -10,7 +10,7 @@
       </div>
       <div class="p-4">
         <div class="flex items-center">
-          <NuxtImg :src="fighter.image" alt="Fighter Image" class="w-24 h-24 rounded-full border-4 border-gray-900 -mt-12" />
+          <img :src="fighter.image" alt="Fighter Image" class="w-24 h-24 rounded-full border-4 border-gray-900 -mt-12" />
           <div class="ml-4">
             <h1 class="text-2xl font-semibold">{{ fighter.firstName }} {{ fighter.lastName }} </h1>
             <p class="text-blue-200">@{{ fighter.gamerTag }}</p>
