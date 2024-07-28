@@ -68,12 +68,13 @@
           <span :class="resultClass(bout.result)" class="px-2 py-1 rounded-full">{{ bout.result }}</span>
         </div>
         <div class="flex justify-between items-center">
-          <span class="text-lg font-semibold"> {{ bout.fighter.gamerTag }} vs. {{ bout.opponent.gamerTag }}</span>
+          <span class="text-lg font-semibold"> {{ bout.fighter.gamer }} vs. {{ bout.opponent.gamerTag }}</span>
           <span class="text-gray-400">{{ bout.method }} ({{ bout.round }}/12)</span>
         </div>
         <button @click="toggleDetails(bout._id)" class="text-blue-500 mt-2">Toggle Details</button>
         <div v-if="showDetails === bout._id" class="mt-4 bg-gray-700 p-4 rounded-lg">
-          <p><strong>Knockdowns:</strong> {{ bout.knockdowns }}</p>
+          <p><strong>{{ bout.opponent.gamerTag }} KDs:</strong> {{ bout.opponentKnockDowns }} </p>
+          <p><strong>{{ bout.fighter.gamerTag }} KDs:</strong> {{ bout.fighterKnockDowns }} </p>
           <p><strong>Opponent OVR:</strong> {{ bout.opponentOVR }}</p>
           <p><strong>Fighter OVR:</strong> {{ bout.fighterOVR }}</p>
           <p><strong>Opponent Weight:</strong> {{ bout.oppWgt }} lbs</p>
