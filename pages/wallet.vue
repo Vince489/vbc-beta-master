@@ -18,10 +18,6 @@
           <!-- Token items will be dynamically populated here -->
         </div>
 
-        <!-- Manage Tokens Link -->
-        <div class="text-center mt-4 mb-10 py-2">
-          <nuxt-link to="/#" class="text-cyan-500 hover:underline">Manage Token List</nuxt-link>
-        </div>
       </div>
     </div>
 
@@ -64,12 +60,6 @@ onMounted(() => {
     `;
     coinListContainer.appendChild(tokenElement);
   });
-
-  // Append Manage Tokens Link at the end of the coin list
-  const manageTokensLink = document.createElement('div');
-  manageTokensLink.className = 'text-center mt-4 mb-10 py-2';
-  manageTokensLink.innerHTML = '<a href="/#" class="text-cyan-500 hover:underline">Manage Token List</a>';
-  coinListContainer.appendChild(manageTokensLink);
 });
 </script>
 
