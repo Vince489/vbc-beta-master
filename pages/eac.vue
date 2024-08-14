@@ -61,7 +61,7 @@
               </TableCell>
               <TableCell>1000</TableCell>
               <TableCell>
-                <button class="px-4 py-1.5 rounded-md bg-[#0b7696] text-gray-300">Register</button>
+                <button class="px-4 py-1.5 rounded-md bg-[#0b7696] text-gray-300"  @click="register('MANAGER')">Register</button>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -105,7 +105,10 @@ const router = useRouter();
 
 const register = (position) => {
   if (position === 'FIGHTER') {
-    router.push('/register');
+    router.push('/registerFighter');
+  } else
+  if (position === 'MANAGER') {
+    router.push('/registerManager');
   }
 };
 </script>
