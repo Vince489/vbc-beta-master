@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed bottom-0 left-0 w-full bg-gray-800 flex justify-around py-4">
+  <div v-if="authStore.currentGamer" class="fixed bottom-0 left-0 w-full bg-gray-800 flex justify-around py-4">
     <nuxt-link to="/" class="text-white">
       <Icon name="mdi:home-outline" size="24px" />
     </nuxt-link>
