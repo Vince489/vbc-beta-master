@@ -281,33 +281,29 @@ const inches = computed(() => height.value % 12);
 
 // Function to register a fighter
 const registerFighter = async () => {
-  const newFighterData = {
-    firstName: firstName.value,
-    lastName: lastName.value,
-    nickname: nickname.value,
-    stance: stance.value,
-    ovr: ovr.value,
-    heightFt: feet.value,
-    heightIn: inches.value,
-    reach: reach.value,
-    naturalWeightDivision: naturalWeightDivision.value,
-    weightClass: selectedWeightClass.value // Ensure selectedWeightClass is properly defined
-  };
+    const newFighterData = {
+        firstName: firstName.value,
+        lastName: lastName.value,
+        nickname: nickname.value,
+        stance: stance.value,
+        ovr: ovr.value,
+        heightFt: feet.value,
+        heightIn: inches.value,
+        reach: reach.value,
+        naturalWeightDivision: naturalWeightDivision.value,
+        weightClass: selectedWeightClass.value // Ensure selectedWeightClass is properly defined
+    };
 
-  try {
-    const success = await authStore.registerFighter(newFighterData);
-    if (success) {
-      successMessage.value = 'Fighter registered successfully!';
-      errorMessage.value = '';
+    const result = await authStore.registerFighter(newFighterData);
+    if (result.success) {
+        successMessage.value = result.message;
+        errorMessage.value = '';
     } else {
-      errorMessage.value = 'An error occurred while registering the fighter.';
-      successMessage.value = '';
+        errorMessage.value = result.message;
+        successMessage.value = '';
     }
-  } catch (error) {
-    errorMessage.value = error.message;
-    successMessage.value = '';
-  }
 };
+
 </script>
 
 

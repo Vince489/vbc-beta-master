@@ -17,7 +17,7 @@
 
           <div class="flex flex-col justify-end">
             <Button class="bg-cyan-800 hover:bg-cyan-600 font-semibold px-3 text-lg text-gray-100">
-              <nuxt-link to="/register">Register Fighter</nuxt-link>
+              <nuxt-link to="/registerFighter">Register Fighter</nuxt-link>
             </Button>
           </div>
 

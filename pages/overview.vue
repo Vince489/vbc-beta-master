@@ -54,45 +54,86 @@
           </div>
         </div>
       </div>
+
+      <!-- Manager card section -->
+      <template v-if="manager">
+        <div class="flex justify-center mt-4">
+          <div class="w-full max-w-4xl">
+            <Card class="border p-4 rounded shadow bg-gray-700 hover:bg-gray-500 relative w-[90%] max-w-[400px]">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0">
+                  <img :src="manager.image || defaultManagerImage" alt="manager" class="w-12 h-12 rounded-full" />
+                </div>
+                <div>
+                  <p class="text-lg text-gray-300 font-bold">{{ manager.firstName }} {{ manager.lastName }}</p>
+                  <p class="text-sm text-gray-400">Rank: {{ manager.rank }}</p>
+                  <p class="text-sm text-gray-400">Earnings: ${{ manager.earnings }}</p>
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </template>
     </template>
   </div>
 </template>
 
 
 
+
 <script setup>
+import { ref, computed } from 'vue';
 import { useAuthStore } from '@/stores/authStore'; 
 
-// Fetch user data from the auth store
 const authStore = useAuthStore();
-const gamer = authStore.currentGamer;
+const gamer = ref(authStore.currentGamer);
+const manager = ref(null); // Initialize manager ref
 
-//  Get the first letter of the gamerTag
-const firstLetterOfGamerTag = gamer && gamer.gamerTag ? gamer.gamerTag.charAt(0).toUpperCase() : '';
+// Get the first letter of the gamerTag
+const firstLetterOfGamerTag = computed(() => gamer.value && gamer.value.gamerTag ? gamer.value.gamerTag.charAt(0).toUpperCase() : '');
 
-// Default fighter image
+// Default fighter and manager images
 const defaultFighterImage = '/path/to/default-fighter-image.jpg'; // Replace with your default image path
+const defaultManagerImage = '/path/to/default-manager-image.jpg'; // Replace with your default image path
+
+// Fetch manager data if available
+if (gamer.value && gamer.value.manager) {
+  fetch(`https://vbc-login-production.up.railway.app/api/v1/manager/${gamer.value.manager}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${authStore.token}`, // Include the token in the Authorization header
+      'Content-Type': 'application/json'
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.manager) {
+      manager.value = data.manager;
+    } else {
+      console.error('Manager data not found');
+    }
+  })
+  .catch(error => {
+    console.error('Error fetching manager:', error);
+  });
+}
 
 function deleteFighter(fighterId) {
-  // Assuming the token is stored in authStore.token
   const token = authStore.token;
 
   fetch(`https://vbc-login-production.up.railway.app/api/v1/fighter/delete/${fighterId}`, {
     method: 'DELETE',
     headers: {
-      'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
   })
   .then(response => response.json())
   .then(data => {
     if (data.message) {
-      // Handle successful deletion
       console.log(data.message);
-      // Remove the fighter from the local state or refetch data
       authStore.currentGamer.fighters = authStore.currentGamer.fighters.filter(fighter => fighter._id !== fighterId);
     } else {
-      // Handle error
       console.error(data.error);
     }
   })
@@ -105,6 +146,7 @@ function retireFighter(fighterId) {
   // Logic for retiring the fighter
 }
 </script>
+
 
 <style scoped>
 .dots-button {

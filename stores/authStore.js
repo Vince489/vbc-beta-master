@@ -98,7 +98,7 @@ export const useAuthStore = defineStore('authStore', () => {
         }
       }    
 
-    async function registerFighter(newFighterData) {
+      async function registerFighter(newFighterData) {
         try {
             const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/fighter/register', {
                 method: 'POST',
@@ -108,23 +108,56 @@ export const useAuthStore = defineStore('authStore', () => {
                 },
                 body: JSON.stringify(newFighterData),
             });
-
+    
             const data = await response.json();
-
+    
             if (!response.ok) {
-                throw new Error(data.message || 'An error occurred while registering the fighter.');
+                // Extract the error message from the response
+                const errorMessage = data.message || 'An error occurred while registering the fighter.';
+                throw new Error(errorMessage);
             }
-
+    
             // Update local store with the new fighter
             fighters.value.push(data.fighter);
             currentGamer.value.fighters = fighters.value;
-
+    
             // Redirect to overview
+            router.push('/overview');
+    
+            return { success: true, message: 'Fighter registered successfully!' };
+        } catch (error) {
+            console.error('Registration error:', error.message);
+            return { success: false, message: error.message };
+        }
+    }
+    
+
+    async function registerManager(newManagerData) {
+      try {
+          const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/manager', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token.value}`,
+              },
+              body: JSON.stringify(newManagerData),
+          });
+
+          const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'An error occurred while registering the manager.');
+            }
+
+            // Optionally handle the registered manager data if needed
+            console.log('Manager registered successfully:', data.manager);
+
+            // Redirect to a relevant page, e.g., a dashboard or overview page
             router.push('/overview');
 
             return true;
         } catch (error) {
-            console.error('Registration error:', error.message);
+            console.error('Manager registration error:', error.message);
             return false;
         }
     }
@@ -152,6 +185,8 @@ export const useAuthStore = defineStore('authStore', () => {
         fetchGamerData,
         registerFighter,
         initializeStore,
+        deleteFighter,
+        registerManager,
     };
 }, {
     persist: {
