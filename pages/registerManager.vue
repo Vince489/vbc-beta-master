@@ -2,42 +2,30 @@
   <div>
     <div class="container mx-auto py-6 px-4 mt-2">
       <h1 class="text-2xl font-bold mt-2 mb-10 text-center">Register New Manager</h1>
-      <form @submit.prevent="registerManager">
+      <form @submit.prevent="handleSubmit">
         <div class="grid grid-cols-2 gap-4">
           <!-- First Name Field -->
           <div class="col-span-1">
-            <FormField v-slot="{ field }" name="firstName" class="mb-4">
-              <FormItem>
-                <FormLabel class="block text-sm font-medium text-white">First Name</FormLabel>
-                <FormControl>
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    v-model="firstName"
-                    class="bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </FormField>
+            <label for="firstNameInput" class="block text-sm font-medium text-white">First Name</label>
+            <input
+              id="firstNameInput"
+              type="text"
+              placeholder="First Name"
+              v-model="firstName"
+              class="bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
           </div>
           
           <!-- Last Name Field -->
           <div class="col-span-1">
-            <FormField v-slot="{ field }" name="lastName" class="mb-4">
-              <FormItem>
-                <FormLabel class="block text-sm font-medium text-white">Last Name</FormLabel>
-                <FormControl>
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    v-model="lastName"
-                    class="bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </FormField>
+            <label for="lastNameInput" class="block text-sm font-medium text-white">Last Name</label>
+            <input
+              id="lastNameInput"
+              type="text"
+              placeholder="Last Name"
+              v-model="lastName"
+              class="bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
           </div>
         </div>
 
@@ -71,31 +59,24 @@ const successMessage = ref('');
 // Auth store
 const authStore = useAuthStore();
 
-// Function to register a manager
-const registerManager = async () => {
-  const newManagerData = {
-    firstName: firstName.value,
-    lastName: lastName.value
-  };
-
-  try {
-    const success = await authStore.registerManager(newManagerData);
-    if (success) {
-      successMessage.value = 'Manager registered successfully!';
-      errorMessage.value = '';
-      // Redirect to the dashboard (you may need to adjust this based on your routing)
-      setTimeout(() => {
-        window.location.href = '/dashboard'; // Adjust the path as needed
-      }, 1000); // Optional delay for user feedback
-    } else {
-      errorMessage.value = 'An error occurred while registering the manager.';
-      successMessage.value = '';
-    }
-  } catch (error) {
-    errorMessage.value = error.message;
+// Handle form submission
+async function handleSubmit() {
+    // Clear previous messages
+    errorMessage.value = '';
     successMessage.value = '';
-  }
-};
+
+    try {
+        const result = await authStore.registerManager({ firstName: firstName.value, lastName: lastName.value });
+
+        if (result.success) {
+            successMessage.value = 'Manager registered successfully!';
+        } else {
+            errorMessage.value = result.message || 'An error occurred while registering the manager.';
+        }
+    } catch (error) {
+        errorMessage.value = error.message || 'An unexpected error occurred.';
+    }
+}
 </script>
 
 <style scoped>

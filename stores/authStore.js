@@ -133,34 +133,39 @@ export const useAuthStore = defineStore('authStore', () => {
     
 
     async function registerManager(newManagerData) {
-      try {
-          const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/manager', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${token.value}`,
-              },
-              body: JSON.stringify(newManagerData),
-          });
-
-          const data = await response.json();
-
+        try {
+            const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/manager', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token.value}`,
+                },
+                body: JSON.stringify(newManagerData),
+            });
+    
+            const data = await response.json();
+    
             if (!response.ok) {
-                throw new Error(data.message || 'An error occurred while registering the manager.');
+                // Throw the actual error message from the server
+                throw new Error(data.message || 'Unknown error occurred');
             }
-
+    
             // Optionally handle the registered manager data if needed
             console.log('Manager registered successfully:', data.manager);
-
+    
             // Redirect to a relevant page, e.g., a dashboard or overview page
             router.push('/overview');
-
+    
             return true;
         } catch (error) {
+            // Log the error message to the console
             console.error('Manager registration error:', error.message);
-            return false;
+    
+            // Rethrow the error to make it available for the UI if needed
+            throw error;
         }
     }
+    
 
     // reset current store
     function $reset() {
