@@ -21,11 +21,11 @@
           <div class="grid grid-cols-2 gap-4">
             <div class="bg-gray-800 p-2 rounded">
               <p class="text-gray-400">Height</p>
-              <p class="font-semibold">{{ fighter.heightFt }}'{{ fighter.heightIn }}''</p>
+              <p class="font-semibold">{{ fighter.heightFt }}'{{ fighter.heightIn }}"</p>
             </div>
             <div class="bg-gray-800 p-2 rounded">
               <p class="text-gray-400">Reach</p>
-              <p class="font-semibold">{{ fighter.reach }} in</p>
+              <p class="font-semibold">{{ fighter.reach }}"</p>
             </div>
             <div class="bg-gray-800 p-2 rounded">
               <p class="text-gray-400">Rank#</p>
@@ -86,7 +86,30 @@
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- Display Boxer Team -->
+    <div class="team mt-8">
+      <h2 class="text-2xl font-semibold text-white mb-4">Team</h2>
+      <template>
+  <Tabs default-value="account" class="w-[400px]">
+    <TabsList>
+      <TabsTrigger value="account">
+        Account
+      </TabsTrigger>
+      <TabsTrigger value="password">
+        Password
+      </TabsTrigger>
+    </TabsList>
+    <TabsContent value="account">
+      Make changes to your account here.
+    </TabsContent>
+    <TabsContent value="password">
+      Change your password here.
+    </TabsContent>
+  </Tabs>
+</template>
+    </div>
+    </div>
 </template>
 
 <script setup>

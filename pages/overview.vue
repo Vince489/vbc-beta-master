@@ -1,10 +1,10 @@
 <template>
   <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-2">
-    <!-- Use a conditional rendering to show loading text while userData is null -->
+    <!-- Use a conditional rendering to show loading text while gamer data is null -->
     <template v-if="!gamer">
       <p class="text-center">Loading...</p>
     </template>
-    <!-- Once userData is available, display user's information -->
+    <!-- Once gamer data is available, display user's information -->
     <template v-else>
       <div class="pb-3 upper-fold pt-4 grid grid-cols-2">
         <div>
@@ -14,23 +14,25 @@
           </Avatar>
           <p class="pt-1 text-sm text-cyan-600 font-semibold font-mono tracking-wide">@{{ gamer.gamerTag }}</p>
         </div>
-
         <div class="flex flex-col justify-end">
+          <!-- Display account balance in large font -->
+          <p class="text-4xl text-gray-300 font-bold mb-2 p-4">
+            ${{ accountBalance }}
+          </p>
           <Button class="bg-cyan-800 hover:bg-cyan-600 font-semibold px-3 text-lg text-gray-100">
             <nuxt-link to="/eac">Register</nuxt-link>
           </Button>
         </div>
       </div>
-
       <!-- Centered fighter cards -->
       <div class="flex justify-center mt-4">
         <div class="w-full max-w-4xl">
           <div class="flex flex-wrap gap-4 justify-center">
             <template v-for="fighter in gamer.fighters" :key="fighter._id">
-              <Card class="border p-4 rounded shadow bg-gray-700 hover:bg-gray-500 relative w-[90%] max-w-[400px]">
+              <Card class="border p-4 rounded shadow bg-gray-700 hover:bg-gray-500 relative w-full max-w-[400px]">
                 <nuxt-link :to="`/fighters/${fighter._id}`" class="flex items-center space-x-4">
                   <div class="flex-shrink-0">
-                    <img :src="fighter.image || defaultFighterImage" alt="fighter" class="w-12 h-12 rounded-full" />
+                    <img :src="fighter.image" alt="fighter" class="w-12 h-12 rounded-full" />
                   </div>
                   <div>
                     <p class="text-lg text-gray-300 font-bold">{{ fighter.firstName }} {{ fighter.lastName }}</p>
@@ -44,107 +46,71 @@
                       <Button class="dots-button">•••</Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuItem @click="deleteFighter(fighter._id)">Delete Fighter</DropdownMenuItem>
+                      <DropdownMenuItem @click="">Legacy</DropdownMenuItem>
                       <DropdownMenuItem @click="retireFighter(fighter._id)">Retire Fighter</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
+                <!-- <div class="mt-4">
+                  <p class="text-gray-300 font-semibold"> Rank: {{ fighter.rank === 0 ? 'NR' : fighter.rank }} </p>
+                </div> -->
               </Card>
             </template>
           </div>
         </div>
       </div>
-
       <!-- Manager card section -->
-      <template v-if="manager">
-        <div class="flex justify-center mt-4">
-          <div class="w-full max-w-4xl">
-            <Card class="border p-4 rounded shadow bg-gray-700 hover:bg-gray-500 relative w-[90%] max-w-[400px]">
-              <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                  <img :src="manager.image || defaultManagerImage" alt="manager" class="w-12 h-12 rounded-full" />
-                </div>
-                <div>
-                  <p class="text-lg text-gray-300 font-bold">{{ manager.firstName }} {{ manager.lastName }}</p>
-                  <p class="text-sm text-gray-400">Rank: {{ manager.rank }}</p>
-                  <p class="text-sm text-gray-400">Earnings: ${{ manager.earnings }}</p>
-                </div>
-              </div>
-            </Card>
+      <div class="flex justify-center mt-8">
+        <Card v-if="gamer.managerRole" class="border p-4 rounded shadow bg-gray-800 w-full max-w-[400px]">
+          <div class="flex items-center space-x-4">
+            <div class="flex-shrink-0">
+              <img :src="gamer.managerRole.image" alt="manager" class="w-12 h-12 rounded-full" />
+            </div>
+            <div>
+              <p class="text-lg text-gray-300 font-bold">{{ gamer.managerRole.firstName }} {{ gamer.managerRole.lastName }}</p>
+              <p class="text-sm text-gray-400 font-semibold">Manager</p>
+              <p class="text-sm text-gray-400">Earnings: ${{ gamer.managerRole.earnings }}</p>
+            </div>
           </div>
-        </div>
-      </template>
+          <!-- <div class="mt-4">
+            <p class="text-gray-300 font-semibold"> Rank: {{ gamer.managerRole.rank === 0 ? 'NR' : gamer.managerRole.rank }} </p>
+          </div> -->
+        </Card>
+      </div>
     </template>
   </div>
 </template>
 
 
-
-
 <script setup>
-import { ref, computed } from 'vue';
-import { useAuthStore } from '@/stores/authStore'; 
+import { ref, computed, onMounted } from 'vue';
+import { useAuthStore } from '@/stores/authStore';
 
 const authStore = useAuthStore();
 const gamer = ref(authStore.currentGamer);
-const manager = ref(null); // Initialize manager ref
 
 // Get the first letter of the gamerTag
 const firstLetterOfGamerTag = computed(() => gamer.value && gamer.value.gamerTag ? gamer.value.gamerTag.charAt(0).toUpperCase() : '');
 
-// Default fighter and manager images
-const defaultFighterImage = '/path/to/default-fighter-image.jpg'; // Replace with your default image path
-const defaultManagerImage = '/path/to/default-manager-image.jpg'; // Replace with your default image path
-
-// Fetch manager data if available
-if (gamer.value && gamer.value.manager) {
-  fetch(`https://vbc-login-production.up.railway.app/api/v1/manager/${gamer.value.manager}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${authStore.token}`, // Include the token in the Authorization header
-      'Content-Type': 'application/json'
-    },
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.manager) {
-      manager.value = data.manager;
-    } else {
-      console.error('Manager data not found');
-    }
-  })
-  .catch(error => {
-    console.error('Error fetching manager:', error);
-  });
-}
-
-function deleteFighter(fighterId) {
-  const token = authStore.token;
-
-  fetch(`https://vbc-login-production.up.railway.app/api/v1/fighter/delete/${fighterId}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.message) {
-      console.log(data.message);
-      authStore.currentGamer.fighters = authStore.currentGamer.fighters.filter(fighter => fighter._id !== fighterId);
-    } else {
-      console.error(data.error);
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-}
+// Computed property to get the account balance or default to $0.00
+const accountBalance = computed(() => {
+  if (gamer.value && gamer.value.account && gamer.value.account.vrtAccount && gamer.value.account.vrtAccount.balance !== undefined) {
+    return gamer.value.account.vrtAccount.balance.toFixed(2);
+  }
+  return '0.00';
+});
 
 function retireFighter(fighterId) {
   // Logic for retiring the fighter
 }
+
+const buttonId = ref('');
+
+// Generate a consistent ID
+onMounted(() => {
+  buttonId.value = 'radix-vue-dropdown-menu-trigger-1';
+});
+
 </script>
 
 
@@ -155,6 +121,6 @@ function retireFighter(fighterId) {
   cursor: pointer;
   font-size: 1.5rem;
   line-height: 1;
-  padding: 0.25rem;
+  padding: 1rem;
 }
 </style>

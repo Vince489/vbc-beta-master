@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <h1>Retired Fighters</h1>
   </div>
 </template>
 
@@ -8,6 +8,6 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>
