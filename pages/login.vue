@@ -68,7 +68,6 @@
 <script setup>
 import { useAuthStore } from '~/stores/authStore.js';
 import { ref } from 'vue';
-import { navigateTo } from '#app';
 
 const authStore = useAuthStore();
 
@@ -109,9 +108,6 @@ const handleLogin = async () => {
     if (!response.success) {
       // Handle login failure using the message from the response
       generalError.value = 'Error: ' + response.message;
-    } else {
-      // Navigate to overview on successful login
-      navigateTo('/overview');
     }
   } catch (error) {
     // Handle unexpected errors

@@ -16,38 +16,42 @@ export const useAuthStore = defineStore('authStore', () => {
 
     async function $login(email, password) {
         try {
-          const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-            credentials: 'include', // This includes cookies in the request
-          });
-      
-          const data = await response.json();
-      
-          if (!response.ok) {
-            // Throw error with detailed message
-            throw new Error(data.message || 'An error occurred while logging in.');
-          }
-      
-          // Set gamer data and authentication status
-          setAuthenticated(data.gamer);
-      
-          // Store the token in the store
-          token.value = data.token;
-      
-          // Redirect to overview
-          router.push('/overview');
-      
-          return data; // Return the response data
+            const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+                credentials: 'include', // This includes cookies in the request
+            });
+
+            const data = await response.json();
+            console.log(data);
+
+            if (!response.ok) {
+                // Throw error with detailed message
+                throw new Error(data.message || 'An error occurred while logging in.');
+            }
+
+            // Set gamer data and authentication status
+            setAuthenticated(data.gamer);
+
+            // Store the token in the store and local storage
+            token.value = data.token;
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('authToken', data.token);
+            }
+
+            // Redirect to overview
+            router.push('/overview');
+
+            return data; // Return the response data
         } catch (error) {
-          // Re-throw the error so it can be caught in the Vue component
-          throw error;
+            // Re-throw the error so it can be caught in the Vue component
+            throw error;
         }
-      }
-      
+    }
+
     async function fetchGamerData() {
         try {
             const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/me', {
@@ -74,31 +78,7 @@ export const useAuthStore = defineStore('authStore', () => {
         }
     }
 
-    async function deleteFighter(fighterId) {
-        try {
-          const response = await fetch(`https://vbc-login-production.up.railway.app/api/v1/fighters/delete/${fighterId}`, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-              // Assuming you have a function or a way to get your auth token
-              'Authorization': `Bearer ${token.value}`
-            }
-          });
-      
-          if (!response.ok) {
-            throw new Error('Failed to delete the fighter');
-          }
-      
-          // Handle successful deletion
-          console.log('Fighter deleted successfully');
-          // Optionally, refresh the list of fighters or navigate away
-        } catch (error) {
-          console.error('Error deleting fighter:', error);
-          // Handle error (e.g., show an error message to the user)
-        }
-      }    
-
-      async function registerFighter(newFighterData) {
+    async function registerFighter(newFighterData) {
         try {
             const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/fighter/register', {
                 method: 'POST',
@@ -108,29 +88,28 @@ export const useAuthStore = defineStore('authStore', () => {
                 },
                 body: JSON.stringify(newFighterData),
             });
-    
+
             const data = await response.json();
-    
+
             if (!response.ok) {
                 // Extract the error message from the response
                 const errorMessage = data.message || 'An error occurred while registering the fighter.';
                 throw new Error(errorMessage);
             }
-    
+
             // Update local store with the new fighter
             fighters.value.push(data.fighter);
             currentGamer.value.fighters = fighters.value;
-    
+
             // Redirect to overview
             router.push('/overview');
-    
+
             return { success: true, message: 'Fighter registered successfully!' };
         } catch (error) {
             console.error('Registration error:', error.message);
             return { success: false, message: error.message };
         }
     }
-    
 
     async function registerManager(newManagerData) {
         try {
@@ -142,44 +121,53 @@ export const useAuthStore = defineStore('authStore', () => {
                 },
                 body: JSON.stringify(newManagerData),
             });
-    
+
             const data = await response.json();
-    
+
             if (!response.ok) {
                 // Throw the actual error message from the server
                 throw new Error(data.message || 'Unknown error occurred');
             }
-    
+
             // Optionally handle the registered manager data if needed
             console.log('Manager registered successfully:', data.manager);
-    
+
             // Redirect to a relevant page, e.g., a dashboard or overview page
             router.push('/overview');
-    
+
             return true;
         } catch (error) {
             // Log the error message to the console
             console.error('Manager registration error:', error.message);
-    
+
             // Rethrow the error to make it available for the UI if needed
             throw error;
         }
     }
-    
 
     // reset current store
     function $reset() {
         currentGamer.value = null;
         token.value = null;
         fighters.value = []; // Clear fighters array on reset
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('authToken'); // Remove token from local storage
+        }
     }
 
     // Fetch gamer data when the store is initialized
     async function initializeStore() {
-        if (token.value) {
-            await fetchGamerData();
+        if (typeof window !== 'undefined') {
+            const storedToken = localStorage.getItem('authToken');
+            if (storedToken) {
+                token.value = storedToken;
+                await fetchGamerData();
+            }
         }
     }
+
+    // Initialize the store when it is created
+    initializeStore();
 
     return {
         currentGamer,
@@ -190,7 +178,6 @@ export const useAuthStore = defineStore('authStore', () => {
         fetchGamerData,
         registerFighter,
         initializeStore,
-        deleteFighter,
         registerManager,
     };
 }, {
