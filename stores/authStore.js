@@ -12,6 +12,11 @@ export const useAuthStore = defineStore('authStore', () => {
     function setAuthenticated(gamerData) {
         currentGamer.value = gamerData;
         fighters.value = gamerData.fighters || [];
+
+        // Ensure that the VRT coin data is stored
+        if (gamerData.account && gamerData.account.vrtAccount) {
+            gamerData.account.vrtAccount.coin = gamerData.account.vrtAccount.coin || {};
+        }
     }
 
     async function $login(email, password) {

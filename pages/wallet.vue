@@ -9,25 +9,25 @@
         <template v-else>
           <div>
             <div class="text-center mb-4">
-              <p class="text-4xl font-semibold pt-14 pb-2">{{ formattedBalance }} VRT</p>
+              <p class="text-4xl font-semibold pt-8 pb-2">{{ formattedBalance }} VRT</p>
               <p class="text-green-400 font-medium tracking-wider">${{ formattedUSDBalance }} USD</p>
             </div>
-            <div class="flex justify-center mb-8">
+            <div class="flex justify-center pb-4 mb-8">
               <button class="flex-1 bg-cyan-700 hover:bg-cyan-600 text-white py-2 rounded-lg mx-1" @click="send">Send</button>
               <button class="flex-1 bg-cyan-700 hover:bg-cyan-600 text-white py-2 rounded-lg mx-1" @click="swap">Swap</button>
-              <button class="flex-1 bg-cyan-700 hover:bg-cyan-600 text-white py-2 rounded-lg mx-1" @click="receive">Receive</button>
+              <button class="flex-1 bg-cyan-700 hover:bg-cyan-600 text-white py-2 rounded-lg mx-1" @click="airdrop">Airdrop</button>
             </div>
 
             <!-- Coin List Container -->
             <div class="coin-list-container max-h-60vh overflow-y-auto pb-8">
-              <div v-for="token in tokens" :key="token.acronym" class="flex items-center justify-between p-4 bg-gray-800 rounded-lg mb-2">
+              <div v-for="token in tokens" :key="token.symbol" class="flex items-center justify-between p-4 bg-gray-800 rounded-lg mb-2">
                 <div class="flex items-center">
-                  <div :class="[token.bgColor, 'token-icon text-3xl']">{{ token.icon }}</div>
+                  <img :src="token.icon" alt="Token Icon" class="token-icon" />
                   <div>
                     <div>
                       <span class="font-bold">{{ token.name }}</span>
                     </div>
-                    <div class="text-sm text-gray-500">{{ token.acronym }}</div>
+                    <div class="text-sm text-gray-400">{{ token.symbol }}</div>
                   </div>
                 </div>
                 <div class="text-right">
@@ -53,25 +53,42 @@ import { useAuthStore } from '@/stores/authStore';
 
 const authStore = useAuthStore();
 const gamer = ref(null);
+const tokens = ref([]);
 
 // Watch for changes in the authStore's gamer data
 watchEffect(() => {
   gamer.value = authStore.currentGamer;
-});
 
-// Example token data; replace this with actual data from your backend or Vuex store
-const tokens = ref([
-  { icon: 'V', name: 'Virtue', acronym: 'VRT', value: '$412.32', quantity: '50.12', bgColor: 'bg-blue-500' },
-  { icon: 'B', name: 'Boxing Nation Token', acronym: 'BNT', value: '$5053.70', quantity: '1.37', bgColor: 'bg-red-900' },
-  { icon: 'S', name: 'Solana', acronym: 'SOL', value: '$700.25', quantity: '2.51', bgColor: 'bg-yellow-500' },
-  { icon: 'E', name: 'Ethereum', acronym: 'ETH', value: '$2000.40', quantity: '0.80', bgColor: 'bg-blue-700' },
-  { icon: 'B', name: 'Bitcoin', acronym: 'BTC', value: '$40000.00', quantity: '0.56', bgColor: 'bg-yellow-400' },
-  { icon: 'B', name: 'Virtron Stable Token', acronym: 'VSTA', value: '$4034.00', quantity: '4034', bgColor: 'bg-green-400' },
-]);
+  // Extract VRT and token data from the gamer object
+  if (gamer.value && gamer.value.account) {
+    const vrtAccount = gamer.value.account.vrtAccount;
+    
+    if (vrtAccount && vrtAccount.coin) {
+      // Add VRT token to the tokens array
+      tokens.value.push({
+        name: vrtAccount.coin.name, // Use the actual name of the VRT token
+        symbol: vrtAccount.coin.symbol, // Use the acronym or symbol of the VRT token
+        icon: vrtAccount.coin.icon, // Use the icon of the VRT token
+        value: formattedBalance.value, // Add the formatted balance
+        quantity: gamer.value.account.vrtAccount.balance, // Assuming quantity is the balance
+      });
+    }
 
-// Watch for changes in the authStore's gamer data
-onMounted(() => {
-  gamer.value = authStore.currentGamer;
+    // If there are token accounts, add them to the tokens array
+    if (gamer.value.account.tokenAccount && gamer.value.account.tokenAccount.length > 0) {
+      for (const tokenAccount of gamer.value.account.tokenAccount) {
+        if (tokenAccount.token) {
+          tokens.value.push({
+            name: tokenAccount.token.name,
+            symbol: tokenAccount.token.symbol,
+            icon: tokenAccount.token.icon, // Assuming each token has an icon property
+            value: tokenAccount.value, // Assuming tokenAccount has a value field
+            quantity: tokenAccount.quantity, // Assuming tokenAccount has a quantity field
+          });
+        }
+      }
+    }
+  }
 });
 
 const formattedBalance = computed(() => {
@@ -94,7 +111,7 @@ function swap() {
   // Logic for swapping tokens
 }
 
-function receive() {
+function airdrop() {
   // Logic for receiving tokens
 }
 </script>
@@ -109,9 +126,13 @@ function receive() {
   justify-content: center;
   margin-right: 1rem;
 }
-.coin-list-container {
-  max-height: 60vh;
-  overflow-y: auto;
-  padding-bottom: 2rem;
+.coin-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
 }
 </style>

@@ -4,7 +4,7 @@
     <p class="text-center mb-6 text-gray-300">This is the only way to recover your wallet. Do not share it with anyone.</p>
     <div id="seed-phrase-container" class="p-5 rounded-lg mb-6 text-sm font-medium text-gray-700 grid grid-cols-3 gap-3">
       <span v-for="(word, index) in walletStore.seedPhraseWords" :key="index" class="bg-gray-200 p-2 rounded">
-        {{ word }}
+        {{ index + 1 }}. {{ word }}
       </span>
     </div>
     <div class="flex justify-center mb-4">
