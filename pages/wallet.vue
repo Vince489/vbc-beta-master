@@ -1,27 +1,31 @@
 <template>
   <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-2">
-    <h1>Wallet</h1>
-    <div v-if="gamer && gamer.account && gamer.account.vrtAccount">
-      <h2>Balance: {{ gamer.account.vrtAccount.balance }}</h2>
-    </div>
-    <div v-else>
-      <p>Loading...</p>
-    </div>
+    <!-- Use a conditional rendering to show loading text while gamer data is null -->
+    <template v-if="!gamer">
+      <p class="text-center">Loading...</p>
+    </template>
+    <!-- Once gamer data is available, display user's information -->
+    <template v-else>
+      <div>
+        <p class="text-lg text-gray-300 font-bold">{{ gamer.account.vrtAccount.balance.toFixed(2) }}</p>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useAuthStore } from '~/stores/authStore.js';
+import { ref, watchEffect } from 'vue';
+import { useAuthStore } from '@/stores/authStore';
 
 const authStore = useAuthStore();
 const gamer = ref(null);
 
-onMounted(() => {
+// Watch for changes in the authStore's gamer data
+watchEffect(() => {
   gamer.value = authStore.currentGamer;
 });
 </script>
 
 <style scoped>
-/* Add any scoped styles here */
+/* Styles remain the same */
 </style>
