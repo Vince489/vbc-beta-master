@@ -35,6 +35,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
             // Set gamer data and authentication status
             setAuthenticated(data.gamer);
+            console.log(data.gamer);
 
             // Store the token in the store and local storage
             token.value = data.token;
