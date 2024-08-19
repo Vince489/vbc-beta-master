@@ -1,10 +1,9 @@
 <template>
   <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-2">
-    <!-- Use a conditional rendering to show loading text while gamer data is null -->
-    <template v-if="!gamer">
+    <!-- Conditional rendering based on gamer data -->
+    <template v-if="gamerLoading">
       <p class="text-center">Loading...</p>
     </template>
-    <!-- Once gamer data is available, display user's information -->
     <template v-else>
       <div class="pb-3 upper-fold pt-4 grid grid-cols-2">
         <div>
@@ -19,13 +18,11 @@
             <p>{{ gamer.account && gamer.account.vrtAccount ? (gamer.account.vrtAccount.balance / 100).toFixed(2) : '0.00' }}</p>
             <span class="ml-2 text-xl">VRT</span>
           </div>
-          <!-- Updated the button to take full width -->
           <Button class="bg-cyan-800 hover:bg-cyan-600 font-semibold px-3 text-lg text-gray-100 w-full">
             <nuxt-link to="/eac">Register</nuxt-link>
           </Button>
         </div>
       </div>
-      <!-- Centered fighter cards -->
       <div class="flex justify-center mt-4">
         <div class="w-full max-w-4xl">
           <div class="flex flex-wrap gap-4 justify-center">
@@ -57,12 +54,11 @@
           </div>
         </div>
       </div>
-      <!-- Manager card section -->
       <div class="flex justify-center mt-8">
         <Card v-if="gamer.managerRole" class="border p-4 rounded shadow bg-gray-800 w-full max-w-[400px]">
           <div class="flex items-center space-x-4">
             <div class="flex-shrink-0">
-              <img :src="gamer.image" alt="manager" class="w-12 h-12 rounded-full" />
+              <img :src="gamer.managerRole.image || gamer.image" alt="manager" class="w-12 h-12 rounded-full" />
             </div>
             <div>
               <p class="text-lg text-gray-300 font-bold">{{ gamer.managerRole.firstName }} {{ gamer.managerRole.lastName }}</p>
@@ -81,21 +77,28 @@ import { ref, computed, onMounted } from 'vue';
 import { useAuthStore } from '@/stores/authStore';
 
 const authStore = useAuthStore();
-const gamer = ref(authStore.currentGamer);
+const gamer = ref(null);
+const gamerLoading = ref(true);
+
+// Fetch gamer data on component mount
+onMounted(async () => {
+  gamerLoading.value = true;
+  try {
+    await authStore.fetchGamerData();
+    gamer.value = authStore.currentGamer;
+  } catch (error) {
+    console.error('Error fetching gamer data:', error.message);
+  } finally {
+    gamerLoading.value = false;
+  }
+});
 
 // Get the first letter of the gamerTag
-const firstLetterOfGamerTag = computed(() => gamer.value && gamer.value.gamerTag ? gamer.value.gamerTag.charAt(0).toUpperCase() : '');
+const firstLetterOfGamerTag = computed(() => gamer.value?.gamerTag.charAt(0).toUpperCase() || '');
 
 function retireFighter(fighterId) {
   // Logic for retiring the fighter
 }
-
-const buttonId = ref('');
-
-// Generate a consistent ID
-onMounted(() => {
-  buttonId.value = 'radix-vue-dropdown-menu-trigger-1';
-});
 </script>
 
 <style scoped>
