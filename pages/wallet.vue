@@ -7,7 +7,7 @@
     <!-- Once gamer data is available, display user's information -->
     <template v-else>
       <div>
-        <p class="text-lg text-gray-300 font-bold">{{ gamer.account.vrtAccount.balance.toFixed(2) }}</p>
+        <p class="text-lg text-gray-300 font-bold">{{ (gamer.account.vrtAccount.balance /100).toFixed(2) }}</p>
       </div>
     </template>
   </div>

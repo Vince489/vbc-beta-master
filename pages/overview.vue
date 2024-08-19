@@ -14,12 +14,13 @@
           </Avatar>
           <p class="pt-1 text-sm text-cyan-600 font-semibold font-mono tracking-wide">@{{ gamer.gamerTag }}</p>
         </div>
-        <div class="flex flex-col justify-end">
-          <!-- Display account balance in large font -->
-          <p class="text-4xl text-gray-300 font-bold mb-2 p-4">
-            ${{ accountBalance }}
-          </p>
-          <Button class="bg-cyan-800 hover:bg-cyan-600 font-semibold px-3 text-lg text-gray-100">
+        <div class="flex flex-col justify-end items-end">
+          <div class="flex items-center text-gray-300 text-4xl font-bold mb-2 p-4">
+            <p>{{ gamer.account && gamer.account.vrtAccount ? (gamer.account.vrtAccount.balance / 100).toFixed(2) : '0.00' }}</p>
+            <span class="ml-2 text-xl">VRT</span>
+          </div>
+          <!-- Updated the button to take full width -->
+          <Button class="bg-cyan-800 hover:bg-cyan-600 font-semibold px-3 text-lg text-gray-100 w-full">
             <nuxt-link to="/eac">Register</nuxt-link>
           </Button>
         </div>
@@ -51,9 +52,6 @@
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-                <!-- <div class="mt-4">
-                  <p class="text-gray-300 font-semibold"> Rank: {{ fighter.rank === 0 ? 'NR' : fighter.rank }} </p>
-                </div> -->
               </Card>
             </template>
           </div>
@@ -64,7 +62,7 @@
         <Card v-if="gamer.managerRole" class="border p-4 rounded shadow bg-gray-800 w-full max-w-[400px]">
           <div class="flex items-center space-x-4">
             <div class="flex-shrink-0">
-              <img :src="gamer.managerRole.image" alt="manager" class="w-12 h-12 rounded-full" />
+              <img :src="gamer.image" alt="manager" class="w-12 h-12 rounded-full" />
             </div>
             <div>
               <p class="text-lg text-gray-300 font-bold">{{ gamer.managerRole.firstName }} {{ gamer.managerRole.lastName }}</p>
@@ -72,15 +70,11 @@
               <p class="text-sm text-gray-400">Earnings: ${{ gamer.managerRole.earnings }}</p>
             </div>
           </div>
-          <!-- <div class="mt-4">
-            <p class="text-gray-300 font-semibold"> Rank: {{ gamer.managerRole.rank === 0 ? 'NR' : gamer.managerRole.rank }} </p>
-          </div> -->
         </Card>
       </div>
     </template>
   </div>
 </template>
-
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
@@ -92,14 +86,6 @@ const gamer = ref(authStore.currentGamer);
 // Get the first letter of the gamerTag
 const firstLetterOfGamerTag = computed(() => gamer.value && gamer.value.gamerTag ? gamer.value.gamerTag.charAt(0).toUpperCase() : '');
 
-// Computed property to get the account balance or default to $0.00
-const accountBalance = computed(() => {
-  if (gamer.value && gamer.value.account && gamer.value.account.vrtAccount && gamer.value.account.vrtAccount.balance !== undefined) {
-    return gamer.value.account.vrtAccount.balance.toFixed(2);
-  }
-  return '0.00';
-});
-
 function retireFighter(fighterId) {
   // Logic for retiring the fighter
 }
@@ -110,9 +96,7 @@ const buttonId = ref('');
 onMounted(() => {
   buttonId.value = 'radix-vue-dropdown-menu-trigger-1';
 });
-
 </script>
-
 
 <style scoped>
 .dots-button {
