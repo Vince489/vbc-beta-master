@@ -94,6 +94,9 @@
           </TableBody>
         </Table>
       </div>
+      <div>
+        <h2 class="text-xl text-center font-bold mb-4">Contracts</h2>
+      </div>
     </div>
   </div>
 </template>
