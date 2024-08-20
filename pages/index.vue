@@ -47,7 +47,27 @@
   <section>
 
     <div class="flex justify-center pt-10 pb-10">
-      <h1 class="text-4xl font-semibold">Top 10</h1>
+      <h1 class="text-4xl font-semibold">Upcoming Events</h1>
+    </div>
+
+    <div>
+
+    </div>
+
+    <div>
+
+    </div>
+
+    <div>
+      
+    </div>
+
+  </section>
+
+  <section>
+
+    <div class="flex justify-center pt-10 pb-10">
+      <h1 class="text-4xl font-semibold">Tournaments</h1>
     </div>
 
     <div>

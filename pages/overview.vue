@@ -36,6 +36,7 @@
                     <p class="text-lg text-gray-300 font-bold">{{ fighter.firstName }} {{ fighter.lastName }}</p>
                     <p class="text-sm text-gray-400 font-semibold">{{ fighter.weightClass }}</p>
                     <p class="text-sm text-gray-400">({{ fighter.wins }}-{{ fighter.losses }}-{{ fighter.draws }})</p>
+                    <p class="text-sm text-gray-400">ID# {{ fighter._id }}</p>
                   </div>
                 </nuxt-link>
                 <div class="absolute top-0 right-0">
@@ -64,6 +65,8 @@
               <p class="text-lg text-gray-300 font-bold">{{ gamer.managerRole.firstName }} {{ gamer.managerRole.lastName }}</p>
               <p class="text-sm text-gray-400 font-semibold">Manager</p>
               <p class="text-sm text-gray-400">Earnings: ${{ gamer.managerRole.earnings }}</p>
+              <p class="text-sm text-gray-400">ID# {{ gamer.managerRole._id }}</p>
+
             </div>
           </div>
         </Card>

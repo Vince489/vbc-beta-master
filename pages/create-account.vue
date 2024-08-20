@@ -1,7 +1,7 @@
 <template>
   <div class="p-6 rounded-lg shadow-lg m-4 max-w-md w-full mx-auto mt-12">
     <h1 class="text-3xl font-semibold text-center mb-4 text-gray-800">Setup Your Secret Recovery Phrase</h1>
-    <p class="text-center mb-6 text-gray-300">This is the only way to recover your wallet. Do not share it with anyone.</p>
+    <p class="text-center mb-6 text-gray-300">Generate your 12-word Seed Phrase. This is the only way to recover your wallet. Do not share it with anyone. Store it in a safe place.</p>
     <div id="seed-phrase-container" class="p-5 rounded-lg mb-6 text-sm font-medium text-gray-700 grid grid-cols-3 gap-3">
       <span v-for="(word, index) in walletStore.seedPhraseWords" :key="index" class="bg-gray-200 p-2 rounded">
         {{ index + 1 }}. {{ word }}

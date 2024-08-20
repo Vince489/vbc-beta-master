@@ -15,6 +15,8 @@
             <h1 class="text-2xl font-semibold">{{ fighter.firstName }} {{ fighter.lastName }}</h1>
             <p class="text-blue-200">@{{ fighter.gamerTag }}</p>
             <p class="text-gray-400 italic">{{ fighter.nickname }}</p>
+            <p class="text-sm text-gray-400">ID# {{ fighter._id }}</p>
+
           </div>
         </div>
         <div class="mt-4">
