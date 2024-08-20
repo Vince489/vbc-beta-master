@@ -32,7 +32,7 @@
                 </div>
                 <div class="text-right">
                   <div><span class="tracking-wider text-gray-200">{{ token.value }}</span></div>
-                  <div><span class="text-green-400">{{ token.quantity }}</span></div>
+                  <div><span class="text-green-400">${{ token.quantity }}</span></div>
                 </div>
               </div>
               <!-- Manage Tokens Link -->
@@ -69,8 +69,8 @@ watchEffect(() => {
         name: vrtAccount.coin.name, // Use the actual name of the VRT token
         symbol: vrtAccount.coin.symbol, // Use the acronym or symbol of the VRT token
         icon: vrtAccount.coin.icon, // Use the icon of the VRT token
-        value: formattedBalance.value, // Add the formatted balance
-        quantity: gamer.value.account.vrtAccount.balance, // Assuming quantity is the balance
+        value: (gamer.value.account.vrtAccount.balance / 100).toFixed(2),// Add the formatted balance
+        quantity: (gamer.value.account.vrtAccount.balance / 10000).toFixed(2), // Assuming quantity is the balance
       });
     }
 
