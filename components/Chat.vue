@@ -26,7 +26,6 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useNuxtApp } from '#app'
 
 const messages = ref([
   // Sample initial messages

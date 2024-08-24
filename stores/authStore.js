@@ -40,7 +40,6 @@ export const useAuthStore = defineStore('authStore', () => {
 
             // Set gamer data and authentication status
             setAuthenticated(data.gamer);
-            console.log(data.gamer);
 
             // Store the token in the store and local storage
             token.value = data.token;
@@ -59,30 +58,41 @@ export const useAuthStore = defineStore('authStore', () => {
     }
 
     async function fetchGamerData() {
+        console.log('Fetching gamer data...');
+        const token = localStorage.getItem('authToken');
+        console.log('Token used:', token);
+    
         try {
+            if (!token) {
+                console.error('No authentication token found.');
+                throw new Error('No authentication token found.');
+            }
+    
             const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/me', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token.value}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
-
+    
             const data = await response.json();
-
+            console.log('Fetched gamer data:', data);
+    
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while fetching gamer data.');
             }
-
-            // Set gamer data and update fighters
+    
             setAuthenticated(data.gamer);
-
             return true;
         } catch (error) {
             console.error('Fetch gamer data error:', error.message);
+            $reset();
             return false;
         }
     }
+    
+    
 
     async function registerFighter(newFighterData) {
         try {
@@ -163,14 +173,26 @@ export const useAuthStore = defineStore('authStore', () => {
 
     // Fetch gamer data when the store is initialized
     async function initializeStore() {
+        console.log('Initializing store...');
         if (typeof window !== 'undefined') {
             const storedToken = localStorage.getItem('authToken');
+            console.log('Stored Token:', storedToken);
+    
             if (storedToken) {
                 token.value = storedToken;
-                await fetchGamerData();
+                try {
+                    await fetchGamerData();
+                } catch (error) {
+                    console.error('Initialization error:', error.message);
+                    $reset();
+                }
+            } else {
+                console.warn('No stored token found.');
             }
         }
     }
+    
+    
 
     // Initialize the store when it is created
     initializeStore();

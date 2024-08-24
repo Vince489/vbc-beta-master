@@ -1,34 +1,54 @@
 <template>
   <div class="pt-12 min-h-screen p-4">
-    <!-- Stories Section -->
-    <Stories :stories="stories" />
-
-    <!-- Chat History Section -->
-    <div class="rounded-lg shadow-sm divide-y divide-gray-200 dark:divide-gray-700">
-      <ChatHistory :chats="chats" />
-    </div>
+    <!-- Conditional rendering based on gamer data -->
+    <template v-if="gamerLoading">
+      <p class="text-center">Loading...</p>
+    </template>
+    <template v-else>
+      <!-- Chat History Section -->
+      <div v-if="gamer && gamer.conversations">
+        <p>{{ gamer.conversations }}</p>
+        <!-- Uncomment and use your component if needed -->
+        <!-- <div class="rounded-lg shadow-sm divide-y divide-gray-200 dark:divide-gray-700">
+          <ChatHistory :chats="formattedChats" />
+        </div> -->
+      </div>
+      <div v-else>
+        <p>No conversations available.</p>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import { useAuthStore } from '@/stores/authStore';
 
-const placeholderUrl = 'https://via.placeholder.com/150';
+const authStore = useAuthStore();
+const gamer = ref(null);
+const gamerLoading = ref(true);
+const error = ref(null);
+const formattedChats = ref([]);
 
-const stories = [
-  { id: 1, name: 'My Story', avatar: `${placeholderUrl}`, isNew: true },
-  { id: 2, name: 'Zkairr K.', avatar: `${placeholderUrl}`, isNew: false },
-  { id: 3, name: 'Suhana', avatar: `${placeholderUrl}`, isNew: false },
-  { id: 4, name: 'Aniton', avatar: `${placeholderUrl}`, isNew: true },
-  { id: 5, name: 'Karima', avatar: `${placeholderUrl}`, isNew: false },
-];
 
-const chats = [
-  { id: 1, name: 'Weekend Plan', avatar: `${placeholderUrl}`, message: 'Sima: Is there any plan on this...', timestamp: '11:30 PM', isOnline: false, isTyping: false },
-  { id: 2, name: 'Albert Flores', avatar: `${placeholderUrl}`, message: 'This is nice, I love it ❤️', timestamp: '12:55 AM', isOnline: true, isTyping: false },
-  { id: 3, name: 'Marzuki Linos', avatar: `${placeholderUrl}`, message: 'What are you doing now?', timestamp: 'Just Now', isOnline: true, isTyping: true },
-  { id: 4, name: 'Guy Hawkins', avatar: `${placeholderUrl}`, message: 'Typing...', timestamp: 'Yesterday', isOnline: true, isTyping: true },
-  { id: 5, name: 'Kristin Watson', avatar: `${placeholderUrl}`, message: 'Sent you an image', timestamp: '14/12/2022', isOnline: false, isTyping: false },
-];
+
+// Fetch gamer data on component mount
+onMounted(async () => {
+  gamerLoading.value = true;
+  try {
+    console.log('Fetching gamer data');
+    await authStore.fetchGamerData();
+    gamer.value = authStore.currentGamer;
+    console.log('Fetched gamer data:', gamer.value);
+  } catch (error) {
+    console.error('Error fetching gamer data:', error.message);
+  } finally {
+    gamerLoading.value = false;
+  }
+});
+
+
+
 </script>
 
 <style scoped>
