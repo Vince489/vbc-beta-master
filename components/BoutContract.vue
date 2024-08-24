@@ -4,19 +4,17 @@
     <!-- Boxer vs Opponent -->
     <div class="flex flex-col sm:flex-row justify-around items-center mb-4">
       <div class="text-center mb-4 sm:mb-0">
-        <h3 class="text-xl font-semibold">Boxer</h3>
-        <p class="text-gray-400 text-sm">Name: Bob Bopper</p>
-        <p class="text-gray-400 text-sm">Gamer Tag: BIbby12</p>
-        <p class="text-gray-400 text-sm">ID: 04mkec49f1b1f1a1a1a1a2j5</p>
+        <p class="text-lg font-semibold">Name: Bob Bopper</p>
+        <p class="text-gray-300 text-lg ">Gamer Tag: BIbby12</p>
+        <p class="text-gray-300 text-sm">ID: 04mkec49f1b1f1a1a1a1a2j5</p>
       </div>
       <div class="text-center mb-4 sm:mb-0">
         <h3 class="text-xl font-semibold">vs</h3>
       </div>
       <div class="text-center">
-        <h3 class="text-xl font-semibold">Opponent</h3>
-        <p class="text-gray-400 text-sm">Name: Chris Cutter</p>
-        <p class="text-gray-400 text-sm">Gamer Tag: Chrissy</p>
-        <p class="text-gray-400 text-sm">ID: 60d5ec49f1b1f1a1a1a1a3</p>
+        <p class="text-lg font-semibold">Name: Chris Cutter</p>
+        <p class="text-gray-300 text-lg">Gamer Tag: Chrissy</p>
+        <p class="text-gray-300 text-sm">ID: 60d5ec49f1b1f1a1a1a1a3</p>
       </div>
     </div>
     <!-- Venue and Title -->
