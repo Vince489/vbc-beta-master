@@ -31,8 +31,6 @@ export const useAuthStore = defineStore('authStore', () => {
             });
 
             const data = await response.json();
-            console.log(data);
-
             if (!response.ok) {
                 // Throw error with detailed message
                 throw new Error(data.message || 'An error occurred while logging in.');
@@ -91,6 +89,39 @@ export const useAuthStore = defineStore('authStore', () => {
             return false;
         }
     }
+
+    async function deleteFighter(fighterId) {
+        try {
+          const response = await fetch(`https://vbc-login-production.up.railway.app/api/v1/fighter/delete/${fighterId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token.value}`,
+            },
+          });
+      
+          const data = await response.json();
+      
+          if (!response.ok) {
+            // Extract the error message from the response
+            const errorMessage = data.message || 'An error occurred while deleting the fighter.';
+            throw new Error(errorMessage);
+          }
+      
+          // Remove the fighter from the local store
+          fighters.value = fighters.value.filter(f => f.id !== fighterId);
+          currentGamer.value.fighters = fighters.value;
+      
+          // Redirect to overview
+          router.push('/overview');
+      
+          return { success: true, message: 'Fighter deleted successfully!' };
+        } catch (error) {
+          console.error('Deletion error:', error.message);
+          return { success: false, message: error.message };
+        }
+      }
+      
     
     
 
@@ -207,6 +238,7 @@ export const useAuthStore = defineStore('authStore', () => {
         registerFighter,
         initializeStore,
         registerManager,
+        deleteFighter
     };
 }, {
     persist: {

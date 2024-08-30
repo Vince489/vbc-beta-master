@@ -1,35 +1,78 @@
 <template>
-  <div class="rounded-lg shadow-sm divide-y divide-gray-200 dark:divide-gray-700">
-    <div v-for="chat in chats" :key="chat.id" class="flex items-center p-4">
-      <div class="relative">
-        <img :src="chat.avatar" alt="Avatar" class="w-12 h-12 rounded-full object-cover" />
-        <span v-if="chat.isOnline" class="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-500 border-2 border-white dark:border-gray-800"></span>
-      </div>
-      <div class="ml-4 flex-1">
-        <div class="flex justify-between">
-          <p class="font-medium">{{ chat.name }}</p>
-          <span class="text-xs text-gray-300">{{ chat.timestamp }}</span>
+  <div class="space-y-4 mt-4">
+    <div
+      v-for="(conversation, index) in gamer.conversations"
+      :key="conversation._id"
+      class="p-4 bg-gray-800 rounded-lg cursor-pointer"
+      @click="navigateToChat(conversation)"
+    >
+      <div class="flex space-x-4">
+        <!-- Avatar -->
+        <div class="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center text-xs">
+          <img :src="getAvatar(conversation)" class="w-full h-full rounded-full object-cover" alt="Avatar">
         </div>
-        <p class="text-sm text-gray-400">
-          <span v-if="chat.isTyping" class="italic text-blue-500">Typing...</span>
-          <span v-else>{{ chat.message }}</span>
-        </p>
+        <!-- Conversation Details -->
+        <div class="flex-1 relative">
+          <div class="flex justify-between items-start">
+            <!-- Gamer Tag -->
+            <p class="text-sm font-semibold">{{ getGamerTag(conversation) }}</p>
+            <!-- Timestamp of the last message -->
+            <p class="text-xs text-gray-400 absolute top-0 right-0">{{ formatDate(conversation.lastMessageTimestamp) }}</p>
+          </div>
+          <!-- Last Message -->
+          <p class="text-sm text-gray-300 mt-1">{{ truncateMessage(conversation.lastMessage) }}</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
 import { defineProps } from 'vue';
 
 const props = defineProps({
-  chats: {
-    type: Array,
+  gamer: {
+    type: Object,
     required: true
   }
 });
-</script>
 
-<style scoped>
-/* Custom styles can be added here if necessary */
-</style>
+const router = useRouter();
+
+function formatDate(timestamp) {
+  const date = new Date(timestamp);
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function truncateMessage(message) {
+  const maxLength = 50;
+  return (message && message.length > maxLength) ? `${message.slice(0, maxLength)}...` : message || '';
+}
+
+function getAvatar(conversation) {
+  if (conversation.chats && conversation.chats.length > 0) {
+    const chat = conversation.chats[0];
+    const avatar = chat.senderId?._id === props.gamer._id ? chat.receiverId?.image : chat.senderId?.image;
+    return avatar || 'default-avatar.png';
+  }
+  return 'default-avatar.png';
+}
+
+function getGamerTag(conversation) {
+  if (conversation.chats && conversation.chats.length > 0) {
+    const chat = conversation.chats[0];
+    return chat.senderId?._id === props.gamer._id ? chat.receiverId?.gamerTag : chat.senderId?.gamerTag;
+  }
+  return 'Unknown Gamer';
+}
+
+function navigateToChat(conversation) {
+  router.push({ 
+    path: '/chatMessage', 
+    query: { 
+      conversationId: conversation._id 
+    }
+  });
+}
+</script>
