@@ -47,6 +47,7 @@
                     <DropdownMenuContent>
                       <DropdownMenuItem @click="">Legacy</DropdownMenuItem>
                       <DropdownMenuItem @click="retireFighter(fighter._id)">Retire Fighter</DropdownMenuItem>
+                      <DropdownMenuItem @click="deleteFighter(fighter._id)">Delete Fighter</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -100,6 +101,10 @@ onMounted(async () => {
 const firstLetterOfGamerTag = computed(() => gamer.value?.gamerTag.charAt(0).toUpperCase() || '');
 
 function retireFighter(fighterId) {
+  // Logic for retiring the fighter
+}
+
+function deleteFighter(fighterId) {
   // Logic for retiring the fighter
 }
 </script>

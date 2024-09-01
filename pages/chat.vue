@@ -1,36 +1,67 @@
 <template>
-  <div class="pt-12 min-h-screen p-4">
-    <!-- Stories Section -->
-    <Stories :stories="stories" />
+  <div class="pt-12 min-h-screen p-4 bg-gray-900 text-white">
+    <template v-if="gamerLoading">
+      <p class="text-center">Loading...</p>
+    </template>
+    <template v-else>
+      <div v-if="gamer && gamer.conversations.length">
+        <!-- Chat Header -->
+        <div class="flex items-center overflow-x-auto space-x-4 p-4">
+          <div v-for="(conversation, index) in gamer.conversations" :key="index" class="flex-shrink-0">
+            <div class="w-16 h-16 rounded-full bg-gray-700 flex items-center justify-center text-xs">
+              <!-- Show the recipient's avatar if you're the sender, otherwise show the sender's avatar -->
+              <img :src="getAvatar(conversation)" class="w-full h-full rounded-full object-cover">
+            </div>
+            <p class="text-center text-sm mt-2">
+              <!-- Show the recipient's gamerTag if you're the sender, otherwise show the sender's gamerTag -->
+              {{ getGamerTag(conversation) }}
+            </p>
+          </div>
+        </div>
 
-    <!-- Chat History Section -->
-    <div class="rounded-lg shadow-sm divide-y divide-gray-200 dark:divide-gray-700">
-      <ChatHistory :chats="chats" />
-    </div>
+        <!-- Chat History -->
+        <ChatHistory :gamer="gamer" />
+      </div>
+      <div v-else>
+        <p>No conversations available.</p>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue';
+import { useAuthStore } from '@/stores/authStore';
 
-const placeholderUrl = 'https://via.placeholder.com/150';
+const authStore = useAuthStore();
+const gamer = ref(null);
+const gamerLoading = ref(true);
 
-const stories = [
-  { id: 1, name: 'My Story', avatar: `${placeholderUrl}`, isNew: true },
-  { id: 2, name: 'Zkairr K.', avatar: `${placeholderUrl}`, isNew: false },
-  { id: 3, name: 'Suhana', avatar: `${placeholderUrl}`, isNew: false },
-  { id: 4, name: 'Aniton', avatar: `${placeholderUrl}`, isNew: true },
-  { id: 5, name: 'Karima', avatar: `${placeholderUrl}`, isNew: false },
-];
+onMounted(async () => {
+  gamerLoading.value = true;
+  try {
+    await authStore.fetchGamerData();
+    gamer.value = authStore.currentGamer;
+  } catch (error) {
+    console.error('Error fetching gamer data:', error.message);
+  } finally {
+    gamerLoading.value = false;
+  }
+});
 
-const chats = [
-  { id: 1, name: 'Weekend Plan', avatar: `${placeholderUrl}`, message: 'Sima: Is there any plan on this...', timestamp: '11:30 PM', isOnline: false, isTyping: false },
-  { id: 2, name: 'Albert Flores', avatar: `${placeholderUrl}`, message: 'This is nice, I love it ❤️', timestamp: '12:55 AM', isOnline: true, isTyping: false },
-  { id: 3, name: 'Marzuki Linos', avatar: `${placeholderUrl}`, message: 'What are you doing now?', timestamp: 'Just Now', isOnline: true, isTyping: true },
-  { id: 4, name: 'Guy Hawkins', avatar: `${placeholderUrl}`, message: 'Typing...', timestamp: 'Yesterday', isOnline: true, isTyping: true },
-  { id: 5, name: 'Kristin Watson', avatar: `${placeholderUrl}`, message: 'Sent you an image', timestamp: '14/12/2022', isOnline: false, isTyping: false },
-];
+// Helper function to get avatar URL from a conversation
+function getAvatar(conversation) {
+  const latestChat = conversation.chats[conversation.chats.length - 1];
+  return latestChat ? (latestChat.senderId?._id === gamer.value._id ? latestChat.receiverId?.image : latestChat.senderId?.image) || 'default-avatar.png' : 'default-avatar.png';
+}
+
+// Helper function to get gamer tag from a conversation
+function getGamerTag(conversation) {
+  const latestChat = conversation.chats[conversation.chats.length - 1];
+  return latestChat ? (latestChat.senderId?._id === gamer.value._id ? latestChat.receiverId?.gamerTag : latestChat.senderId?.gamerTag) : 'Unknown';
+}
 </script>
 
 <style scoped>
-/* Custom styles can be added here if necessary */
+/* Additional styling if needed */
 </style>

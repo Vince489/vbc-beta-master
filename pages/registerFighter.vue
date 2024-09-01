@@ -20,7 +20,7 @@
               <FormItem>
                 <FormLabel class="block text-sm font-medium text-white">Last Name</FormLabel>
                 <FormControl>
-                  <input type="text" placeholder="First Name" v-model="lastName" class="bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                  <input type="text" placeholder="Last Name" v-model="lastName" class="bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -38,7 +38,6 @@
             </FormField>
           </div>
         </div>
-
         <!-- Stance Radio Button Group -->
         <div class="col-span-2 mb-4">
           <FormField v-slot="{ field }" name="stance" class="mb-4">
@@ -60,24 +59,20 @@
             </FormItem>
           </FormField>
         </div>
-
-          <!-- Overall Level Dropdown -->
-          <div class="col-span-2 mb-4">
-            <FormField v-slot="{ field }" name="overallLvl" class="mb-4">
-              <FormItem>
-                <FormLabel class="block text-white text-sm font-bold">Overall Level</FormLabel>
-                <FormControl>
-                  <select v-model="ovr" class="rounded-sm p-1 bg-slate-500 w-1/4">
-                    <option v-for="level in overallLevels" :key="level">
-                      {{ level }}
-                    </option>
-                  </select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-          </div>
-        
+        <!-- Overall Level Dropdown -->
+        <div class="col-span-2 mb-4">
+          <FormField v-slot="{ field }" name="overallLvl" class="mb-4">
+            <FormItem>
+              <FormLabel class="block text-white text-sm font-bold">Overall Level</FormLabel>
+              <FormControl>
+                <select v-model="ovr" class="rounded-sm p-1 bg-slate-500 w-1/4">
+                  <option v-for="level in overallLevels" :key="level"> {{ level }} </option>
+                </select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+        </div>
         <!-- Natural Weight division -->
         <div class="mb-4">
           <FormField v-slot="{ field }" name="naturalWeightDivision" class="mb-4">
@@ -123,7 +118,6 @@
             </FormItem>
           </FormField>
         </div>
-
         <!-- Current Weight Class -->
         <div class="col-span-2 mb-4">
           <FormField v-slot="{ field }" name="currentWeightClass" class="mb-4">
@@ -132,16 +126,13 @@
               <FormControl>
                 <select v-model="selectedWeightClass" class="rounded-sm p-1 bg-slate-500 w- max-w-md">
                   <option disabled value="">Please select a weight class</option>
-                  <option v-for="weightClass in filteredWeightClasses" :key="weightClass.value" :value="weightClass.value">
-                    {{ weightClass.label }}
-                  </option>
+                  <option v-for="weightClass in filteredWeightClasses" :key="weightClass.value" :value="weightClass.value"> {{ weightClass.label }} </option>
                 </select>
               </FormControl>
               <FormMessage />
             </FormItem>
           </FormField>
         </div>
-
         <!-- Reach Slider -->
         <div class="col-span-2 mb-4">
           <FormField v-slot="{ field }" name="reach" class="mb-4">
@@ -157,26 +148,24 @@
             </FormItem>
           </FormField>
         </div>
-                 
-          <!-- Height Slider -->
-          <div class="col-span-2 mb-4">
-            <FormField v-slot="{ field }" name="height" class="mb-4">
-              <FormItem>
-                <FormLabel class="block text-white text-sm font-bold">Height</FormLabel>
-                <FormControl>
-                  <input type="range" v-model="height" :min="minHeight" :max="maxHeight" class="w-full" />
-                  <div class="flex justify-between text-white text-sm font-semibold mt-2">
-                    <span>Height value: {{ feet }} ft {{ inches }} in</span>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            </FormField>
-          </div>
-
-          <div class="flex justify-center">
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Register Fighter</button>
-          </div>
+        <!-- Height Slider -->
+        <div class="col-span-2 mb-4">
+          <FormField v-slot="{ field }" name="height" class="mb-4">
+            <FormItem>
+              <FormLabel class="block text-white text-sm font-bold">Height</FormLabel>
+              <FormControl>
+                <input type="range" v-model="height" :min="minHeight" :max="maxHeight" class="w-full" />
+                <div class="flex justify-between text-white text-sm font-semibold mt-2">
+                  <span>Height value: {{ feet }} ft {{ inches }}</span>
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+        </div>
+        <div class="flex justify-center">
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Register Fighter</button>
+        </div>
       </form>
       <p v-if="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</p>
       <p v-if="successMessage" class="text-green-500 mt-4">{{ successMessage }}</p>
@@ -197,7 +186,9 @@ const ovr = ref(78);
 const height = ref(64);
 const reach = ref(61);
 const naturalWeightDivision = ref('');
-const selectedWeightClass = ref(''); // Initialize selectedWeightClass
+const selectedWeightClass = ref('');
+
+// Initialize selectedWeightClass
 const errorMessage = ref('');
 const successMessage = ref('');
 
@@ -261,14 +252,12 @@ watch(naturalWeightDivision, (newVal) => {
   if (division) {
     maxReach.value = division.maxReach;
     maxHeight.value = division.maxHeight;
-    minHeight.value = 64;  // Adjust as needed
+    minHeight.value = 64; // Adjust as needed
   }
-
   // Reset reach if it exceeds the new maxReach
   if (reach.value > maxReach.value) {
     reach.value = maxReach.value;
   }
-
   // Reset height if it exceeds the new maxHeight
   if (height.value > maxHeight.value) {
     height.value = maxHeight.value;
@@ -281,29 +270,38 @@ const inches = computed(() => height.value % 12);
 
 // Function to register a fighter
 const registerFighter = async () => {
-    const newFighterData = {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        nickname: nickname.value,
-        stance: stance.value,
-        ovr: ovr.value,
-        heightFt: feet.value,
-        heightIn: inches.value,
-        reach: reach.value,
-        naturalWeightDivision: naturalWeightDivision.value,
-        weightClass: selectedWeightClass.value // Ensure selectedWeightClass is properly defined
-    };
+  // Clear previous messages
+  errorMessage.value = '';
+  successMessage.value = '';
 
-    const result = await authStore.registerFighter(newFighterData);
-    if (result.success) {
-        successMessage.value = result.message;
-        errorMessage.value = '';
-    } else {
-        errorMessage.value = result.message;
-        successMessage.value = '';
-    }
+  // Validate required fields
+  if (!firstName.value || !lastName.value || !stance.value || !ovr.value || !height.value || !reach.value || !naturalWeightDivision.value || !selectedWeightClass.value) {
+    errorMessage.value = 'Please fill in all required fields.';
+    return;
+  }
+
+  const newFighterData = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    nickname: nickname.value,
+    stance: stance.value,
+    ovr: ovr.value,
+    heightFt: feet.value,
+    heightIn: inches.value,
+    reach: reach.value,
+    naturalWeightDivision: naturalWeightDivision.value,
+    weightClass: selectedWeightClass.value // Ensure selectedWeightClass is properly defined
+  };
+
+  const result = await authStore.registerFighter(newFighterData);
+  if (result.success) {
+    successMessage.value = result.message;
+    errorMessage.value = '';
+  } else {
+    errorMessage.value = result.message;
+    successMessage.value = '';
+  }
 };
-
 </script>
 
 

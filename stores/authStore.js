@@ -31,8 +31,6 @@ export const useAuthStore = defineStore('authStore', () => {
             });
 
             const data = await response.json();
-            console.log(data);
-
             if (!response.ok) {
                 // Throw error with detailed message
                 throw new Error(data.message || 'An error occurred while logging in.');
@@ -40,7 +38,6 @@ export const useAuthStore = defineStore('authStore', () => {
 
             // Set gamer data and authentication status
             setAuthenticated(data.gamer);
-            console.log(data.gamer);
 
             // Store the token in the store and local storage
             token.value = data.token;
@@ -83,6 +80,45 @@ export const useAuthStore = defineStore('authStore', () => {
             return false;
         }
     }
+
+    async function deleteFighter(fighterId) {
+        // Check if token exists if needed (for delete operations)
+        if (!token.value) {
+          console.error('No authentication token found. Cannot perform delete operation.');
+          return { success: false, message: 'No authentication token found.' };
+        }
+      
+        try {
+          const response = await fetch(`https://vbc-login-production.up.railway.app/api/v1/fighter/delete/${fighterId}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token.value}`,
+            },
+          });
+      
+          const data = await response.json();
+      
+          if (!response.ok) {
+            const errorMessage = data.message || 'An error occurred while deleting the fighter.';
+            throw new Error(errorMessage);
+          }
+      
+          // Update the local store
+          fighters.value = fighters.value.filter(f => f.id !== fighterId);
+      
+          // Redirect to overview
+          router.push('/overview');
+      
+          return { success: true, message: 'Fighter deleted successfully!' };
+        } catch (error) {
+          console.error('Deletion error:', error.message);
+          return { success: false, message: error.message };
+        }
+      }
+      
+    
+    
 
     async function registerFighter(newFighterData) {
         try {
@@ -163,14 +199,26 @@ export const useAuthStore = defineStore('authStore', () => {
 
     // Fetch gamer data when the store is initialized
     async function initializeStore() {
+        console.log('Initializing store...');
         if (typeof window !== 'undefined') {
             const storedToken = localStorage.getItem('authToken');
+            console.log('Stored Token:', storedToken);
+    
             if (storedToken) {
                 token.value = storedToken;
-                await fetchGamerData();
+                try {
+                    await fetchGamerData();
+                } catch (error) {
+                    console.error('Initialization error:', error.message);
+                    $reset();
+                }
+            } else {
+                console.warn('No stored token found.');
             }
         }
     }
+    
+    
 
     // Initialize the store when it is created
     initializeStore();
@@ -185,6 +233,7 @@ export const useAuthStore = defineStore('authStore', () => {
         registerFighter,
         initializeStore,
         registerManager,
+        deleteFighter
     };
 }, {
     persist: {
