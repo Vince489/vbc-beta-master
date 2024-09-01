@@ -56,41 +56,38 @@ export const useAuthStore = defineStore('authStore', () => {
     }
 
     async function fetchGamerData() {
-        console.log('Fetching gamer data...');
-        const token = localStorage.getItem('authToken');
-        console.log('Token used:', token);
-    
         try {
-            if (!token) {
-                console.error('No authentication token found.');
-                throw new Error('No authentication token found.');
-            }
-    
             const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/me', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${token.value}`,
                 },
             });
-    
+
             const data = await response.json();
-            console.log('Fetched gamer data:', data);
-    
+
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while fetching gamer data.');
             }
-    
+
+            // Set gamer data and update fighters
             setAuthenticated(data.gamer);
+
             return true;
         } catch (error) {
             console.error('Fetch gamer data error:', error.message);
-            $reset();
             return false;
         }
     }
 
     async function deleteFighter(fighterId) {
+        // Check if token exists if needed (for delete operations)
+        if (!token.value) {
+          console.error('No authentication token found. Cannot perform delete operation.');
+          return { success: false, message: 'No authentication token found.' };
+        }
+      
         try {
           const response = await fetch(`https://vbc-login-production.up.railway.app/api/v1/fighter/delete/${fighterId}`, {
             method: 'DELETE',
@@ -103,14 +100,12 @@ export const useAuthStore = defineStore('authStore', () => {
           const data = await response.json();
       
           if (!response.ok) {
-            // Extract the error message from the response
             const errorMessage = data.message || 'An error occurred while deleting the fighter.';
             throw new Error(errorMessage);
           }
       
-          // Remove the fighter from the local store
+          // Update the local store
           fighters.value = fighters.value.filter(f => f.id !== fighterId);
-          currentGamer.value.fighters = fighters.value;
       
           // Redirect to overview
           router.push('/overview');
