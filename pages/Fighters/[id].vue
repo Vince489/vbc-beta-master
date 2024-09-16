@@ -16,6 +16,7 @@
             <p class="text-blue-200">@{{ fighter.gamerTag }}</p>
             <p class="text-gray-400 italic">{{ fighter.nickname }}</p>
             <p class="text-sm text-gray-400">ID# {{ fighter._id }}</p>
+
           </div>
         </div>
         <div class="mt-4">
@@ -66,22 +67,23 @@
       <div v-for="bout in bouts" :key="bout._id" class="bg-gray-900 p-4 mb-4 rounded-lg shadow-md">
         <div class="flex justify-between items-center mb-2">
           <span class="text-gray-400">{{ formatDate(bout.date) }}</span>
-          <span :class="resultClass(bout.result)" class="px-2 py-1 rounded-full">{{ bout.method }}</span>
+          <span :class="resultClass(bout.result)" class="px-2 py-1 rounded-full">{{ bout.result }}</span>
         </div>
         <div class="flex justify-between items-center">
-          <span class="text-gray-400">{{ bout.method || 'N/A' }} ({{ bout.roundEnded }}/{{ bout.scheduledRounds }})</span>
+
+          <span class="text-gray-400">{{ bout.method }} ({{ bout.round }}/12)</span>
         </div>
         <button @click="toggleDetails(bout._id)" class="text-blue-500 mt-2">Toggle Details</button>
         <div v-if="showDetails === bout._id" class="mt-4 bg-gray-700 p-4 rounded-lg">
-          <p><strong>{{ bout.fighterA.gamerTag }} KDs:</strong> {{ bout.fighterANumTimesKnockedDown }}</p>
-          <p><strong>{{ bout.fighterB.gamerTag }} KDs:</strong> {{ bout.fighterBNumTimesKnockedDown }}</p>
-          <p><strong>{{ bout.fighterB.gamerTag }} OVR:</strong> {{ bout.fighterBOVR }}</p>
-          <p><strong>{{ bout.fighterA.gamerTag }} OVR:</strong> {{ bout.fighterAOVR }}</p>
-          <p><strong>{{ bout.fighterB.gamerTag }} Weight:</strong> {{ bout.fighterBWgt }} lbs</p>
-          <p><strong>{{ bout.fighterA.gamerTag }} Weight:</strong> {{ bout.fighterAWgt }} lbs</p>
+          <p><strong>{{ bout.opponent.gamerTag }} KDs:</strong> {{ bout.opponentKnockDowns }} </p>
+          <p><strong>{{ bout.fighter.gamerTag }} KDs:</strong> {{ bout.fighterKnockDowns }} </p>
+          <p><strong>Opponent OVR:</strong> {{ bout.opponentOVR }}</p>
+          <p><strong>Fighter OVR:</strong> {{ bout.fighterOVR }}</p>
+          <p><strong>Opponent Weight:</strong> {{ bout.oppWgt }} lbs</p>
+          <p><strong>Fighter Weight:</strong> {{ bout.fighterWgt }} lbs</p>
           <p><strong>Venue:</strong> {{ bout.venue }}</p>
           <p><strong>Purse:</strong> ${{ bout.purse }}</p>
-          <p><strong>Score Cards:</strong> {{ bout.judges }}</p>
+          <p><strong>Score Cards:</strong> {{ bout.scoreCards }}</p>
           <p><strong>Punch Stats:</strong> {{ bout.punchStats }}</p>
         </div>
       </div>
@@ -91,32 +93,35 @@
     <div class="team mt-8">
       <h2 class="text-2xl font-semibold text-white mb-4">Team</h2>
       <template>
-        <Tabs default-value="account" class="w-[400px]">
-          <TabsList>
-            <TabsTrigger value="account">
-              Account
-            </TabsTrigger>
-            <TabsTrigger value="password">
-              Password
-            </TabsTrigger>
-          </TabsList>
-          <TabsContent value="account">
-            Make changes to your account here.
-          </TabsContent>
-          <TabsContent value="password">
-            Change your password here.
-          </TabsContent>
-        </Tabs>
-      </template>
+  <Tabs default-value="account" class="w-[400px]">
+    <TabsList>
+      <TabsTrigger value="account">
+        Account
+      </TabsTrigger>
+      <TabsTrigger value="password">
+        Password
+      </TabsTrigger>
+    </TabsList>
+    <TabsContent value="account">
+      Make changes to your account here.
+    </TabsContent>
+    <TabsContent value="password">
+      Change your password here.
+    </TabsContent>
+  </Tabs>
+</template>
     </div>
-  </div>
+    </div>
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
-import { useAuthStore } from '@/stores/authStore'; // Adjust the import based on your file structure
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
-const authStore = useAuthStore();
+const route = useRoute();
+const id = route.params.id;
+const uri = `https://vbc-login-production.up.railway.app/api/v1/fighter/${id}`;
+
 const fighter = ref(null);
 const bouts = ref([]);
 const showDetails = ref(null);
@@ -136,60 +141,32 @@ const resultClass = (result) => {
 
 const fighterStats = ref({});
 
-
-
-watch(
-  () => authStore.currentGamer, // Reactive source to watch
-  (newGamer) => { // Callback function that runs when `authStore.currentGamer` changes
-    console.log('Current Gamer changed:', newGamer);
-
-    if (newGamer && newGamer.fighters.length > 0) {
-      const firstFighter = newGamer.fighters[0];
-
-      console.log('First Fighter:', firstFighter);
-
-      fighter.value = firstFighter; // Directly set `fighter` to the first fighter
-
-      // Handle bouts if they exist
-      if (firstFighter.bouts && firstFighter.bouts.length > 0) {
-        bouts.value = firstFighter.bouts;
-        console.log('Bouts:', bouts.value);
-      } else {
-        bouts.value = []; // Default to empty array if no bouts are found
-        console.log('No bouts found.');
-      }
-
-      // Populate `fighterStats` from fighter data
-      fighterStats.value = { 
-        Earnings: `$ ${firstFighter.earnings || '0'}`, // Ensure default value
-        Wins: firstFighter.wins || 0,
-        Losses: firstFighter.losses || 0,
-        Draws: firstFighter.draws || 0,
-        KOs: firstFighter.knockouts || 0,
-        'Losses by KO': firstFighter.lossesByKnockout || 0,
-        Fights: firstFighter.fights || 0,
-        Rounds: firstFighter.rounds || 0
-      };
-
-      console.log('Fighter Stats:', fighterStats.value);
-    } else {
-      console.log('No fighters available.');
-      fighter.value = null; // Clear fighter if no fighters
-      bouts.value = [];
-      fighterStats.value = {};
-    }
-  },
-  { immediate: true } // Run the watcher immediately on initial setup
-);
-
-
-
-onMounted(async () => {
+const fetchFighter = async () => {
   try {
-    await authStore.fetchGamerData();
+    const response = await fetch(uri);
+    if (!response.ok) {
+      throw new Error('Failed to fetch fighter data');
+    }
+    const data = await response.json();
+    fighter.value = data.fighter;
+    fighterStats.value = {
+      Earnings: `$ ${fighter.value.earnings}`,
+      Wins: fighter.value.wins,
+      Losses: fighter.value.losses,
+      Draws: fighter.value.draws,
+      KOs: fighter.value.knockouts,
+      'Losses by KO': fighter.value.lossesByKnockout,
+      Fights: fighter.value.fights,
+      Rounds: fighter.value.rounds
+    };
+    bouts.value = fighter.value.bouts; // Update bouts with the fetched data
   } catch (error) {
-    console.error('Error fetching gamer data:', error.message);
+    console.error(error);
   }
+};
+
+onMounted(() => {
+  fetchFighter();
 });
 </script>
 
