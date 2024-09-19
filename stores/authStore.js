@@ -202,7 +202,6 @@ export const useAuthStore = defineStore('authStore', () => {
         console.log('Initializing store...');
         if (typeof window !== 'undefined') {
             const storedToken = localStorage.getItem('authToken');
-            console.log('Stored Token:', storedToken);
     
             if (storedToken) {
                 token.value = storedToken;

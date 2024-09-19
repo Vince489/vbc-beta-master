@@ -4,7 +4,7 @@
       <div class="spotlightOne p-10 lg:w-1/2 bg-gray-600 text-gray-300 rounded-b-xl lg:rounded-none lg:rounded-l-xl flex flex-col justify-center">
         <h2 class="pb-5 text-2xl">Kevin Andrews</h2>
         <h3 class="pb-3">XBOX - Metabox Promotions</h3>
-        <p class="pb-5">Super Welterweight prospect Kevin Andrews advances to (9-0-0) with his devastating KO victory over Joel Nelson.</p>
+        <p class="pb-5">Super Welterweight Kevin Andrews advances to (9-0-0) with his devastating KO victory over Joel Nelson.</p>
         <a href="https://youtu.be/3j8r4f8DxrY?si=Z5Ee3SJj-JH3CG5I" target="_blank" rel="noopener noreferrer">
           <button class="px-4 py-2 rounded-full bg-[#0b7696] text-gray-300">FULL FIGHT</button>
         </a>

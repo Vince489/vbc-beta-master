@@ -7,7 +7,7 @@
     <slot />
 
     <Footer />
-    <LowerNav /> <!-- Add the LowerNav component here -->
+    <LowerNav class="block md:hidden"/> 
   </div>
 </template>
 
