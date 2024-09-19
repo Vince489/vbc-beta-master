@@ -60,58 +60,7 @@
     <div v-else>
       <p>Loading...</p>
     </div>
-
-    <!-- Bouts Display -->
-    <div class="bouts mt-8">
-      <h2 class="text-2xl font-semibold text-white mb-4">Bouts</h2>
-      <div v-for="bout in bouts" :key="bout._id" class="bg-gray-900 p-4 mb-4 rounded-lg shadow-md">
-        <div class="flex justify-between items-center mb-2">
-          <span class="text-gray-400">{{ formatDate(bout.date) }}</span>
-          <span :class="resultClass(bout.result)" class="px-2 py-1 rounded-full">{{ bout.result }}</span>
-        </div>
-        <div class="flex justify-between items-center">
-
-          <span class="text-gray-400">{{ bout.method }} ({{ bout.round }}/12)</span>
-        </div>
-        <button @click="toggleDetails(bout._id)" class="text-blue-500 mt-2">Toggle Details</button>
-        <div v-if="showDetails === bout._id" class="mt-4 bg-gray-700 p-4 rounded-lg">
-          <p><strong>{{ bout.opponent.gamerTag }} KDs:</strong> {{ bout.opponentKnockDowns }} </p>
-          <p><strong>{{ bout.fighter.gamerTag }} KDs:</strong> {{ bout.fighterKnockDowns }} </p>
-          <p><strong>Opponent OVR:</strong> {{ bout.opponentOVR }}</p>
-          <p><strong>Fighter OVR:</strong> {{ bout.fighterOVR }}</p>
-          <p><strong>Opponent Weight:</strong> {{ bout.oppWgt }} lbs</p>
-          <p><strong>Fighter Weight:</strong> {{ bout.fighterWgt }} lbs</p>
-          <p><strong>Venue:</strong> {{ bout.venue }}</p>
-          <p><strong>Purse:</strong> ${{ bout.purse }}</p>
-          <p><strong>Score Cards:</strong> {{ bout.scoreCards }}</p>
-          <p><strong>Punch Stats:</strong> {{ bout.punchStats }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Display Boxer Team -->
-    <div class="team mt-8">
-      <h2 class="text-2xl font-semibold text-white mb-4">Team</h2>
-      <template>
-  <Tabs default-value="account" class="w-[400px]">
-    <TabsList>
-      <TabsTrigger value="account">
-        Account
-      </TabsTrigger>
-      <TabsTrigger value="password">
-        Password
-      </TabsTrigger>
-    </TabsList>
-    <TabsContent value="account">
-      Make changes to your account here.
-    </TabsContent>
-    <TabsContent value="password">
-      Change your password here.
-    </TabsContent>
-  </Tabs>
-</template>
-    </div>
-    </div>
+  </div>
 </template>
 
 <script setup>
@@ -150,11 +99,11 @@ const fetchFighter = async () => {
     const data = await response.json();
     fighter.value = data.fighter;
     fighterStats.value = {
-      Earnings: `$ ${fighter.value.earnings}`,
+      Earnings: `$${fighter.value.earnings}`,
       Wins: fighter.value.wins,
       Losses: fighter.value.losses,
       Draws: fighter.value.draws,
-      KOs: fighter.value.knockouts,
+      'Wins by KO': fighter.value.winsByKnockout,
       'Losses by KO': fighter.value.lossesByKnockout,
       Fights: fighter.value.fights,
       Rounds: fighter.value.rounds
