@@ -49,7 +49,7 @@
       <div>   
         <div class="font-semibold pt-4 justify-center record flex gap-4">
           <div class="wins text-green-700">
-            <p>{{ fighter.knockouts }} <span> KO WINS</span></p>        
+            <p>{{ fighter.winsByKnockout }} <span> KO WINS</span></p>        
           </div>
           <div class="losses text-red-800">
             <p>{{ fighter.lossesByKnockout }} <span>KO LOSSES</span></p>
@@ -66,7 +66,7 @@
       <!-- <nuxt-link :to="`/fighters/${fighter._id}`"></nuxt-link> -->
       
       <nuxt-link :to="`/fighters/${fighter._id}`">
-        <p class="mt-3 btn2 text-center">View Fighter</p>
+        <p class="bg-[#0b7696] p-1 rounded-sm mt-3 text-center">View Fighter</p>
       </nuxt-link>
 
     </div>
