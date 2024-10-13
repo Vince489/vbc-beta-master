@@ -84,7 +84,7 @@ export default {
   methods: {
     async fetchLeaderboard() {
       try {
-        const response = await fetch(`http://localhost:5550/api/v1/fighter/leaderboard/${this.selectedWeightClass}`);
+        const response = await fetch(`https://vbc-login-production.up.railway.app/api/v1/fighter/leaderboard/${this.selectedWeightClass}`);
         if (response.ok) {
           const data = await response.json();
           this.fighters = data.fighters; // Assuming the API returns fighters in a "fighters" array
