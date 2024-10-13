@@ -66,6 +66,7 @@ export const useAuthStore = defineStore('authStore', () => {
             });
 
             const data = await response.json();
+            console.log('Fetched gamer data:', data);
 
             if (!response.ok) {
                 throw new Error(data.message || 'An error occurred while fetching gamer data.');

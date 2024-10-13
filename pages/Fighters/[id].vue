@@ -56,6 +56,7 @@
           </table>
         </div>
       </div>
+      <BoutsComponent :bouts="bouts" />
     </div>
     <div v-else>
       <p>Loading...</p>
