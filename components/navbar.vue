@@ -18,7 +18,7 @@
               <nuxt-link to="#" class="font-semibold py-3 px-3 text-lg text-gray-100">Promoters</nuxt-link>
               <nuxt-link to="/eac" class="font-semibold py-3 px-3 text-lg text-gray-100">EAC</nuxt-link>
               <nuxt-link to="#" class="font-semibold py-3 px-3 text-lg text-gray-100">Events</nuxt-link>
-              <nuxt-link to="#" class="font-semibold py-3 px-3 text-lg text-gray-100">Leaderboard</nuxt-link>
+              <nuxt-link to="/leaderBoard" class="font-semibold py-3 px-3 text-lg text-gray-100">Leaderboard</nuxt-link>
               <nuxt-link to="#" class="font-semibold py-3 px-3 text-lg text-gray-100">Fight Hype</nuxt-link>
               <nuxt-link to="/about" class="font-semibold py-3 px-3 text-lg text-gray-100">About</nuxt-link>
             </div>
@@ -67,27 +67,27 @@
         <!-- Sidebar for logged-in gamers -->
         <template v-if="authStore.currentGamer">
           <div class="border-t border-gray-500 my-2"></div>
-          <div class="flex text-gray-300 items-center pb-1">
-            <nuxt-link to="/dashboard" class="text-gray-300 flex-grow">
+          <div class="flex p-2 text-gray-300 items-center pb-1">
+            <nuxt-link to="https://docs.virtronboxing.club/" class="text-gray-300 flex-grow" target="_blank" rel="noopener noreferrer">
               <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
-                <Icon class="text-gray-400" size="20" name="iconamoon:profile-thin" />
-                <span class="ml-2">Dashboard</span>
+                <Icon class="text-gray-400" size="20" name="clarity:bell-outline-badged" />
+                <span class="ml-2">Getting Started</span>
               </div>
-            </nuxt-link>
+            </nuxt-link>            
           </div>
           <!-- About link -->
-          <div class="flex text-gray-300 items-center">
-            <nuxt-link to="/fighters" class="text-gray-300 flex-grow">
+          <div class="flex p-2 text-gray-300 items-center">
+            <nuxt-link to="/leaderBoard" class="text-gray-300 flex-grow">
               <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
-                <Icon class="text-gray-400" size="20" name="uit:wallet" />
-                <span class="ml-2">FytRec</span>
+                <Icon class="text-gray-400" size="20" name="ph:align-center-horizontal-light" />
+                <span class="ml-2">Leaderboard</span>
               </div>
             </nuxt-link>
           </div>
           <!-- Add a separator line -->
           <div class="border-t border-gray-500 my-2"></div>
           <!-- Messages link -->
-          <div class="flex text-gray-300 items-center">
+          <div class="flex p-2 text-gray-300 items-center">
             <nuxt-link to="/chat" class="text-gray-300 flex-grow">
               <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
                 <Icon class="text-gray-400" size="20" name="circum:mail" />
@@ -96,24 +96,19 @@
             </nuxt-link>
           </div>
           <!-- Legacy link -->
-          <div class="flex text-gray-300 items-center">
-            <nuxt-link to="/#legacy" class="text-gray-300 flex-grow">
+          <div class="flex p-2 text-gray-300 items-center">
+            <nuxt-link to="/fighters" class="text-gray-300 flex-grow">
               <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
-                <Icon class="text-gray-400" size="20" name="ph:align-center-horizontal-light" />
-                <span class="ml-2">Legacy Goals</span>
+                <Icon class="text-gray-400" size="20" name="uit:wallet" />
+                <span class="ml-2">FytRec</span>
               </div>
             </nuxt-link>
           </div>
-          <div class="flex text-gray-300 items-center">
-            <nuxt-link to="/#settings" class="text-gray-300 flex-grow">
-              <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
-                <Icon class="text-gray-400" size="20" name="clarity:bell-outline-badged" />
-                <span class="ml-2">Bell</span>
-              </div>
-            </nuxt-link>
+          <div class="flex p-2 text-gray-300 items-center">
+
           </div>
           <!-- Settings link -->
-          <div class="flex text-gray-300 items-center">
+          <div class="flex p-2 text-gray-300 items-center">
             <nuxt-link to="/#settings" class="text-gray-300 flex-grow">
               <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
                 <Icon class="text-gray-400" size="20" name="la:cog" />
