@@ -34,8 +34,8 @@
               <p class="font-semibold">{{ fighter.rank }}</p>
             </div>
             <div class="bg-gray-800 p-2 rounded">
-              <p class="text-gray-400">Legacy</p>
-              <p class="font-semibold">{{ fighter.legacy?.status || 'N/A' }}</p>
+              <p class="text-gray-400">Age</p>
+              <p class="font-semibold">{{ fighter.age }}</p>
             </div>
           </div>
         </div>
