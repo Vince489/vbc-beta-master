@@ -104,15 +104,12 @@ const handleSignup = async () => {
   if (!gamerTag.value) {
     gamerTagError.value = 'Gamer tag is required.';
   }
-
   if (!email.value) {
     emailError.value = 'Email is required.';
   }
-
   if (!password.value) {
     passwordError.value = 'Password is required.';
   }
-
   if (password.value !== verifyPassword.value) {
     verifyPasswordError.value = 'Passwords do not match.';
   }
@@ -131,33 +128,28 @@ const handleSignup = async () => {
           gamerTag: gamerTag.value,
           email: email.value,
           password: password.value,
+          confirmPassword: verifyPassword.value, // Match with the backend
         }),
       });
-
+      
       const data = await response.json();
-      console.log('new gamer', data); // Log the response from the API
-
       if (response.ok) {
         if (data.message === 'Gamer created successfully') {
-          // Redirect only if the signup was successful
           router.push('/verify');
         }
       } else {
-        if (data.message === 'Gamer already exists') {
-          gamerTagError.value = 'Gamer already exists. Please use a different gamer tag.';
-        } else if (data.errors && data.errors.length > 0) {
-          generalError.value = data.errors[0].msg; // Set the API error message
-        } else {
-          generalError.value = 'An unexpected error occurred. Please try again later.';
-        }
+        // Handle error responses
+        generalError.value = data.message;
       }
     } catch (error) {
       console.error('Error signing up:', error);
-      generalError.value = 'An error occurred while signing up. Please try again later.'; // Set a generic error message
+      generalError.value = 'An error occurred while signing up. Please try again later.';
     }
   }
 };
+
 </script>
+
 
 
 
