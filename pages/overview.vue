@@ -7,8 +7,8 @@
     <template v-else>
       <div class="pb-3 upper-fold pt-4 grid grid-cols-2">
         <div>
-          <Avatar class="w-20 h-20">
-            <AvatarImage :src="gamer.image" alt="fight" />
+          <Avatar class="w-20 h-20 cursor-pointer" @click="triggerAvatarUpload">
+            <AvatarImage :src="gamer.avatarUrl" alt="fight" />
             <AvatarFallback class="text-4xl">{{ firstLetterOfGamerTag }}</AvatarFallback>
           </Avatar>
           <p class="pt-1 text-sm text-cyan-600 font-semibold font-mono tracking-wide">@{{ gamer.gamerTag }}</p>
@@ -67,12 +67,14 @@
               <p class="text-sm text-gray-400 font-semibold">Manager</p>
               <p class="text-sm text-gray-400">Earnings: ${{ gamer.managerRole.earnings }}</p>
               <p class="text-sm text-gray-400">ID# {{ gamer.managerRole._id }}</p>
-
             </div>
           </div>
         </Card>
       </div>
     </template>
+
+    <!-- Hidden file input for avatar image upload -->
+    <input type="file" ref="avatarInput" class="hidden" @change="uploadAvatar" accept="image/*" />
   </div>
 </template>
 
@@ -100,12 +102,32 @@ onMounted(async () => {
 // Get the first letter of the gamerTag
 const firstLetterOfGamerTag = computed(() => gamer.value?.gamerTag.charAt(0).toUpperCase() || '');
 
+// Trigger file input for avatar upload
+function triggerAvatarUpload() {
+  const input = document.querySelector('input[type="file"]');
+  input.click(); // Simulate a click on the hidden file input
+}
+
+// Handle the avatar upload
+async function uploadAvatar(event) {
+  const file = event.target.files[0];
+  if (file) {
+    try {
+      await authStore.updateAvatar(file);  // Use the updateAvatar method from authStore
+      await authStore.fetchGamerData();  // Refresh gamer data after update
+      gamer.value = authStore.currentGamer;  // Update local gamer reference
+    } catch (error) {
+      console.error('Error updating avatar:', error.message);
+    }
+  }
+}
+
 function retireFighter(fighterId) {
   // Logic for retiring the fighter
 }
 
 function deleteFighter(fighterId) {
-  // Logic for retiring the fighter
+  // Logic for deleting the fighter
 }
 </script>
 
