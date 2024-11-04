@@ -20,6 +20,7 @@
 
     <div>
       <Spotlight3 />
+      <SlideOut />
     </div>
 
   </section>
@@ -39,7 +40,7 @@
     </div>
 
     <div>
-      
+      <SlideOut />
     </div>
 
   </section>
@@ -90,12 +91,7 @@
 
 </template>
 
-<script setup>
-  definePageMeta({
-    layout: 'home',
-  })
-</script>
-
+<script setup></script>
 <style scoped>
 
 </style>

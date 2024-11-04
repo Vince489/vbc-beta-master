@@ -188,6 +188,38 @@ export const useAuthStore = defineStore('authStore', () => {
         }
     }
 
+    async function updateAvatar(imageFile) {
+        if (!token.value) {
+            throw new Error('User is not authenticated.');
+        }
+    
+        try {
+            const formData = new FormData();
+            formData.append('image', imageFile);
+    
+            const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/avatar', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token.value}`,
+                },
+                body: formData,
+            });
+    
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to update avatar.');
+            }
+    
+            // Update the avatar URL in the current gamer data
+            currentGamer.value.avatarUrl = data.gamer.avatarUrl;
+            return { success: true, message: 'Avatar updated successfully!' };
+        } catch (error) {
+            console.error('Avatar update error:', error.message);
+            return { success: false, message: error.message };
+        }
+    }    
+
     // reset current store
     function $reset() {
         currentGamer.value = null;
@@ -233,7 +265,8 @@ export const useAuthStore = defineStore('authStore', () => {
         registerFighter,
         initializeStore,
         registerManager,
-        deleteFighter
+        deleteFighter,
+        updateAvatar,
     };
 }, {
     persist: {
