@@ -211,14 +211,19 @@ export const useAuthStore = defineStore('authStore', () => {
                 throw new Error(data.message || 'Failed to update avatar.');
             }
     
-            // Update the avatar URL in the current gamer data
+            // Optionally update the avatar URL directly, if needed
             currentGamer.value.avatarUrl = data.gamer.avatarUrl;
+    
+            // Fetch updated gamer data to ensure the store has the latest information
+            await fetchGamerData();
+    
             return { success: true, message: 'Avatar updated successfully!' };
         } catch (error) {
             console.error('Avatar update error:', error.message);
             return { success: false, message: error.message };
         }
-    }    
+    }
+       
 
     // reset current store
     function $reset() {
