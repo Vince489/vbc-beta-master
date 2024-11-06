@@ -195,9 +195,9 @@ export const useAuthStore = defineStore('authStore', () => {
     
         try {
             const formData = new FormData();
-            formData.append('image', imageFile);
+            formData.append('image', imageFile); // Changed to 'image' to match the backend field name
     
-            const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/avatar', {
+            const response = await fetch('https://vbc-login-production.up.railway.app/api/v1/gamer/update-avatar', {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token.value}`,
@@ -206,16 +206,13 @@ export const useAuthStore = defineStore('authStore', () => {
             });
     
             const data = await response.json();
-            
+    
             if (!response.ok) {
                 throw new Error(data.message || 'Failed to update avatar.');
             }
     
-            // Optionally update the avatar URL directly, if needed
-            currentGamer.value.avatarUrl = data.gamer.avatarUrl;
-    
-            // Fetch updated gamer data to ensure the store has the latest information
-            await fetchGamerData();
+            // Update local store with the new avatar URL
+            currentGamer.value.avatarUrl = data.avatarUrl;
     
             return { success: true, message: 'Avatar updated successfully!' };
         } catch (error) {
@@ -223,6 +220,7 @@ export const useAuthStore = defineStore('authStore', () => {
             return { success: false, message: error.message };
         }
     }
+    
        
 
     // reset current store
