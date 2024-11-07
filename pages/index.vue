@@ -20,6 +20,7 @@
 
     <div>
       <Spotlight3 />
+      <SlideOut />
     </div>
 
   </section>
@@ -39,6 +40,26 @@
     </div>
 
     <div>
+      <SlideOut />
+    </div>
+
+  </section>
+
+  <section>
+
+    <div class="flex justify-center pt-10 pb-10">
+      <h1 class="text-4xl font-semibold">Upcoming Events</h1>
+    </div>
+
+    <div>
+
+    </div>
+
+    <div>
+
+    </div>
+
+    <div>
       
     </div>
 
@@ -47,7 +68,7 @@
   <section>
 
     <div class="flex justify-center pt-10 pb-10">
-      <h1 class="text-4xl font-semibold">RANKINGS</h1>
+      <h1 class="text-4xl font-semibold">Tournaments</h1>
     </div>
 
     <div>
@@ -59,21 +80,18 @@
     </div>
 
     <div>
-      
     </div>
 
   </section>
 
+  <div>
+    
+  </div>
   
 
 </template>
 
-<script setup>
-  definePageMeta({
-    layout: 'home',
-  })
-</script>
-
+<script setup></script>
 <style scoped>
 
 </style>

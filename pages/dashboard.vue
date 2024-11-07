@@ -1,67 +1,99 @@
 <template>
-  <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-2 flex justify-center">
+  <div class="container mx-auto px-4 px-md-4 px-lg-5 mt-12 flex justify-center">
     <div>
-      <!-- Use a conditional rendering to show loading text while userData is null -->
-      <template v-if="!userData">
-        <p>Loading...</p>
+      <!-- Use a conditional rendering to show loading text while gamerData is null -->
+      <template v-if="!gamer">
+        <p class="text-center">Loading...</p>
       </template>
-      <!-- Once userData is available, display user's information -->
+      <!-- Once gamerData is available, display gamer's information -->
       <template v-else>
-        <div class="pt-4 cursor-pointer hover:cursor-pointer">
-          <p class="text-slate-300">hello</p>
-        </div>
-
+ 
+  <!-- Display the news feed -->
         <div>
-          <!-- Additional user information can be added here -->
+          <div class="bg-gray-500 shadow-md rounded-md p-4 mb-4" v-for="post in newsFeed" :key="post.id">
+            <div class="flex items-center">
+              <img :src="post.gamer.avatarUrl" alt="gamer Avatar" class="w-10 h-10 rounded-full mr-2" />
+              <div>
+                <h6>{{ post.gamer.name }}</h6>
+                <p>{{ post.timestamp }}</p>
+              </div>
+            </div>
+            <div class="mt-2">
+              <p>{{ post.content }}</p>
+              <img v-if="post.image" :src="post.image" alt="Post Image" class="w-full mt-2 rounded-md" />
+            </div>
+            <div class="mt-4 flex justify-center items-center">
+              <button @click="repost(post.id)" class="text-white px-4 py-2 rounded-md mr-2">
+                <Icon class="text-gray-200" size="20" name="mdi:repeat" />                
+              </button>
+              <button @click="like(post.id)" class="text-white px-4 py-2 rounded-md mr-2">
+                <Icon class="text-gray-200" size="20" name="mdi:comment-multiple" />                
+              </button>
+              <button @click="share(post.id)" class="text-white px-4 py-2 rounded-md">
+                <Icon class="text-gray-200" size="20" name="mdi:thumb-up" />
+                1.2K
+              </button>
+              <button @click="share(post.id)" class="text-white px-4 py-2 rounded-md">
+                <Icon class="text-gray-200" size="20" name="mdi:share-all" />
+              </button>          
+            </div>
+
+          </div>
         </div>
-
-
+  <!-- ... rest of your code ... -->
       </template>
     </div>
   </div>
 </template>
 
 <script setup>
-definePageMeta({
-  title: 'Dashboard',
-  description: 'User dashboard page'
-});
+import { useAuthStore } from '@/stores/authStore'; 
 
-import { useAuthStore } from '~/stores/authStore.js';
+// Fetch gamer data from the auth store
+const authStore = useAuthStore();
+const gamer = authStore.currentGamer;
 import { onMounted, ref } from 'vue';
 
-definePageMeta({
-  middleware: 'auth',
-  title: 'Dashboard',
-  description: 'User dashboard page'
-});
-
-// Get the user's information from the store
-const authStore = useAuthStore();
-const userData = ref(null); // Use a ref to make it reactive
-
-// Fetch the user's data when the component is mounted
-onMounted(() => {
-  userData.value = authStore.currentUser;
-});
-
-// Sample projects data (replace with data from your database)
-const projects = ref([
-  { id: 1, name: 'Project 1', description: 'Description of Project 1' },
-  { id: 2, name: 'Project 2', description: 'Description of Project 2' },
-  // Add more project objects as needed
+// Dummy news feed data
+const newsFeed = ref([
+  {
+    id: 1,
+    gamer: {
+      name: 'Jane Smith',
+      avatarUrl: 'img/dd1.webp',
+    },
+    timestamp: '2 hours ago',
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    image: 'img/ko.png',
+  },
+  {
+    id: 2,
+    gamer: {
+      name: 'Alice Johnson',
+      avatarUrl: 'img/chieffa.png',
+    },
+    timestamp: '1 day ago',
+    content: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.',
+    image: null, // No image for this post
+  },
+  // Add more news posts as needed
 ]);
 
-// Function to handle cancel action
-const cancelProject = (projectId) => {
-  // Logic to cancel the project (e.g., remove from the database)
+// Dummy methods to handle actions (replace with actual logic)
+const repost = (postId) => {
+  console.log('Repost:', postId);
 };
 
-// Function to handle deploy action
-const deployProject = (projectId) => {
-  // Logic to deploy the project (e.g., trigger deployment process)
+const like = (postId) => {
+  console.log('Like:', postId);
 };
+
+const share = (postId) => {
+  console.log('Share:', postId);
+};
+
+// Fetch additional data or perform other actions when the component is mounted
+onMounted(() => {
+  // Dummy logic
+});
 </script>
-
-<style scoped>
-</style>

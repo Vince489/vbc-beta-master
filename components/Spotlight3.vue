@@ -4,7 +4,7 @@
       <div class="spotlightOne p-10 lg:w-1/2 bg-gray-600 text-gray-300 rounded-b-xl lg:rounded-none lg:rounded-l-xl flex flex-col justify-center">
         <h2 class="pb-5 text-2xl">Wilfredo Benitez</h2>
         <h3 class="pb-3">XBOX - Metabox Promotions</h3>
-        <p class="pb-5">Wilfredo Benitez bocomes the 1st VBC Lightweight Champion with his Split-Decision win over Xerxes Tszyu.</p>
+        <p class="pb-5">Wilfredo Benitez becomes the 1st Virtron Lightweight Champion with his Majority-Decision win over Xerxes Tszyu.</p>
         <a href="https://youtu.be/5CjkrdrdYiw?si=yErhg80FSkv0-Fs6" target="_blank" rel="noopener noreferrer">
           <button class="px-4 py-2 rounded-full bg-[#0b7696] text-gray-300">FULL FIGHT</button>
         </a>

@@ -54,7 +54,7 @@ export default {
   methods: {
     async createNewAccount() {
   try {
-    const response = await fetch('https://planet-virtron-api-production.up.railway.app/api/v1/account/', {
+    const response = await fetch('https://vbc-login-production.up.railway.app//api/v1/newWallet/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

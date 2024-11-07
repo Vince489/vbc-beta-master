@@ -6,9 +6,9 @@
 
     <div class="overlay absolute inset-0 bg-black opacity-40"></div>
 
-    <div class="container lg:pt-24 pt-40 mx-auto px-4 sm:px-6 lg:px-8 mt-10 md:mt-24"> <!-- Adjusted margin and added padding -->
-      <div class="flex justify-start"> <!-- Changed justify-center to justify-start -->
-        <div class="lg:w-1/2 text-center relative"> <!-- Changed lg:w-2/3 to lg:w-1/2 -->
+    <div class="container lg:pt-24 pt-40 mx-auto px-4 sm:px-6 lg:px-8 mt-10 md:mt-24">
+      <div class="flex justify-start">
+        <div class="lg:w-1/2 text-center relative">
           <div class="space-y-6 mb-10">
             <h2 class="text-gray-100 text-6xl lg:text-8xl leading-tight capitalize font-semibold">
               SIM BOXING LEAGUE
@@ -19,7 +19,7 @@
             <p class="text-gray-100 text-lg">
               Professional (NO HUD) Boxing.
             </p>
-            <button class="btn" @click="handleJoinNowClick">
+            <button class="w-9/12 bg-[#0b7696] py-2 rounded-xl" @click="handleJoinNowClick" v-if="!isAuthenticated">
               Join Now!
             </button>
           </div>
@@ -29,14 +29,19 @@
   </section>
 </template>
 
-<script>
-export default {
-  methods: {
-    handleJoinNowClick() {
-      // Handle the click event here
-      // For example, you can redirect to the sign-up page:
-      this.$router.push('/signup');
-    }
-  }
+<script setup>
+import { useRouter } from 'vue-router';
+import { useAuthStore } from "~/stores/authStore.js";
+
+const authStore = useAuthStore();
+const isAuthenticated = computed(() => authStore.currentGamer);
+
+
+const router = useRouter();
+
+function handleJoinNowClick() {
+  // Handle the click event here
+  // For example, you can redirect to the sign-up page:
+  router.push('/signup');
 }
 </script>
