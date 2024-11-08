@@ -188,39 +188,6 @@ export const useAuthStore = defineStore('authStore', () => {
         }
     }
 
-    // Retire the current fighter
-
-    async function retireFighter(fighterId) {
-        try {
-            const response = await fetch(`https://vbc-login-production.up.railway.app/api/v1/fighter/retire/${fighterId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token.value}`,
-                },
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'An error occurred while retiring the fighter.');
-            }
-
-            // Update the local store with the new fighter data
-            fighters.value = fighters.value.map(fighter => {
-                if (fighter.id === fighterId) {
-                    return data.fighter;
-                }
-                return fighter;
-            });
-
-            return { success: true, message: 'Fighter retired successfully!' };
-        } catch (error) {
-            console.error('Retirement error:', error.message);
-            return { success: false, message: error.message };
-        }
-    }
-
     async function updateAvatar(imageFile) {
         if (!token.value) {
             throw new Error('User is not authenticated.');
@@ -305,7 +272,6 @@ export const useAuthStore = defineStore('authStore', () => {
         registerManager,
         deleteFighter,
         updateAvatar,
-        retireFighter
     };
 }, {
     persist: {
