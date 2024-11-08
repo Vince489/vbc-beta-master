@@ -26,7 +26,8 @@
           <!-- Second nav -->
           <div class="hidden md:flex items-center space-x-3">
             <template v-if="authStore.currentGamer">
-              <nuxt-link to="/dashboard" class="font-semibold py-1 px-3 text-gray-100">Dashboard</nuxt-link>
+              <nuxt-link to="/overview" class="font-semibold py-1 px-3 text-gray-100">Overview</nuxt-link>
+
               <button @click="logout" class="text-gray-100">Logout</button>
             </template>
             <template v-else>
@@ -86,6 +87,7 @@
           </div>
           <!-- Add a separator line -->
           <div class="border-t border-gray-500 my-2"></div>
+
           <!-- Messages link -->
           <div class="flex p-2 text-gray-300 items-center">
             <nuxt-link to="/chat" class="text-gray-300 flex-grow">

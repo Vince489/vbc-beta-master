@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavBar />
+    <navbar />
   </div>
 
   <div class="bg-gray-800 text-gray-200">
