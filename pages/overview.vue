@@ -26,7 +26,7 @@
       <div class="flex justify-center mt-4">
         <div class="w-full max-w-4xl">
           <div class="flex flex-wrap gap-4 justify-center">
-            <template v-for="fighter in activeFighters" :key="fighter._id">
+            <template v-for="fighter in gamer.fighters" :key="fighter._id">
               <Card class="border p-4 rounded shadow bg-gray-700 hover:bg-gray-500 relative w-full max-w-[400px]">
                 <nuxt-link :to="`/fighters/${fighter._id}`" class="flex items-center space-x-4">
                   <div class="flex-shrink-0">
@@ -47,6 +47,7 @@
                     <DropdownMenuContent>
                       <DropdownMenuItem @click="">Legacy</DropdownMenuItem>
                       <DropdownMenuItem @click="retireFighter(fighter._id)">Retire Fighter</DropdownMenuItem>
+                      <DropdownMenuItem @click="deleteFighter(fighter._id)">Delete Fighter</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -84,7 +85,6 @@ import { useAuthStore } from '@/stores/authStore';
 const authStore = useAuthStore();
 const gamer = ref(null);
 const gamerLoading = ref(true);
-const activeFighters = computed(() => gamer.value?.fighters.filter(fighter => fighter.status !== 'retired') || []);
 
 // Fetch gamer data on component mount
 onMounted(async () => {
@@ -123,17 +123,12 @@ async function uploadAvatar(event) {
 }
 
 function retireFighter(fighterId) {
-  // Call API to retire the fighter and update the local list
-  authStore.retireFighter(fighterId)
-    .then(() => {
-      // Refresh the gamer data or filter the retired fighter out
-      gamer.value = authStore.currentGamer;
-    })
-    .catch((error) => {
-      console.error('Error retiring fighter:', error.message);
-    });
+  // Logic for retiring the fighter
 }
 
+function deleteFighter(fighterId) {
+  // Logic for deleting the fighter
+}
 </script>
 
 <style scoped>
