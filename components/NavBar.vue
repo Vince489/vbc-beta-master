@@ -85,6 +85,15 @@
               </div>
             </nuxt-link>
           </div>
+          <!-- Legacy link -->
+          <div class="flex p-2 text-gray-300 items-center">
+            <nuxt-link to="/legacy" class="text-gray-300 flex-grow">
+              <div class="hover:bg-gray-600 hover:rounded flex items-center py-1 px-4">
+                <Icon class="text-gray-400" size="20" name="ph:align-center-horizontal-light" />
+                <span class="ml-2">Legacy</span>
+              </div>
+            </nuxt-link>
+          </div>
           <!-- Add a separator line -->
           <div class="border-t border-gray-500 my-2"></div>
 
