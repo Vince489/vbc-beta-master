@@ -7,4 +7,5 @@
     <Footer />
     <LowerNav class="block md:hidden"/> 
   </div>
+</template>
 
