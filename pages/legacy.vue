@@ -3,11 +3,15 @@
     <!-- Header -->
     <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-4">
       <h2 class="text-xl font-semibold">LEGACY MODE</h2>
-      <div class="flex space-x-8 text-gray-400 text-lg">
-        <span>LEGACY GOALS</span>
-        <span>{{ legacyStatuses[selectedIndex] }}</span>
-      </div>
     </div>
+
+    <!-- Current Status -->
+     <div>
+      <p class="text-base mb-4">
+        Your current rating is:
+        <strong class="text-yellow-500">Amateur</strong>
+      </p>
+     </div>
 
     <!-- Dashes as Ratings Selection -->
     <div class="flex flex-col items-center mb-8">
