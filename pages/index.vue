@@ -91,7 +91,9 @@
 
 </template>
 
-<script setup></script>
+<script setup>
+import MainSidebar from '~/components/MainSidebar.vue';
+</script>
 <style scoped>
 
 </style>

@@ -235,25 +235,30 @@ export const useAuthStore = defineStore('authStore', () => {
         }
     }
 
-    // Fetch gamer data when the store is initialized
     async function initializeStore() {
-        console.log('Initializing store...');
-        if (typeof window !== 'undefined') {
+        // Only run this on the client side (browser)
+        if (process.client) {
+          console.log('Initializing store...');
+          
+          // Check if window is defined (which confirms it's the client side)
+          if (typeof window !== 'undefined') {
             const storedToken = localStorage.getItem('authToken');
-    
+      
             if (storedToken) {
-                token.value = storedToken;
-                try {
-                    await fetchGamerData();
-                } catch (error) {
-                    console.error('Initialization error:', error.message);
-                    $reset();
-                }
+              token.value = storedToken;
+              try {
+                await fetchGamerData();
+              } catch (error) {
+                console.error('Initialization error:', error.message);
+                $reset(); // Reset the store in case of an error
+              }
             } else {
-                console.warn('No stored token found.');
+              console.warn('No stored token found.');
             }
+          }
         }
-    }
+      }
+      
     
     
 

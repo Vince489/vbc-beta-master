@@ -26,7 +26,7 @@
           </tr>
         </thead>
         <tbody class="bg-gray-500">
-          <tr v-for="fighter in sortedFighters" :key="fighter.gamerTag">
+          <tr v-for="(fighter, index) in sortedFighters" :key="fighter.gamerTag + '-' + index">
             <td class="py-2 px-4 border">
               {{ fighter.rank === 'champ' ? 'Champ' : fighter.rank > 0 ? fighter.rank : 'NR' }}
             </td>
@@ -52,22 +52,22 @@ export default {
       fighters: [],
       selectedWeightClass: 'Lightweight', // Default weight class
       weightClasses: [
-        { value: 'Minimum', label: 'Minimum (102-105 lbs)' },
-        { value: 'Light Flyweight', label: 'Light Flyweight (105-108 lbs)' },
-        { value: 'Flyweight', label: 'Flyweight (108-112 lbs)' },
-        { value: 'Super Flyweight', label: 'Super Flyweight (112-115 lbs)' },
-        { value: 'Bantamweight', label: 'Bantamweight (115-118 lbs)' },
-        { value: 'Super Bantamweight', label: 'Super Bantamweight (118-122 lbs)' },
-        { value: 'Featherweight', label: 'Featherweight (122-126 lbs)' },
-        { value: 'Super Featherweight', label: 'Super Featherweight (126-130 lbs)' },
-        { value: 'Lightweight', label: 'Lightweight (130–135 lbs)' },
-        { value: 'Super Lightweight', label: 'Super Lightweight (135–140 lbs)' },
-        { value: 'Welterweight', label: 'Welterweight (140–147 lbs)' },
-        { value: 'Super Welterweight', label: 'Super Welterweight (147–154 lbs)' },
-        { value: 'Middleweight', label: 'Middleweight (154–160 lbs)' },
-        { value: 'Super Middleweight', label: 'Super Middleweight (160–168 lbs)' },
-        { value: 'Light Heavyweight', label: 'Light Heavyweight (168–175 lbs)' },
-        { value: 'Cruiserweight', label: 'Cruiserweight (175–200 lbs)' },
+        { value: 'Minimum', label: 'Minimum (105 lbs)' },
+        { value: 'Light Flyweight', label: 'Light Flyweight (108 lbs)' },
+        { value: 'Flyweight', label: 'Flyweight (112 lbs)' },
+        { value: 'Super Flyweight', label: 'Super Flyweight (115 lbs)' },
+        { value: 'Bantamweight', label: 'Bantamweight (118 lbs)' },
+        { value: 'Super Bantamweight', label: 'Super Bantamweight (122 lbs)' },
+        { value: 'Featherweight', label: 'Featherweight (126 lbs)' },
+        { value: 'Super Featherweight', label: 'Super Featherweight (130 lbs)' },
+        { value: 'Lightweight', label: 'Lightweight (135 lbs)' },
+        { value: 'Super Lightweight', label: 'Super Lightweight (140 lbs)' },
+        { value: 'Welterweight', label: 'Welterweight (147 lbs)' },
+        { value: 'Super Welterweight', label: 'Super Welterweight (154 lbs)' },
+        { value: 'Middleweight', label: 'Middleweight (160 lbs)' },
+        { value: 'Super Middleweight', label: 'Super Middleweight (168 lbs)' },
+        { value: 'Light Heavyweight', label: 'Light Heavyweight (175 lbs)' },
+        { value: 'Cruiserweight', label: 'Cruiserweight (200 lbs)' },
         { value: 'Heavyweight', label: 'Heavyweight (200+ lbs)' }
       ]
     };

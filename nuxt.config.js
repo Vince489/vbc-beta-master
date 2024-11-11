@@ -2,6 +2,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+
   modules: [
     '@nuxtjs/tailwindcss',
     '@pinia/nuxt',
@@ -10,6 +11,7 @@ export default defineNuxtConfig({
     'shadcn-nuxt',
     '@nuxt/image',
   ],
+
   image: {
     // Optional configuration options
     screens: {
@@ -20,9 +22,11 @@ export default defineNuxtConfig({
     },
     domains: ['https://vince489.github.io'] // Add the GitHub Pages domain here
   },
+
   plugins: [
     '~/plugins/socketio.js',
   ],
+
   app: {
     head: {
       htmlAttrs: {
@@ -37,8 +41,11 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   shadcn: {
     prefix: '',
     componentDir: './components/ui'
-  }
+  },
+
+  compatibilityDate: '2024-11-08'
 });
